@@ -1,0 +1,22 @@
+{
+ "organe": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@xsi:type": "GroupePolitique_type",
+  "uid": "PO300",
+  "codeType": "PARPOL",
+  "libelle": "Parti imaginaire",
+  "libelleEdition": "Parti imaginaire",
+  "libelleAbrege": "PI",
+  "libelleAbrev": "PI",
+  "viMoDe": {
+   "dateDebut": "2011-01-01",
+   "dateAgrement": null,
+   "dateFin": null
+  },
+  "organeParent": null,
+  "chambre": null,
+  "regime": "5ème République",
+  "legislature": null
+ }
+}

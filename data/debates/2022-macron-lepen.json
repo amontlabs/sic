@@ -1,0 +1,43 @@
+{
+  "id": "2022-macron-lepen",
+  "title": "Débat de l'entre-deux-tours 2022 : Emmanuel Macron – Marine Le Pen",
+  "date": "2022-04-20",
+  "broadcaster": "TF1 / France 2",
+  "language": "fr",
+  "media": {
+    "youtube_id": "elgTG9oDiJY",
+    "file": "data/raw/debat-2022.mp4",
+    "duration": 10211.5
+  },
+  "roster": [
+    {
+      "id": "macron",
+      "name": "Emmanuel Macron",
+      "role": "candidate",
+      "party": "La République en marche",
+      "aliases": ["Monsieur Macron", "Emmanuel Macron", "Monsieur le Président", "Monsieur le président de la République"]
+    },
+    {
+      "id": "lepen",
+      "name": "Marine Le Pen",
+      "role": "candidate",
+      "party": "Rassemblement national",
+      "aliases": ["Madame Le Pen", "Marine Le Pen"],
+      "an_id": "PA720614"
+    },
+    {
+      "id": "salame",
+      "name": "Léa Salamé",
+      "role": "moderator",
+      "party": null,
+      "aliases": ["Léa Salamé", "Léa"]
+    },
+    {
+      "id": "bouleau",
+      "name": "Gilles Bouleau",
+      "role": "moderator",
+      "party": null,
+      "aliases": ["Gilles Bouleau", "Gilles"]
+    }
+  ]
+}

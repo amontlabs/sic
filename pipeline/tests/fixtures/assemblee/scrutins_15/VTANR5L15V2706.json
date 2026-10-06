@@ -1,0 +1,124 @@
+{
+ "scrutin": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "uid": "VTANR5L15V2706",
+  "numero": "2706",
+  "organeRef": "PO717460",
+  "legislature": "15",
+  "sessionRef": "SCR5A2021O1",
+  "seanceRef": "RUANR5L15S2021IDS1",
+  "dateScrutin": "2020-03-03",
+  "quantiemeJourSeance": "1",
+  "typeVote": {
+   "codeTypeVote": "MOC",
+   "libelleTypeVote": "motion de censure",
+   "typeMajorite": "majorité absolue des suffrages exprimés"
+  },
+  "sort": {
+   "code": "rejeté",
+   "libelle": "l'Assemblée nationale a rejeté"
+  },
+  "titre": "la motion de censure déposée en application de l'article 49, alinéa 3, de la Constitution par M. Damien Abad et 80 membres de l'Assemblée.",
+  "demandeur": {
+   "texte": "Président du groupe \"La République en Marche\"",
+   "referenceLegislative": null
+  },
+  "objet": {
+   "libelle": "la motion de censure déposée en application de l'article 49, alinéa 3, de la Constitution par M. Damien Abad et 80 membres de l'Assemblée.",
+   "referenceLegislative": null
+  },
+  "modePublicationDesVotes": "DecompteNominatif",
+  "syntheseVote": {
+   "nombreVotants": "148",
+   "suffragesExprimes": "148",
+   "nbrSuffragesRequis": "289",
+   "annonce": "l'Assemblée nationale a rejeté",
+   "decompte": {
+    "nonVotants": "0",
+    "pour": "148",
+    "contre": "0",
+    "abstentions": "0",
+    "nonVotantsVolontaires": "0"
+   }
+  },
+  "ventilationVotes": {
+   "organe": {
+    "organeRef": "PO717460",
+    "groupes": {
+     "groupe": [
+      {
+       "organeRef": "PO200",
+       "nombreMembresGroupe": "300",
+       "vote": {
+        "positionMajoritaire": "pour",
+        "decompteVoix": {
+         "nonVotants": "0",
+         "pour": "0",
+         "contre": "0",
+         "abstentions": "0",
+         "nonVotantsVolontaires": "0"
+        },
+        "decompteNominatif": {
+         "nonVotants": null,
+         "pours": null,
+         "contres": null,
+         "abstentions": null
+        }
+       }
+      },
+      {
+       "organeRef": "PO201",
+       "nombreMembresGroupe": "18",
+       "vote": {
+        "positionMajoritaire": "pour",
+        "decompteVoix": {
+         "nonVotants": "0",
+         "pour": "1",
+         "contre": "0",
+         "abstentions": "0",
+         "nonVotantsVolontaires": "0"
+        },
+        "decompteNominatif": {
+         "nonVotants": null,
+         "pours": {
+          "votant": {
+           "acteurRef": "PA1001",
+           "mandatRef": "PM0",
+           "parDelegation": "false"
+          }
+         },
+         "contres": null,
+         "abstentions": null
+        }
+       }
+      }
+     ]
+    }
+   }
+  },
+  "miseAuPoint": {
+   "nonVotants": [
+    null,
+    null
+   ],
+   "pours": null,
+   "abstentions": [
+    null,
+    null
+   ],
+   "nonVotantsVolontaires": [
+    null,
+    null
+   ],
+   "contres": null,
+   "dysfonctionnement": {
+    "nonVotants": null,
+    "pour": null,
+    "contre": null,
+    "abstentions": null,
+    "nonVotantsVolontaires": null
+   }
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "organe": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@xsi:type": "GroupePolitique_type",
+  "uid": "PO644420",
+  "codeType": "ASSEMBLEE",
+  "libelle": "Assemblée nationale de la 14ème législature",
+  "libelleEdition": "Assemblée nationale de la 14ème législature",
+  "libelleAbrege": "AN",
+  "libelleAbrev": "AN",
+  "viMoDe": {
+   "dateDebut": "2012-06-20",
+   "dateAgrement": null,
+   "dateFin": "2017-06-20"
+  },
+  "organeParent": null,
+  "chambre": null,
+  "regime": "5ème République",
+  "legislature": "14"
+ }
+}

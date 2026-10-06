@@ -1,0 +1,2035 @@
+{
+ "debate": {
+  "id": "fixture",
+  "title": "Débat fictif (données de test)",
+  "date": "2022-04-20",
+  "broadcaster": "Test TV",
+  "roster": [
+   {
+    "id": "candidat-a",
+    "name": "Candidat A",
+    "role": "candidate",
+    "party": "Parti A",
+    "aliases": [
+     "Monsieur A"
+    ],
+    "an_id": null
+   },
+   {
+    "id": "candidate-b",
+    "name": "Candidate B",
+    "role": "candidate",
+    "party": "Parti B",
+    "aliases": [
+     "Madame B"
+    ],
+    "an_id": null
+   },
+   {
+    "id": "moderatrice",
+    "name": "Modératrice",
+    "role": "moderator",
+    "party": null,
+    "aliases": [],
+    "an_id": null
+   }
+  ],
+  "media": {
+   "youtube_id": null,
+   "file": null,
+   "duration": 120.0
+  },
+  "language": "fr"
+ },
+ "segments": [
+  {
+   "id": "s0000",
+   "start": 0.0,
+   "end": 6.0,
+   "text": "Bonsoir à tous, on commence par le pouvoir d'achat.",
+   "speaker": "moderatrice",
+   "words": [
+    {
+     "start": 0.0,
+     "end": 0.67,
+     "text": "Bonsoir",
+     "prob": null
+    },
+    {
+     "start": 0.67,
+     "end": 1.33,
+     "text": "à",
+     "prob": null
+    },
+    {
+     "start": 1.33,
+     "end": 2.0,
+     "text": "tous,",
+     "prob": null
+    },
+    {
+     "start": 2.0,
+     "end": 2.67,
+     "text": "on",
+     "prob": null
+    },
+    {
+     "start": 2.67,
+     "end": 3.33,
+     "text": "commence",
+     "prob": null
+    },
+    {
+     "start": 3.33,
+     "end": 4.0,
+     "text": "par",
+     "prob": null
+    },
+    {
+     "start": 4.0,
+     "end": 4.67,
+     "text": "le",
+     "prob": null
+    },
+    {
+     "start": 4.67,
+     "end": 5.33,
+     "text": "pouvoir",
+     "prob": null
+    },
+    {
+     "start": 5.33,
+     "end": 6.0,
+     "text": "d'achat.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0001",
+   "start": 6.0,
+   "end": 14.0,
+   "text": "Le chômage est au plus bas depuis quinze ans, à 7,4 %.",
+   "speaker": "candidat-a",
+   "words": [
+    {
+     "start": 6.0,
+     "end": 6.67,
+     "text": "Le",
+     "prob": null
+    },
+    {
+     "start": 6.67,
+     "end": 7.33,
+     "text": "chômage",
+     "prob": null
+    },
+    {
+     "start": 7.33,
+     "end": 8.0,
+     "text": "est",
+     "prob": null
+    },
+    {
+     "start": 8.0,
+     "end": 8.67,
+     "text": "au",
+     "prob": null
+    },
+    {
+     "start": 8.67,
+     "end": 9.33,
+     "text": "plus",
+     "prob": null
+    },
+    {
+     "start": 9.33,
+     "end": 10.0,
+     "text": "bas",
+     "prob": null
+    },
+    {
+     "start": 10.0,
+     "end": 10.67,
+     "text": "depuis",
+     "prob": null
+    },
+    {
+     "start": 10.67,
+     "end": 11.33,
+     "text": "quinze",
+     "prob": null
+    },
+    {
+     "start": 11.33,
+     "end": 12.0,
+     "text": "ans,",
+     "prob": null
+    },
+    {
+     "start": 12.0,
+     "end": 12.67,
+     "text": "à",
+     "prob": null
+    },
+    {
+     "start": 12.67,
+     "end": 13.33,
+     "text": "7,4",
+     "prob": null
+    },
+    {
+     "start": 13.33,
+     "end": 14.0,
+     "text": "%.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0002",
+   "start": 14.0,
+   "end": 20.0,
+   "text": "Nous avons créé plus d'un million d'emplois.",
+   "speaker": "candidat-a",
+   "words": [
+    {
+     "start": 14.0,
+     "end": 14.86,
+     "text": "Nous",
+     "prob": null
+    },
+    {
+     "start": 14.86,
+     "end": 15.71,
+     "text": "avons",
+     "prob": null
+    },
+    {
+     "start": 15.71,
+     "end": 16.57,
+     "text": "créé",
+     "prob": null
+    },
+    {
+     "start": 16.57,
+     "end": 17.43,
+     "text": "plus",
+     "prob": null
+    },
+    {
+     "start": 17.43,
+     "end": 18.29,
+     "text": "d'un",
+     "prob": null
+    },
+    {
+     "start": 18.29,
+     "end": 19.14,
+     "text": "million",
+     "prob": null
+    },
+    {
+     "start": 19.14,
+     "end": 20.0,
+     "text": "d'emplois.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0003",
+   "start": 20.0,
+   "end": 29.0,
+   "text": "C'est faux, et j'ai toujours voté contre la réforme des retraites.",
+   "speaker": "candidate-b",
+   "words": [
+    {
+     "start": 20.0,
+     "end": 20.82,
+     "text": "C'est",
+     "prob": null
+    },
+    {
+     "start": 20.82,
+     "end": 21.64,
+     "text": "faux,",
+     "prob": null
+    },
+    {
+     "start": 21.64,
+     "end": 22.45,
+     "text": "et",
+     "prob": null
+    },
+    {
+     "start": 22.45,
+     "end": 23.27,
+     "text": "j'ai",
+     "prob": null
+    },
+    {
+     "start": 23.27,
+     "end": 24.09,
+     "text": "toujours",
+     "prob": null
+    },
+    {
+     "start": 24.09,
+     "end": 24.91,
+     "text": "voté",
+     "prob": null
+    },
+    {
+     "start": 24.91,
+     "end": 25.73,
+     "text": "contre",
+     "prob": null
+    },
+    {
+     "start": 25.73,
+     "end": 26.55,
+     "text": "la",
+     "prob": null
+    },
+    {
+     "start": 26.55,
+     "end": 27.36,
+     "text": "réforme",
+     "prob": null
+    },
+    {
+     "start": 27.36,
+     "end": 28.18,
+     "text": "des",
+     "prob": null
+    },
+    {
+     "start": 28.18,
+     "end": 29.0,
+     "text": "retraites.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0004",
+   "start": 29.0,
+   "end": 37.0,
+   "text": "La dette a augmenté de 600 milliards d'euros pendant votre mandat.",
+   "speaker": "candidate-b",
+   "words": [
+    {
+     "start": 29.0,
+     "end": 29.73,
+     "text": "La",
+     "prob": null
+    },
+    {
+     "start": 29.73,
+     "end": 30.45,
+     "text": "dette",
+     "prob": null
+    },
+    {
+     "start": 30.45,
+     "end": 31.18,
+     "text": "a",
+     "prob": null
+    },
+    {
+     "start": 31.18,
+     "end": 31.91,
+     "text": "augmenté",
+     "prob": null
+    },
+    {
+     "start": 31.91,
+     "end": 32.64,
+     "text": "de",
+     "prob": null
+    },
+    {
+     "start": 32.64,
+     "end": 33.36,
+     "text": "600",
+     "prob": null
+    },
+    {
+     "start": 33.36,
+     "end": 34.09,
+     "text": "milliards",
+     "prob": null
+    },
+    {
+     "start": 34.09,
+     "end": 34.82,
+     "text": "d'euros",
+     "prob": null
+    },
+    {
+     "start": 34.82,
+     "end": 35.55,
+     "text": "pendant",
+     "prob": null
+    },
+    {
+     "start": 35.55,
+     "end": 36.27,
+     "text": "votre",
+     "prob": null
+    },
+    {
+     "start": 36.27,
+     "end": 37.0,
+     "text": "mandat.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0005",
+   "start": 37.0,
+   "end": 45.0,
+   "text": "Je pense que les Français méritent mieux que des slogans.",
+   "speaker": "candidat-a",
+   "words": [
+    {
+     "start": 37.0,
+     "end": 37.8,
+     "text": "Je",
+     "prob": null
+    },
+    {
+     "start": 37.8,
+     "end": 38.6,
+     "text": "pense",
+     "prob": null
+    },
+    {
+     "start": 38.6,
+     "end": 39.4,
+     "text": "que",
+     "prob": null
+    },
+    {
+     "start": 39.4,
+     "end": 40.2,
+     "text": "les",
+     "prob": null
+    },
+    {
+     "start": 40.2,
+     "end": 41.0,
+     "text": "Français",
+     "prob": null
+    },
+    {
+     "start": 41.0,
+     "end": 41.8,
+     "text": "méritent",
+     "prob": null
+    },
+    {
+     "start": 41.8,
+     "end": 42.6,
+     "text": "mieux",
+     "prob": null
+    },
+    {
+     "start": 42.6,
+     "end": 43.4,
+     "text": "que",
+     "prob": null
+    },
+    {
+     "start": 43.4,
+     "end": 44.2,
+     "text": "des",
+     "prob": null
+    },
+    {
+     "start": 44.2,
+     "end": 45.0,
+     "text": "slogans.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0006",
+   "start": 45.0,
+   "end": 50.0,
+   "text": "Passons à l'énergie, Madame B.",
+   "speaker": "moderatrice",
+   "words": [
+    {
+     "start": 45.0,
+     "end": 46.0,
+     "text": "Passons",
+     "prob": null
+    },
+    {
+     "start": 46.0,
+     "end": 47.0,
+     "text": "à",
+     "prob": null
+    },
+    {
+     "start": 47.0,
+     "end": 48.0,
+     "text": "l'énergie,",
+     "prob": null
+    },
+    {
+     "start": 48.0,
+     "end": 49.0,
+     "text": "Madame",
+     "prob": null
+    },
+    {
+     "start": 49.0,
+     "end": 50.0,
+     "text": "B.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0007",
+   "start": 50.0,
+   "end": 60.0,
+   "text": "Je baisserai la TVA sur l'énergie de 20 % à 5,5 %.",
+   "speaker": "candidate-b",
+   "words": [
+    {
+     "start": 50.0,
+     "end": 50.83,
+     "text": "Je",
+     "prob": null
+    },
+    {
+     "start": 50.83,
+     "end": 51.67,
+     "text": "baisserai",
+     "prob": null
+    },
+    {
+     "start": 51.67,
+     "end": 52.5,
+     "text": "la",
+     "prob": null
+    },
+    {
+     "start": 52.5,
+     "end": 53.33,
+     "text": "TVA",
+     "prob": null
+    },
+    {
+     "start": 53.33,
+     "end": 54.17,
+     "text": "sur",
+     "prob": null
+    },
+    {
+     "start": 54.17,
+     "end": 55.0,
+     "text": "l'énergie",
+     "prob": null
+    },
+    {
+     "start": 55.0,
+     "end": 55.83,
+     "text": "de",
+     "prob": null
+    },
+    {
+     "start": 55.83,
+     "end": 56.67,
+     "text": "20",
+     "prob": null
+    },
+    {
+     "start": 56.67,
+     "end": 57.5,
+     "text": "%",
+     "prob": null
+    },
+    {
+     "start": 57.5,
+     "end": 58.33,
+     "text": "à",
+     "prob": null
+    },
+    {
+     "start": 58.33,
+     "end": 59.17,
+     "text": "5,5",
+     "prob": null
+    },
+    {
+     "start": 59.17,
+     "end": 60.0,
+     "text": "%.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0008",
+   "start": 60.0,
+   "end": 70.0,
+   "text": "Le prix de l'électricité a augmenté de 4 % seulement grâce au bouclier tarifaire.",
+   "speaker": "candidat-a",
+   "words": [
+    {
+     "start": 60.0,
+     "end": 60.71,
+     "text": "Le",
+     "prob": null
+    },
+    {
+     "start": 60.71,
+     "end": 61.43,
+     "text": "prix",
+     "prob": null
+    },
+    {
+     "start": 61.43,
+     "end": 62.14,
+     "text": "de",
+     "prob": null
+    },
+    {
+     "start": 62.14,
+     "end": 62.86,
+     "text": "l'électricité",
+     "prob": null
+    },
+    {
+     "start": 62.86,
+     "end": 63.57,
+     "text": "a",
+     "prob": null
+    },
+    {
+     "start": 63.57,
+     "end": 64.29,
+     "text": "augmenté",
+     "prob": null
+    },
+    {
+     "start": 64.29,
+     "end": 65.0,
+     "text": "de",
+     "prob": null
+    },
+    {
+     "start": 65.0,
+     "end": 65.71,
+     "text": "4",
+     "prob": null
+    },
+    {
+     "start": 65.71,
+     "end": 66.43,
+     "text": "%",
+     "prob": null
+    },
+    {
+     "start": 66.43,
+     "end": 67.14,
+     "text": "seulement",
+     "prob": null
+    },
+    {
+     "start": 67.14,
+     "end": 67.86,
+     "text": "grâce",
+     "prob": null
+    },
+    {
+     "start": 67.86,
+     "end": 68.57,
+     "text": "au",
+     "prob": null
+    },
+    {
+     "start": 68.57,
+     "end": 69.29,
+     "text": "bouclier",
+     "prob": null
+    },
+    {
+     "start": 69.29,
+     "end": 70.0,
+     "text": "tarifaire.",
+     "prob": null
+    }
+   ]
+  },
+  {
+   "id": "s0009",
+   "start": 70.0,
+   "end": 80.0,
+   "text": "L'Allemagne a fermé toutes ses centrales nucléaires l'an dernier.",
+   "speaker": "candidate-b",
+   "words": [
+    {
+     "start": 70.0,
+     "end": 71.11,
+     "text": "L'Allemagne",
+     "prob": null
+    },
+    {
+     "start": 71.11,
+     "end": 72.22,
+     "text": "a",
+     "prob": null
+    },
+    {
+     "start": 72.22,
+     "end": 73.33,
+     "text": "fermé",
+     "prob": null
+    },
+    {
+     "start": 73.33,
+     "end": 74.44,
+     "text": "toutes",
+     "prob": null
+    },
+    {
+     "start": 74.44,
+     "end": 75.56,
+     "text": "ses",
+     "prob": null
+    },
+    {
+     "start": 75.56,
+     "end": 76.67,
+     "text": "centrales",
+     "prob": null
+    },
+    {
+     "start": 76.67,
+     "end": 77.78,
+     "text": "nucléaires",
+     "prob": null
+    },
+    {
+     "start": 77.78,
+     "end": 78.89,
+     "text": "l'an",
+     "prob": null
+    },
+    {
+     "start": 78.89,
+     "end": 80.0,
+     "text": "dernier.",
+     "prob": null
+    }
+   ]
+  }
+ ],
+ "claims": [
+  {
+   "id": "c0001",
+   "speaker": "candidat-a",
+   "start": 6.0,
+   "end": 14.0,
+   "quote": "Le chômage est au plus bas depuis quinze ans, à 7,4 %.",
+   "claim": "Le taux de chômage en France est de 7,4 %, son plus bas niveau depuis quinze ans.",
+   "topic": "emploi",
+   "kind": "chiffre",
+   "checkable": true,
+   "priority": 1,
+   "segment_ids": [
+    "s0001"
+   ]
+  },
+  {
+   "id": "c0002",
+   "speaker": "candidat-a",
+   "start": 14.0,
+   "end": 20.0,
+   "quote": "Nous avons créé plus d'un million d'emplois.",
+   "claim": "Plus d'un million d'emplois ont été créés pendant le quinquennat.",
+   "topic": "emploi",
+   "kind": "chiffre",
+   "checkable": true,
+   "priority": 1,
+   "segment_ids": [
+    "s0002"
+   ]
+  },
+  {
+   "id": "c0003",
+   "speaker": "candidate-b",
+   "start": 24.0,
+   "end": 29.0,
+   "quote": "j'ai toujours voté contre la réforme des retraites.",
+   "claim": "Candidate B a toujours voté contre la réforme des retraites.",
+   "topic": "retraites",
+   "kind": "vote",
+   "checkable": true,
+   "priority": 1,
+   "segment_ids": [
+    "s0003"
+   ]
+  },
+  {
+   "id": "c0004",
+   "speaker": "candidate-b",
+   "start": 29.0,
+   "end": 37.0,
+   "quote": "La dette a augmenté de 600 milliards d'euros pendant votre mandat.",
+   "claim": "La dette publique a augmenté de 600 milliards d'euros pendant le mandat de Candidat A.",
+   "topic": "dette",
+   "kind": "chiffre",
+   "checkable": true,
+   "priority": 1,
+   "segment_ids": [
+    "s0004"
+   ]
+  },
+  {
+   "id": "c0005",
+   "speaker": "candidate-b",
+   "start": 50.0,
+   "end": 60.0,
+   "quote": "Je baisserai la TVA sur l'énergie de 20 % à 5,5 %.",
+   "claim": "Candidate B promet de baisser la TVA sur l'énergie de 20 % à 5,5 %.",
+   "topic": "énergie",
+   "kind": "autre",
+   "checkable": false,
+   "priority": 3,
+   "segment_ids": [
+    "s0007"
+   ]
+  },
+  {
+   "id": "c0006",
+   "speaker": "candidat-a",
+   "start": 60.0,
+   "end": 70.0,
+   "quote": "Le prix de l'électricité a augmenté de 4 % seulement grâce au bouclier tarifaire.",
+   "claim": "Grâce au bouclier tarifaire, la hausse du tarif réglementé de l'électricité a été limitée à 4 %.",
+   "topic": "énergie",
+   "kind": "chiffre",
+   "checkable": true,
+   "priority": 1,
+   "segment_ids": [
+    "s0008"
+   ]
+  },
+  {
+   "id": "c0007",
+   "speaker": "candidate-b",
+   "start": 70.0,
+   "end": 80.0,
+   "quote": "L'Allemagne a fermé toutes ses centrales nucléaires l'an dernier.",
+   "claim": "L'Allemagne a fermé toutes ses centrales nucléaires en 2021.",
+   "topic": "énergie",
+   "kind": "historique",
+   "checkable": true,
+   "priority": 2,
+   "segment_ids": [
+    "s0009"
+   ]
+  }
+ ],
+ "verdicts": [
+  {
+   "claim_id": "c0001",
+   "label": "plutot_exact",
+   "headline": "7,4 % fin 2021 : plus bas depuis 2008, soit environ 13 ans",
+   "explanation": "L'INSEE mesure 7,4 % au 4e trimestre 2021. C'est le plus bas niveau depuis 2008, pas depuis quinze ans.",
+   "sources": [
+    {
+     "kind": "official_data",
+     "title": "Taux de chômage au sens du BIT – T4 2021",
+     "url": "https://www.insee.fr/fr/statistiques/6050298",
+     "publisher": "INSEE",
+     "date": "2022-02-18",
+     "excerpt": "7,4 % de la population active"
+    }
+   ],
+   "method": "library",
+   "reviewed": true,
+   "confidence": 0.9,
+   "library_id": "L000",
+   "latency_s": 1.2
+  },
+  {
+   "claim_id": "c0002",
+   "label": "exact",
+   "headline": "Environ 1,1 million d'emplois salariés créés entre 2017 et 2021",
+   "explanation": "Les estimations d'emploi de l'INSEE confirment l'ordre de grandeur.",
+   "sources": [
+    {
+     "kind": "official_data",
+     "title": "Estimations d'emploi salarié",
+     "url": "https://www.insee.fr/",
+     "publisher": "INSEE",
+     "date": null,
+     "excerpt": null
+    }
+   ],
+   "method": "data",
+   "reviewed": false,
+   "confidence": 0.7,
+   "library_id": null,
+   "latency_s": 6.5
+  },
+  {
+   "claim_id": "c0003",
+   "label": "faux",
+   "headline": "A voté pour en première lecture (scrutin n° 1234)",
+   "explanation": "Exemple fictif : la députée a voté pour le texte lors du scrutin solennel avant de voter contre en nouvelle lecture.",
+   "sources": [
+    {
+     "kind": "parliament",
+     "title": "Scrutin public n° 1234",
+     "url": "https://www.assemblee-nationale.fr/",
+     "publisher": "Assemblée nationale",
+     "date": "2020-03-03",
+     "excerpt": "Pour"
+    }
+   ],
+   "method": "data",
+   "reviewed": true,
+   "confidence": 0.95,
+   "library_id": null,
+   "latency_s": 4.1
+  },
+  {
+   "claim_id": "c0004",
+   "label": "imprecis",
+   "headline": "Hausse d'environ 560 Md€, en grande partie liée au Covid",
+   "explanation": "Exemple fictif : la dette au sens de Maastricht a augmenté d'environ 560 milliards entre 2017 et 2021.",
+   "sources": [
+    {
+     "kind": "official_data",
+     "title": "Dette trimestrielle de Maastricht des APU",
+     "url": "https://www.insee.fr/",
+     "publisher": "INSEE",
+     "date": null,
+     "excerpt": null
+    }
+   ],
+   "method": "data",
+   "reviewed": false,
+   "confidence": 0.6,
+   "library_id": null,
+   "latency_s": 9.8
+  },
+  {
+   "claim_id": "c0006",
+   "label": "exact",
+   "headline": "Hausse du tarif réglementé limitée à 4 % en février 2022",
+   "explanation": "Le bouclier tarifaire a plafonné la hausse du TRVE à 4 % TTC.",
+   "sources": [
+    {
+     "kind": "web",
+     "title": "Bouclier tarifaire",
+     "url": "https://www.economie.gouv.fr/",
+     "publisher": "economie.gouv.fr",
+     "date": null,
+     "excerpt": null
+    }
+   ],
+   "method": "web",
+   "reviewed": false,
+   "confidence": 0.75,
+   "library_id": null,
+   "latency_s": 11.0
+  },
+  {
+   "claim_id": "c0007",
+   "label": "faux",
+   "headline": "L'Allemagne a fermé 3 réacteurs fin 2021, les 3 derniers en 2023",
+   "explanation": "Fin 2021, trois réacteurs ont été arrêtés ; trois restaient en service.",
+   "sources": [
+    {
+     "kind": "web",
+     "title": "Sortie du nucléaire en Allemagne",
+     "url": "https://www.bundesregierung.de/",
+     "publisher": "Gouvernement fédéral",
+     "date": null,
+     "excerpt": null
+    }
+   ],
+   "method": "web",
+   "reviewed": false,
+   "confidence": 0.7,
+   "library_id": null,
+   "latency_s": 12.5
+  }
+ ],
+ "events": [
+  {
+   "seq": 1,
+   "type": "segment",
+   "t": 0.0,
+   "at": 6.8,
+   "data": {
+    "id": "s0000",
+    "start": 0.0,
+    "end": 6.0,
+    "text": "Bonsoir à tous, on commence par le pouvoir d'achat.",
+    "speaker": "moderatrice",
+    "words": [
+     {
+      "start": 0.0,
+      "end": 0.67,
+      "text": "Bonsoir",
+      "prob": null
+     },
+     {
+      "start": 0.67,
+      "end": 1.33,
+      "text": "à",
+      "prob": null
+     },
+     {
+      "start": 1.33,
+      "end": 2.0,
+      "text": "tous,",
+      "prob": null
+     },
+     {
+      "start": 2.0,
+      "end": 2.67,
+      "text": "on",
+      "prob": null
+     },
+     {
+      "start": 2.67,
+      "end": 3.33,
+      "text": "commence",
+      "prob": null
+     },
+     {
+      "start": 3.33,
+      "end": 4.0,
+      "text": "par",
+      "prob": null
+     },
+     {
+      "start": 4.0,
+      "end": 4.67,
+      "text": "le",
+      "prob": null
+     },
+     {
+      "start": 4.67,
+      "end": 5.33,
+      "text": "pouvoir",
+      "prob": null
+     },
+     {
+      "start": 5.33,
+      "end": 6.0,
+      "text": "d'achat.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 2,
+   "type": "segment",
+   "t": 6.0,
+   "at": 14.8,
+   "data": {
+    "id": "s0001",
+    "start": 6.0,
+    "end": 14.0,
+    "text": "Le chômage est au plus bas depuis quinze ans, à 7,4 %.",
+    "speaker": "candidat-a",
+    "words": [
+     {
+      "start": 6.0,
+      "end": 6.67,
+      "text": "Le",
+      "prob": null
+     },
+     {
+      "start": 6.67,
+      "end": 7.33,
+      "text": "chômage",
+      "prob": null
+     },
+     {
+      "start": 7.33,
+      "end": 8.0,
+      "text": "est",
+      "prob": null
+     },
+     {
+      "start": 8.0,
+      "end": 8.67,
+      "text": "au",
+      "prob": null
+     },
+     {
+      "start": 8.67,
+      "end": 9.33,
+      "text": "plus",
+      "prob": null
+     },
+     {
+      "start": 9.33,
+      "end": 10.0,
+      "text": "bas",
+      "prob": null
+     },
+     {
+      "start": 10.0,
+      "end": 10.67,
+      "text": "depuis",
+      "prob": null
+     },
+     {
+      "start": 10.67,
+      "end": 11.33,
+      "text": "quinze",
+      "prob": null
+     },
+     {
+      "start": 11.33,
+      "end": 12.0,
+      "text": "ans,",
+      "prob": null
+     },
+     {
+      "start": 12.0,
+      "end": 12.67,
+      "text": "à",
+      "prob": null
+     },
+     {
+      "start": 12.67,
+      "end": 13.33,
+      "text": "7,4",
+      "prob": null
+     },
+     {
+      "start": 13.33,
+      "end": 14.0,
+      "text": "%.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 3,
+   "type": "verdict",
+   "t": 6.0,
+   "at": 15.2,
+   "data": {
+    "claim_id": "c0001",
+    "label": "plutot_exact",
+    "headline": "7,4 % fin 2021 : plus bas depuis 2008, soit environ 13 ans",
+    "explanation": "L'INSEE mesure 7,4 % au 4e trimestre 2021. C'est le plus bas niveau depuis 2008, pas depuis quinze ans.",
+    "sources": [
+     {
+      "kind": "official_data",
+      "title": "Taux de chômage au sens du BIT – T4 2021",
+      "url": "https://www.insee.fr/fr/statistiques/6050298",
+      "publisher": "INSEE",
+      "date": "2022-02-18",
+      "excerpt": "7,4 % de la population active"
+     }
+    ],
+    "method": "library",
+    "reviewed": true,
+    "confidence": 0.9,
+    "library_id": "L000",
+    "latency_s": 1.2
+   }
+  },
+  {
+   "seq": 4,
+   "type": "claim",
+   "t": 6.0,
+   "at": 16.0,
+   "data": {
+    "id": "c0001",
+    "speaker": "candidat-a",
+    "start": 6.0,
+    "end": 14.0,
+    "quote": "Le chômage est au plus bas depuis quinze ans, à 7,4 %.",
+    "claim": "Le taux de chômage en France est de 7,4 %, son plus bas niveau depuis quinze ans.",
+    "topic": "emploi",
+    "kind": "chiffre",
+    "checkable": true,
+    "priority": 1,
+    "segment_ids": [
+     "s0001"
+    ]
+   }
+  },
+  {
+   "seq": 5,
+   "type": "segment",
+   "t": 14.0,
+   "at": 20.8,
+   "data": {
+    "id": "s0002",
+    "start": 14.0,
+    "end": 20.0,
+    "text": "Nous avons créé plus d'un million d'emplois.",
+    "speaker": "candidat-a",
+    "words": [
+     {
+      "start": 14.0,
+      "end": 14.86,
+      "text": "Nous",
+      "prob": null
+     },
+     {
+      "start": 14.86,
+      "end": 15.71,
+      "text": "avons",
+      "prob": null
+     },
+     {
+      "start": 15.71,
+      "end": 16.57,
+      "text": "créé",
+      "prob": null
+     },
+     {
+      "start": 16.57,
+      "end": 17.43,
+      "text": "plus",
+      "prob": null
+     },
+     {
+      "start": 17.43,
+      "end": 18.29,
+      "text": "d'un",
+      "prob": null
+     },
+     {
+      "start": 18.29,
+      "end": 19.14,
+      "text": "million",
+      "prob": null
+     },
+     {
+      "start": 19.14,
+      "end": 20.0,
+      "text": "d'emplois.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 6,
+   "type": "claim",
+   "t": 14.0,
+   "at": 22.0,
+   "data": {
+    "id": "c0002",
+    "speaker": "candidat-a",
+    "start": 14.0,
+    "end": 20.0,
+    "quote": "Nous avons créé plus d'un million d'emplois.",
+    "claim": "Plus d'un million d'emplois ont été créés pendant le quinquennat.",
+    "topic": "emploi",
+    "kind": "chiffre",
+    "checkable": true,
+    "priority": 1,
+    "segment_ids": [
+     "s0002"
+    ]
+   }
+  },
+  {
+   "seq": 7,
+   "type": "verdict",
+   "t": 14.0,
+   "at": 26.5,
+   "data": {
+    "claim_id": "c0002",
+    "label": "exact",
+    "headline": "Environ 1,1 million d'emplois salariés créés entre 2017 et 2021",
+    "explanation": "Les estimations d'emploi de l'INSEE confirment l'ordre de grandeur.",
+    "sources": [
+     {
+      "kind": "official_data",
+      "title": "Estimations d'emploi salarié",
+      "url": "https://www.insee.fr/",
+      "publisher": "INSEE",
+      "date": null,
+      "excerpt": null
+     }
+    ],
+    "method": "data",
+    "reviewed": false,
+    "confidence": 0.7,
+    "library_id": null,
+    "latency_s": 6.5
+   }
+  },
+  {
+   "seq": 8,
+   "type": "segment",
+   "t": 20.0,
+   "at": 29.8,
+   "data": {
+    "id": "s0003",
+    "start": 20.0,
+    "end": 29.0,
+    "text": "C'est faux, et j'ai toujours voté contre la réforme des retraites.",
+    "speaker": "candidate-b",
+    "words": [
+     {
+      "start": 20.0,
+      "end": 20.82,
+      "text": "C'est",
+      "prob": null
+     },
+     {
+      "start": 20.82,
+      "end": 21.64,
+      "text": "faux,",
+      "prob": null
+     },
+     {
+      "start": 21.64,
+      "end": 22.45,
+      "text": "et",
+      "prob": null
+     },
+     {
+      "start": 22.45,
+      "end": 23.27,
+      "text": "j'ai",
+      "prob": null
+     },
+     {
+      "start": 23.27,
+      "end": 24.09,
+      "text": "toujours",
+      "prob": null
+     },
+     {
+      "start": 24.09,
+      "end": 24.91,
+      "text": "voté",
+      "prob": null
+     },
+     {
+      "start": 24.91,
+      "end": 25.73,
+      "text": "contre",
+      "prob": null
+     },
+     {
+      "start": 25.73,
+      "end": 26.55,
+      "text": "la",
+      "prob": null
+     },
+     {
+      "start": 26.55,
+      "end": 27.36,
+      "text": "réforme",
+      "prob": null
+     },
+     {
+      "start": 27.36,
+      "end": 28.18,
+      "text": "des",
+      "prob": null
+     },
+     {
+      "start": 28.18,
+      "end": 29.0,
+      "text": "retraites.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 9,
+   "type": "claim",
+   "t": 24.0,
+   "at": 31.0,
+   "data": {
+    "id": "c0003",
+    "speaker": "candidate-b",
+    "start": 24.0,
+    "end": 29.0,
+    "quote": "j'ai toujours voté contre la réforme des retraites.",
+    "claim": "Candidate B a toujours voté contre la réforme des retraites.",
+    "topic": "retraites",
+    "kind": "vote",
+    "checkable": true,
+    "priority": 1,
+    "segment_ids": [
+     "s0003"
+    ]
+   }
+  },
+  {
+   "seq": 10,
+   "type": "verdict",
+   "t": 24.0,
+   "at": 33.1,
+   "data": {
+    "claim_id": "c0003",
+    "label": "faux",
+    "headline": "A voté pour en première lecture (scrutin n° 1234)",
+    "explanation": "Exemple fictif : la députée a voté pour le texte lors du scrutin solennel avant de voter contre en nouvelle lecture.",
+    "sources": [
+     {
+      "kind": "parliament",
+      "title": "Scrutin public n° 1234",
+      "url": "https://www.assemblee-nationale.fr/",
+      "publisher": "Assemblée nationale",
+      "date": "2020-03-03",
+      "excerpt": "Pour"
+     }
+    ],
+    "method": "data",
+    "reviewed": true,
+    "confidence": 0.95,
+    "library_id": null,
+    "latency_s": 4.1
+   }
+  },
+  {
+   "seq": 11,
+   "type": "segment",
+   "t": 29.0,
+   "at": 37.8,
+   "data": {
+    "id": "s0004",
+    "start": 29.0,
+    "end": 37.0,
+    "text": "La dette a augmenté de 600 milliards d'euros pendant votre mandat.",
+    "speaker": "candidate-b",
+    "words": [
+     {
+      "start": 29.0,
+      "end": 29.73,
+      "text": "La",
+      "prob": null
+     },
+     {
+      "start": 29.73,
+      "end": 30.45,
+      "text": "dette",
+      "prob": null
+     },
+     {
+      "start": 30.45,
+      "end": 31.18,
+      "text": "a",
+      "prob": null
+     },
+     {
+      "start": 31.18,
+      "end": 31.91,
+      "text": "augmenté",
+      "prob": null
+     },
+     {
+      "start": 31.91,
+      "end": 32.64,
+      "text": "de",
+      "prob": null
+     },
+     {
+      "start": 32.64,
+      "end": 33.36,
+      "text": "600",
+      "prob": null
+     },
+     {
+      "start": 33.36,
+      "end": 34.09,
+      "text": "milliards",
+      "prob": null
+     },
+     {
+      "start": 34.09,
+      "end": 34.82,
+      "text": "d'euros",
+      "prob": null
+     },
+     {
+      "start": 34.82,
+      "end": 35.55,
+      "text": "pendant",
+      "prob": null
+     },
+     {
+      "start": 35.55,
+      "end": 36.27,
+      "text": "votre",
+      "prob": null
+     },
+     {
+      "start": 36.27,
+      "end": 37.0,
+      "text": "mandat.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 12,
+   "type": "claim",
+   "t": 29.0,
+   "at": 39.0,
+   "data": {
+    "id": "c0004",
+    "speaker": "candidate-b",
+    "start": 29.0,
+    "end": 37.0,
+    "quote": "La dette a augmenté de 600 milliards d'euros pendant votre mandat.",
+    "claim": "La dette publique a augmenté de 600 milliards d'euros pendant le mandat de Candidat A.",
+    "topic": "dette",
+    "kind": "chiffre",
+    "checkable": true,
+    "priority": 1,
+    "segment_ids": [
+     "s0004"
+    ]
+   }
+  },
+  {
+   "seq": 13,
+   "type": "segment",
+   "t": 37.0,
+   "at": 45.8,
+   "data": {
+    "id": "s0005",
+    "start": 37.0,
+    "end": 45.0,
+    "text": "Je pense que les Français méritent mieux que des slogans.",
+    "speaker": "candidat-a",
+    "words": [
+     {
+      "start": 37.0,
+      "end": 37.8,
+      "text": "Je",
+      "prob": null
+     },
+     {
+      "start": 37.8,
+      "end": 38.6,
+      "text": "pense",
+      "prob": null
+     },
+     {
+      "start": 38.6,
+      "end": 39.4,
+      "text": "que",
+      "prob": null
+     },
+     {
+      "start": 39.4,
+      "end": 40.2,
+      "text": "les",
+      "prob": null
+     },
+     {
+      "start": 40.2,
+      "end": 41.0,
+      "text": "Français",
+      "prob": null
+     },
+     {
+      "start": 41.0,
+      "end": 41.8,
+      "text": "méritent",
+      "prob": null
+     },
+     {
+      "start": 41.8,
+      "end": 42.6,
+      "text": "mieux",
+      "prob": null
+     },
+     {
+      "start": 42.6,
+      "end": 43.4,
+      "text": "que",
+      "prob": null
+     },
+     {
+      "start": 43.4,
+      "end": 44.2,
+      "text": "des",
+      "prob": null
+     },
+     {
+      "start": 44.2,
+      "end": 45.0,
+      "text": "slogans.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 14,
+   "type": "verdict",
+   "t": 29.0,
+   "at": 46.8,
+   "data": {
+    "claim_id": "c0004",
+    "label": "imprecis",
+    "headline": "Hausse d'environ 560 Md€, en grande partie liée au Covid",
+    "explanation": "Exemple fictif : la dette au sens de Maastricht a augmenté d'environ 560 milliards entre 2017 et 2021.",
+    "sources": [
+     {
+      "kind": "official_data",
+      "title": "Dette trimestrielle de Maastricht des APU",
+      "url": "https://www.insee.fr/",
+      "publisher": "INSEE",
+      "date": null,
+      "excerpt": null
+     }
+    ],
+    "method": "data",
+    "reviewed": false,
+    "confidence": 0.6,
+    "library_id": null,
+    "latency_s": 9.8
+   }
+  },
+  {
+   "seq": 15,
+   "type": "segment",
+   "t": 45.0,
+   "at": 50.8,
+   "data": {
+    "id": "s0006",
+    "start": 45.0,
+    "end": 50.0,
+    "text": "Passons à l'énergie, Madame B.",
+    "speaker": "moderatrice",
+    "words": [
+     {
+      "start": 45.0,
+      "end": 46.0,
+      "text": "Passons",
+      "prob": null
+     },
+     {
+      "start": 46.0,
+      "end": 47.0,
+      "text": "à",
+      "prob": null
+     },
+     {
+      "start": 47.0,
+      "end": 48.0,
+      "text": "l'énergie,",
+      "prob": null
+     },
+     {
+      "start": 48.0,
+      "end": 49.0,
+      "text": "Madame",
+      "prob": null
+     },
+     {
+      "start": 49.0,
+      "end": 50.0,
+      "text": "B.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 16,
+   "type": "segment",
+   "t": 50.0,
+   "at": 60.8,
+   "data": {
+    "id": "s0007",
+    "start": 50.0,
+    "end": 60.0,
+    "text": "Je baisserai la TVA sur l'énergie de 20 % à 5,5 %.",
+    "speaker": "candidate-b",
+    "words": [
+     {
+      "start": 50.0,
+      "end": 50.83,
+      "text": "Je",
+      "prob": null
+     },
+     {
+      "start": 50.83,
+      "end": 51.67,
+      "text": "baisserai",
+      "prob": null
+     },
+     {
+      "start": 51.67,
+      "end": 52.5,
+      "text": "la",
+      "prob": null
+     },
+     {
+      "start": 52.5,
+      "end": 53.33,
+      "text": "TVA",
+      "prob": null
+     },
+     {
+      "start": 53.33,
+      "end": 54.17,
+      "text": "sur",
+      "prob": null
+     },
+     {
+      "start": 54.17,
+      "end": 55.0,
+      "text": "l'énergie",
+      "prob": null
+     },
+     {
+      "start": 55.0,
+      "end": 55.83,
+      "text": "de",
+      "prob": null
+     },
+     {
+      "start": 55.83,
+      "end": 56.67,
+      "text": "20",
+      "prob": null
+     },
+     {
+      "start": 56.67,
+      "end": 57.5,
+      "text": "%",
+      "prob": null
+     },
+     {
+      "start": 57.5,
+      "end": 58.33,
+      "text": "à",
+      "prob": null
+     },
+     {
+      "start": 58.33,
+      "end": 59.17,
+      "text": "5,5",
+      "prob": null
+     },
+     {
+      "start": 59.17,
+      "end": 60.0,
+      "text": "%.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 17,
+   "type": "claim",
+   "t": 50.0,
+   "at": 62.0,
+   "data": {
+    "id": "c0005",
+    "speaker": "candidate-b",
+    "start": 50.0,
+    "end": 60.0,
+    "quote": "Je baisserai la TVA sur l'énergie de 20 % à 5,5 %.",
+    "claim": "Candidate B promet de baisser la TVA sur l'énergie de 20 % à 5,5 %.",
+    "topic": "énergie",
+    "kind": "autre",
+    "checkable": false,
+    "priority": 3,
+    "segment_ids": [
+     "s0007"
+    ]
+   }
+  },
+  {
+   "seq": 18,
+   "type": "segment",
+   "t": 60.0,
+   "at": 70.8,
+   "data": {
+    "id": "s0008",
+    "start": 60.0,
+    "end": 70.0,
+    "text": "Le prix de l'électricité a augmenté de 4 % seulement grâce au bouclier tarifaire.",
+    "speaker": "candidat-a",
+    "words": [
+     {
+      "start": 60.0,
+      "end": 60.71,
+      "text": "Le",
+      "prob": null
+     },
+     {
+      "start": 60.71,
+      "end": 61.43,
+      "text": "prix",
+      "prob": null
+     },
+     {
+      "start": 61.43,
+      "end": 62.14,
+      "text": "de",
+      "prob": null
+     },
+     {
+      "start": 62.14,
+      "end": 62.86,
+      "text": "l'électricité",
+      "prob": null
+     },
+     {
+      "start": 62.86,
+      "end": 63.57,
+      "text": "a",
+      "prob": null
+     },
+     {
+      "start": 63.57,
+      "end": 64.29,
+      "text": "augmenté",
+      "prob": null
+     },
+     {
+      "start": 64.29,
+      "end": 65.0,
+      "text": "de",
+      "prob": null
+     },
+     {
+      "start": 65.0,
+      "end": 65.71,
+      "text": "4",
+      "prob": null
+     },
+     {
+      "start": 65.71,
+      "end": 66.43,
+      "text": "%",
+      "prob": null
+     },
+     {
+      "start": 66.43,
+      "end": 67.14,
+      "text": "seulement",
+      "prob": null
+     },
+     {
+      "start": 67.14,
+      "end": 67.86,
+      "text": "grâce",
+      "prob": null
+     },
+     {
+      "start": 67.86,
+      "end": 68.57,
+      "text": "au",
+      "prob": null
+     },
+     {
+      "start": 68.57,
+      "end": 69.29,
+      "text": "bouclier",
+      "prob": null
+     },
+     {
+      "start": 69.29,
+      "end": 70.0,
+      "text": "tarifaire.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 19,
+   "type": "claim",
+   "t": 60.0,
+   "at": 72.0,
+   "data": {
+    "id": "c0006",
+    "speaker": "candidat-a",
+    "start": 60.0,
+    "end": 70.0,
+    "quote": "Le prix de l'électricité a augmenté de 4 % seulement grâce au bouclier tarifaire.",
+    "claim": "Grâce au bouclier tarifaire, la hausse du tarif réglementé de l'électricité a été limitée à 4 %.",
+    "topic": "énergie",
+    "kind": "chiffre",
+    "checkable": true,
+    "priority": 1,
+    "segment_ids": [
+     "s0008"
+    ]
+   }
+  },
+  {
+   "seq": 20,
+   "type": "segment",
+   "t": 70.0,
+   "at": 80.8,
+   "data": {
+    "id": "s0009",
+    "start": 70.0,
+    "end": 80.0,
+    "text": "L'Allemagne a fermé toutes ses centrales nucléaires l'an dernier.",
+    "speaker": "candidate-b",
+    "words": [
+     {
+      "start": 70.0,
+      "end": 71.11,
+      "text": "L'Allemagne",
+      "prob": null
+     },
+     {
+      "start": 71.11,
+      "end": 72.22,
+      "text": "a",
+      "prob": null
+     },
+     {
+      "start": 72.22,
+      "end": 73.33,
+      "text": "fermé",
+      "prob": null
+     },
+     {
+      "start": 73.33,
+      "end": 74.44,
+      "text": "toutes",
+      "prob": null
+     },
+     {
+      "start": 74.44,
+      "end": 75.56,
+      "text": "ses",
+      "prob": null
+     },
+     {
+      "start": 75.56,
+      "end": 76.67,
+      "text": "centrales",
+      "prob": null
+     },
+     {
+      "start": 76.67,
+      "end": 77.78,
+      "text": "nucléaires",
+      "prob": null
+     },
+     {
+      "start": 77.78,
+      "end": 78.89,
+      "text": "l'an",
+      "prob": null
+     },
+     {
+      "start": 78.89,
+      "end": 80.0,
+      "text": "dernier.",
+      "prob": null
+     }
+    ]
+   }
+  },
+  {
+   "seq": 21,
+   "type": "verdict",
+   "t": 60.0,
+   "at": 81.0,
+   "data": {
+    "claim_id": "c0006",
+    "label": "exact",
+    "headline": "Hausse du tarif réglementé limitée à 4 % en février 2022",
+    "explanation": "Le bouclier tarifaire a plafonné la hausse du TRVE à 4 % TTC.",
+    "sources": [
+     {
+      "kind": "web",
+      "title": "Bouclier tarifaire",
+      "url": "https://www.economie.gouv.fr/",
+      "publisher": "economie.gouv.fr",
+      "date": null,
+      "excerpt": null
+     }
+    ],
+    "method": "web",
+    "reviewed": false,
+    "confidence": 0.75,
+    "library_id": null,
+    "latency_s": 11.0
+   }
+  },
+  {
+   "seq": 22,
+   "type": "claim",
+   "t": 70.0,
+   "at": 82.0,
+   "data": {
+    "id": "c0007",
+    "speaker": "candidate-b",
+    "start": 70.0,
+    "end": 80.0,
+    "quote": "L'Allemagne a fermé toutes ses centrales nucléaires l'an dernier.",
+    "claim": "L'Allemagne a fermé toutes ses centrales nucléaires en 2021.",
+    "topic": "énergie",
+    "kind": "historique",
+    "checkable": true,
+    "priority": 2,
+    "segment_ids": [
+     "s0009"
+    ]
+   }
+  },
+  {
+   "seq": 23,
+   "type": "verdict",
+   "t": 70.0,
+   "at": 92.5,
+   "data": {
+    "claim_id": "c0007",
+    "label": "faux",
+    "headline": "L'Allemagne a fermé 3 réacteurs fin 2021, les 3 derniers en 2023",
+    "explanation": "Fin 2021, trois réacteurs ont été arrêtés ; trois restaient en service.",
+    "sources": [
+     {
+      "kind": "web",
+      "title": "Sortie du nucléaire en Allemagne",
+      "url": "https://www.bundesregierung.de/",
+      "publisher": "Gouvernement fédéral",
+      "date": null,
+      "excerpt": null
+     }
+    ],
+    "method": "web",
+    "reviewed": false,
+    "confidence": 0.7,
+    "library_id": null,
+    "latency_s": 12.5
+   }
+  }
+ ],
+ "stats": {
+  "fixture": true
+ }
+}

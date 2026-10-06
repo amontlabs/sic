@@ -1,0 +1,87 @@
+{
+ "scrutins": {
+  "scrutin": [
+   {
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "uid": "VTANR5L14V600",
+    "numero": "600",
+    "organeRef": "PO644420",
+    "legislature": "14",
+    "sessionRef": "SCR5A2013O1",
+    "seanceRef": "RUANR5L14S2013IDS1",
+    "dateScrutin": "2013-04-23",
+    "quantiemeJourSeance": "1",
+    "typeVote": {
+     "codeTypeVote": "SPS",
+     "libelleTypeVote": "scrutin public solennel",
+     "typeMajorite": "majorité absolue des suffrages exprimés"
+    },
+    "sort": {
+     "code": "adopté",
+     "libelle": "l'Assemblée nationale a adopté"
+    },
+    "titre": "l'ensemble du projet de loi ouvrant le mariage aux couples de personnes de même sexe (deuxième lecture).",
+    "demandeur": {
+     "texte": "Conférence des présidents",
+     "referenceLegislative": null
+    },
+    "objet": {
+     "libelle": "l'ensemble du projet de loi ouvrant le mariage aux couples de personnes de même sexe (deuxième lecture).",
+     "referenceLegislative": null
+    },
+    "modePublicationDesVotes": "DecompteDissidentsPositionGroupe",
+    "syntheseVote": {
+     "nombreVotants": "556",
+     "suffragesExprimes": "556",
+     "nbrSuffragesRequis": "279",
+     "annonce": "l'Assemblée nationale a adopté",
+     "decompte": {
+      "pour": "331",
+      "contre": "225",
+      "abstentions": "0",
+      "nonVotants": "1"
+     }
+    },
+    "ventilationVotes": {
+     "organe": {
+      "organeRef": "PO644420",
+      "groupes": {
+       "groupe": {
+        "organeRef": "PO150",
+        "nombreMembresGroupe": "295",
+        "vote": {
+         "positionMajoritaire": "pour",
+         "decompteVoix": {
+          "pour": "291",
+          "contre": "0",
+          "abstention": "0",
+          "nonVotant": "1"
+         },
+         "decompteNominatif": {
+          "nonVotants": {
+           "votant": {
+            "acteurRef": "PA9999",
+            "mandatRef": "PM9",
+            "causePositionVote": "PAN"
+           }
+          },
+          "pour": null,
+          "contre": null,
+          "abstentions": null
+         }
+        }
+       }
+      }
+     }
+    },
+    "miseAuPoint": {
+     "nonVotants": null,
+     "pour": null,
+     "contre": null,
+     "abstentions": null,
+     "nonVotantsVolontaires": null
+    }
+   }
+  ]
+ }
+}

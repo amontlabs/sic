@@ -1,0 +1,22 @@
+{
+ "organe": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@xsi:type": "GroupePolitique_type",
+  "uid": "PO200",
+  "codeType": "GP",
+  "libelle": "La République en Marche",
+  "libelleEdition": "La République en Marche",
+  "libelleAbrege": "LAREM",
+  "libelleAbrev": "LAREM",
+  "viMoDe": {
+   "dateDebut": "2017-06-27",
+   "dateAgrement": null,
+   "dateFin": "2022-06-21"
+  },
+  "organeParent": null,
+  "chambre": null,
+  "regime": "5ème République",
+  "legislature": "15"
+ }
+}

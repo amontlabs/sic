@@ -1,0 +1,144 @@
+{
+ "acteur": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "uid": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:type": "IdActeur_type",
+   "#text": "PA1001"
+  },
+  "etatCivil": {
+   "ident": {
+    "civ": "Mme",
+    "prenom": "Hélène",
+    "nom": "Dupré",
+    "alpha": "Dupré",
+    "trigramme": {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:nil": "true"
+    }
+   },
+   "infoNaissance": {
+    "dateNais": "1968-08-05",
+    "villeNais": "Lille",
+    "depNais": "Nord",
+    "paysNais": "France"
+   },
+   "dateDeces": {
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:nil": "true"
+   }
+  },
+  "profession": {
+   "libelleCourant": "Avocat"
+  },
+  "uri_hatvp": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:nil": "true"
+  },
+  "adresses": null,
+  "mandats": {
+   "mandat": [
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatParlementaire_type",
+     "uid": "PM1",
+     "acteurRef": "PA1001",
+     "legislature": "15",
+     "typeOrgane": "ASSEMBLEE",
+     "dateDebut": "2017-06-18",
+     "datePublication": null,
+     "dateFin": "2022-06-21",
+     "preseance": "50",
+     "nominPrincipale": "1",
+     "infosQualite": {
+      "codeQualite": "membre",
+      "libQualite": "membre",
+      "libQualiteSex": "membre"
+     },
+     "organes": {
+      "organeRef": "PO717460"
+     },
+     "suppleants": null,
+     "chambre": null,
+     "election": {
+      "lieu": {
+       "region": "Hauts-de-France",
+       "regionType": "Métropolitain",
+       "departement": "Pas-de-Calais",
+       "numDepartement": "62",
+       "numCirco": "11"
+      },
+      "causeMandat": "élections générales",
+      "refCirconscription": "PO9999"
+     },
+     "mandature": {
+      "datePriseFonction": "2017-06-21",
+      "causeFin": "Fin de législature",
+      "premiereElection": "1",
+      "placeHemicycle": "100",
+      "mandatRemplaceRef": null
+     },
+     "collaborateurs": null
+    },
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatSimple_Type",
+     "uid": "PM2",
+     "acteurRef": "PA1001",
+     "legislature": "15",
+     "typeOrgane": "GP",
+     "dateDebut": "2017-06-21",
+     "datePublication": "2017-06-21",
+     "dateFin": "2017-06-26",
+     "preseance": "20",
+     "nominPrincipale": "1",
+     "infosQualite": {
+      "codeQualite": "Député non-inscrit",
+      "libQualite": "Député non-inscrit",
+      "libQualiteSex": "Député non-inscrit"
+     },
+     "organes": {
+      "organeRef": "PO201"
+     }
+    },
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatSimple_Type",
+     "uid": "PM3",
+     "acteurRef": "PA1001",
+     "legislature": "15",
+     "typeOrgane": "GP",
+     "dateDebut": "2017-06-27",
+     "datePublication": "2017-06-27",
+     "dateFin": "2022-06-21",
+     "preseance": "20",
+     "nominPrincipale": "1",
+     "infosQualite": {
+      "codeQualite": "Député non-inscrit",
+      "libQualite": "Député non-inscrit",
+      "libQualiteSex": "Député non-inscrit"
+     },
+     "organes": {
+      "organeRef": "PO201"
+     }
+    },
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatSimple_Type",
+     "uid": "PM4",
+     "acteurRef": "PA1001",
+     "legislature": null,
+     "typeOrgane": "PARPOL",
+     "dateDebut": "2011-01-16",
+     "dateFin": null,
+     "organes": {
+      "organeRef": "PO300"
+     },
+     "infosQualite": {
+      "codeQualite": "Membre"
+     }
+    }
+   ]
+  }
+ }
+}

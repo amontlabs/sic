@@ -1,0 +1,137 @@
+{
+ "scrutin": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "uid": "VTANR5L15V3738",
+  "numero": "3738",
+  "organeRef": "PO717460",
+  "legislature": "15",
+  "sessionRef": "SCR5A2021O1",
+  "seanceRef": "RUANR5L15S2021IDS1",
+  "dateScrutin": "2021-05-04",
+  "quantiemeJourSeance": "1",
+  "typeVote": {
+   "codeTypeVote": "SPS",
+   "libelleTypeVote": "scrutin public solennel",
+   "typeMajorite": "majorité absolue des suffrages exprimés"
+  },
+  "sort": {
+   "code": "adopté",
+   "libelle": "l'Assemblée nationale a adopté"
+  },
+  "titre": "l'ensemble du projet de loi portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets (première lecture).",
+  "demandeur": {
+   "texte": "Président du groupe \"La République en Marche\"",
+   "referenceLegislative": null
+  },
+  "objet": {
+   "libelle": "l'ensemble du projet de loi portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets (première lecture).",
+   "referenceLegislative": null
+  },
+  "modePublicationDesVotes": "DecompteNominatif",
+  "syntheseVote": {
+   "nombreVotants": "554",
+   "suffragesExprimes": "409",
+   "nbrSuffragesRequis": "205",
+   "annonce": "l'Assemblée nationale a adopté",
+   "decompte": {
+    "nonVotants": "0",
+    "pour": "332",
+    "contre": "77",
+    "abstentions": "145",
+    "nonVotantsVolontaires": "0"
+   }
+  },
+  "ventilationVotes": {
+   "organe": {
+    "organeRef": "PO717460",
+    "groupes": {
+     "groupe": [
+      {
+       "organeRef": "PO200",
+       "nombreMembresGroupe": "270",
+       "vote": {
+        "positionMajoritaire": "pour",
+        "decompteVoix": {
+         "nonVotants": "0",
+         "pour": "2",
+         "contre": "0",
+         "abstentions": "0",
+         "nonVotantsVolontaires": "0"
+        },
+        "decompteNominatif": {
+         "nonVotants": null,
+         "pours": {
+          "votant": [
+           {
+            "acteurRef": "PA1002",
+            "mandatRef": "PM0",
+            "parDelegation": "false"
+           },
+           {
+            "acteurRef": "PA1004",
+            "mandatRef": "PM0",
+            "parDelegation": "true"
+           }
+          ]
+         },
+         "contres": null,
+         "abstentions": null
+        }
+       }
+      },
+      {
+       "organeRef": "PO201",
+       "nombreMembresGroupe": "20",
+       "vote": {
+        "positionMajoritaire": "contre",
+        "decompteVoix": {
+         "nonVotants": "0",
+         "pour": "0",
+         "contre": "1",
+         "abstentions": "0",
+         "nonVotantsVolontaires": "0"
+        },
+        "decompteNominatif": {
+         "nonVotants": null,
+         "pours": null,
+         "contres": {
+          "votant": {
+           "acteurRef": "PA1001",
+           "mandatRef": "PM0",
+           "parDelegation": "false"
+          }
+         },
+         "abstentions": null
+        }
+       }
+      }
+     ]
+    }
+   }
+  },
+  "miseAuPoint": {
+   "nonVotants": [
+    null,
+    null
+   ],
+   "pours": null,
+   "abstentions": [
+    null,
+    null
+   ],
+   "nonVotantsVolontaires": [
+    null,
+    null
+   ],
+   "contres": null,
+   "dysfonctionnement": {
+    "nonVotants": null,
+    "pour": null,
+    "contre": null,
+    "abstentions": null,
+    "nonVotantsVolontaires": null
+   }
+  }
+ }
+}

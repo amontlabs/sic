@@ -1,0 +1,63 @@
+{
+ "acteur": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "uid": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:type": "IdActeur_type",
+   "#text": "PA1006"
+  },
+  "etatCivil": {
+   "ident": {
+    "civ": "M.",
+    "prenom": "Paul",
+    "nom": "Dupré",
+    "alpha": "Dupré",
+    "trigramme": {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:nil": "true"
+    }
+   },
+   "infoNaissance": {
+    "dateNais": "1960-01-01",
+    "villeNais": "Lille",
+    "depNais": "Nord",
+    "paysNais": "France"
+   },
+   "dateDeces": {
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:nil": "true"
+   }
+  },
+  "profession": {
+   "libelleCourant": "Avocat"
+  },
+  "uri_hatvp": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:nil": "true"
+  },
+  "adresses": null,
+  "mandats": {
+   "mandat": {
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:type": "MandatSimple_Type",
+    "uid": "PM50",
+    "acteurRef": "PA1006",
+    "legislature": "15",
+    "typeOrgane": "GP",
+    "dateDebut": "2017-06-27",
+    "datePublication": "2017-06-27",
+    "dateFin": "2018-01-01",
+    "preseance": "20",
+    "nominPrincipale": "1",
+    "infosQualite": {
+     "codeQualite": "Membre",
+     "libQualite": "Membre",
+     "libQualiteSex": "Membre"
+    },
+    "organes": {
+     "organeRef": "PO200"
+    }
+   }
+  }
+ }
+}

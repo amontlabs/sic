@@ -1,0 +1,22 @@
+{
+ "organe": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@xsi:type": "GroupePolitique_type",
+  "uid": "PO150",
+  "codeType": "GP",
+  "libelle": "Socialiste, républicain et citoyen",
+  "libelleEdition": "Socialiste, républicain et citoyen",
+  "libelleAbrege": "SRC",
+  "libelleAbrev": "SRC",
+  "viMoDe": {
+   "dateDebut": "2012-06-26",
+   "dateAgrement": null,
+   "dateFin": "2016-06-27"
+  },
+  "organeParent": null,
+  "chambre": null,
+  "regime": "5ème République",
+  "legislature": "14"
+ }
+}

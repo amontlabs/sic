@@ -1,0 +1,107 @@
+{
+ "acteur": {
+  "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+  "uid": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:type": "IdActeur_type",
+   "#text": "PA1004"
+  },
+  "etatCivil": {
+   "ident": {
+    "civ": "M.",
+    "prenom": "Éric",
+    "nom": "Lefèvre",
+    "alpha": "Lefèvre",
+    "trigramme": {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:nil": "true"
+    }
+   },
+   "infoNaissance": {
+    "dateNais": "1980-12-24",
+    "villeNais": "Lille",
+    "depNais": "Nord",
+    "paysNais": "France"
+   },
+   "dateDeces": {
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:nil": "true"
+   }
+  },
+  "profession": {
+   "libelleCourant": "Avocat"
+  },
+  "uri_hatvp": {
+   "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+   "@xsi:nil": "true"
+  },
+  "adresses": null,
+  "mandats": {
+   "mandat": [
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatParlementaire_type",
+     "uid": "PM30",
+     "acteurRef": "PA1004",
+     "legislature": "15",
+     "typeOrgane": "ASSEMBLEE",
+     "dateDebut": "2017-06-18",
+     "datePublication": null,
+     "dateFin": "2022-06-21",
+     "preseance": "50",
+     "nominPrincipale": "1",
+     "infosQualite": {
+      "codeQualite": "membre",
+      "libQualite": "membre",
+      "libQualiteSex": "membre"
+     },
+     "organes": {
+      "organeRef": "PO717460"
+     },
+     "suppleants": null,
+     "chambre": null,
+     "election": {
+      "lieu": {
+       "region": "Hauts-de-France",
+       "regionType": "Métropolitain",
+       "departement": "Aisne",
+       "numDepartement": "02",
+       "numCirco": "1"
+      },
+      "causeMandat": "élections générales",
+      "refCirconscription": "PO9999"
+     },
+     "mandature": {
+      "datePriseFonction": "2017-06-21",
+      "causeFin": "Fin de législature",
+      "premiereElection": "1",
+      "placeHemicycle": "100",
+      "mandatRemplaceRef": null
+     },
+     "collaborateurs": null
+    },
+    {
+     "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+     "@xsi:type": "MandatSimple_Type",
+     "uid": "PM31",
+     "acteurRef": "PA1004",
+     "legislature": "15",
+     "typeOrgane": "GP",
+     "dateDebut": "2017-06-27",
+     "datePublication": "2017-06-27",
+     "dateFin": "2022-06-21",
+     "preseance": "20",
+     "nominPrincipale": "1",
+     "infosQualite": {
+      "codeQualite": "Membre apparenté",
+      "libQualite": "Membre apparenté",
+      "libQualiteSex": "Membre apparenté"
+     },
+     "organes": {
+      "organeRef": "PO200"
+     }
+    }
+   ]
+  }
+ }
+}
