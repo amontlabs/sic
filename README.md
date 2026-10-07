@@ -99,20 +99,34 @@ cd web && bunx playwright test -c playwright.real.config.ts   # Playwright again
 cd pipeline && uv run python -m sic.evaluate 2022-macron-lepen  # compare with published fact-checks
 ```
 
-## Evaluation
+## Evaluation (2022 Macron–Le Pen debate, strict live mode)
 
-See [`data/eval/2022-macron-lepen.md`](data/eval/2022-macron-lepen.md) for the latest numbers on the
-20 April 2022 debate, compared with the claims checked by Le Monde, franceinfo, Libération, AFP,
-TF1, 20 Minutes and others.
+Compared with the 56 claims fact-checked by Le Monde, franceinfo, Libération, AFP, TF1, 20 Minutes and
+others (`data/gold/`). Sic only used information available on 20 April 2022. Full table:
+[`data/eval/2022-macron-lepen.md`](data/eval/2022-macron-lepen.md).
+
+| Metric | Result |
+|---|---|
+| Newsroom-checked claims also caught by Sic | **86 %** (48/56) |
+| Same category (correct / problem) when Sic gives a verdict | **70 %** |
+| Critical errors (Sic "true" vs newsroom "false" or the reverse) | **1** (a contested one) |
+| Matched claims Sic left « Invérifiable » | 18/48 (web search quota exhausted, see below) |
+| Claims extracted over the whole debate | 279 (Macron 154 · Le Pen 104 before filtering) |
+
+Real-time run (10 min of audio at 1×, `data/runs/2022-macron-lepen/live-700-10m.json`): 26 claims, all
+verified. Latency from the end of the sentence (median / 90th pct): transcript 6 s / 27 s, claim 28 s /
+60 s, verdict 68 s / 135 s.
 
 ## Known limitations / next steps
 
-- Web search: z.ai's search sometimes returns homepage-only links; Brave's HTML endpoint is a rate-limited
-  fallback. A Brave Search API key (`BRAVE_API_KEY`) fixes citations properly.
+- **Web search is the main bottleneck.** z.ai's search/reader have their own monthly quota (separate from
+  LLM usage) — it was exhausted during development (resets 2026-10-30) — and often return homepage-only
+  links. The fallback (Brave HTML) is rate-limited. A Brave Search API key (`BRAVE_API_KEY`) fixes both
+  coverage and citations; most « Invérifiable » verdicts are search failures.
 - INSEE does not expose data vintages: strict mode filters by estimated publication date, but values are
   the latest revisions (stated in every tool output).
-- Verification latency is ~20–40 s per claim with `glm-5.3` (quality first; `glm-5.3-flash` is ~2× faster
-  but made wrong calls in tests). Library matches are instant.
+- Verdict latency (~1 min median live) comes from `glm-5.3` with reasoning + throttled search. Quality first:
+  `glm-5.3-flash` was ~2× faster but made wrong calls. Library matches are instant.
 - The library (`data/library/`) was compiled from published fact-checks and is marked `reviewed: false`
   until a Sic editor validates entries.
 - Live audio input is a file played in real time; plugging a broadcast stream (HLS/DVB) in is the next step.

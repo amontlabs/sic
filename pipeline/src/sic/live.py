@@ -46,6 +46,32 @@ class Clock:
             await asyncio.sleep(delay)
 
 
+def make_vad():
+    import sherpa_onnx as so
+
+    cfg = so.VadModelConfig(
+        silero_vad=so.SileroVadModelConfig(
+            model=str(config.MODELS_DIR / "silero_vad.onnx"), min_silence_duration=0.35, min_speech_duration=0.25,
+            max_speech_duration=12.0, threshold=0.5,
+        ),
+        sample_rate=SR,
+    )
+    return so.VoiceActivityDetector(cfg, buffer_size_in_seconds=60)
+
+
+def drain_vad(vad, offset: float) -> list[tuple[np.ndarray, float]]:
+    """Pop finished speech segments. Samples MUST be copied before pop(): the segment
+    object points into the detector's buffer, which pop() releases (empty audio otherwise)."""
+    out = []
+    while not vad.empty():
+        seg = vad.front
+        samples = np.array(seg.samples, dtype=np.float32)
+        start = offset + seg.start / SR
+        vad.pop()
+        out.append((samples, start))
+    return out
+
+
 class LivePipeline:
     """Real-time pipeline. Guarantees:
     - claims are only published once their voice has a name (held until then, re-published if a
@@ -128,18 +154,9 @@ class LivePipeline:
     # -- audio -> segments ------------------------------------------------------------------------
 
     async def run_file(self, wav: str | Path, start: float = 0.0, duration: float | None = None, speed: float = 1.0) -> None:
-        import sherpa_onnx as so
-
         audio = asr.load_audio(wav, start, duration)
         self.clock = Clock(start, speed)
-        vad_cfg = so.VadModelConfig(
-            silero_vad=so.SileroVadModelConfig(
-                model=str(config.MODELS_DIR / "silero_vad.onnx"), min_silence_duration=0.35, min_speech_duration=0.25,
-                max_speech_duration=12.0, threshold=0.5,
-            ),
-            sample_rate=SR,
-        )
-        vad = so.VoiceActivityDetector(vad_cfg, buffer_size_in_seconds=60)
+        vad = make_vad()
         await self.emit("status", start, {"state": "start", "from": start, "speed": speed})
         step = int(0.5 * SR)
         fed = 0
@@ -149,15 +166,11 @@ class LivePipeline:
                 fed += len(chunk)
                 await self.clock.wait_until(start + fed / SR)  # real-time pacing
                 vad.accept_waveform(chunk)
-                while not vad.empty():
-                    seg = vad.front
-                    vad.pop()
-                    await self._utterance(np.array(seg.samples, dtype=np.float32), start + seg.start / SR)
+                for samples, t in drain_vad(vad, start):
+                    await self._utterance(samples, t)
             vad.flush()
-            while not vad.empty():
-                seg = vad.front
-                vad.pop()
-                await self._utterance(np.array(seg.samples, dtype=np.float32), start + seg.start / SR)
+            for samples, t in drain_vad(vad, start):
+                await self._utterance(samples, t)
             await self._detect(force=True)
             await self.drain()
             await self.emit("status", self.clock.now(), {"state": "end"})

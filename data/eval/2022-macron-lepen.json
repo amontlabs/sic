@@ -1,0 +1,1005 @@
+{
+ "gold": 56,
+ "detected": 48,
+ "recall": 0.857,
+ "judged": 48,
+ "label_agreement": 0.312,
+ "bucket_agreement": 0.458,
+ "bucket_agreement_when_decided": 0.7,
+ "sic_unverifiable_on_matched": 18,
+ "critical_errors": 1,
+ "critical": [
+  {
+   "gold_id": "g040",
+   "speaker": "macron",
+   "gold_claim": "Le quinquennat d'Emmanuel Macron a créé 10 000 postes de policiers et gendarmes supplémentaires présents sur le terrain.",
+   "gold_verdict": "faux",
+   "claim_id": "c01115-0",
+   "sic_claim": "10 000 postes de policiers et de gendarmes ont été créés durant le quinquennat d'Emmanuel Macron (2017-2022).",
+   "sic_verdict": "exact",
+   "sic_headline": "10 000 postes de policiers et gendarmes créés sur le quinquennat",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  }
+ ],
+ "sic_claims": 279,
+ "sic_verdicts": 279,
+ "sic_by_label": {
+  "inverifiable": 148,
+  "trompeur": 3,
+  "exact": 49,
+  "plutot_exact": 41,
+  "imprecis": 20,
+  "faux": 18
+ },
+ "sic_methods": {
+  "data": 38,
+  "none": 81,
+  "library": 19,
+  "web": 141
+ },
+ "latency_p50": 58.81,
+ "latency_p90": 217.05,
+ "rows": [
+  {
+   "gold_id": "g001",
+   "speaker": "lepen",
+   "gold_claim": "Pendant le quinquennat d'Emmanuel Macron, les pensions de retraite n'ont pas été revalorisées au niveau de l'inflation.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00075-1",
+   "sic_claim": "L'indexation des retraites n'a pas été respectée pendant le quinquennat 2017-2022 d'Emmanuel Macron.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Non-respect de l'indexation des retraites 2017-2022 : pas tranchable avec les sources obtenues",
+   "method": "data",
+   "latency_s": 115.51,
+   "outlets": [
+    "franceinfo",
+    "20 Minutes",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g002",
+   "speaker": "lepen",
+   "gold_claim": "Au moment du débat d'avril 2022, l'inflation en France dépassait la croissance d'au moins un point, condition de la TVA à 0 % proposée par Marine Le Pen.",
+   "gold_verdict": "faux",
+   "claim_id": "c00176-3",
+   "sic_claim": "Selon les prévisions de la Banque de France en avril 2022, la croissance française est de 2,8% et l'inflation de 4,4%.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Chiffres attribués à la Banque de France non confirmés par les sources accessibles",
+   "method": "none",
+   "latency_s": 0.23,
+   "outlets": [
+    "Le Monde",
+    "Le JDD",
+    "Le Figaro",
+    "franceinfo",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g003",
+   "speaker": "lepen",
+   "gold_claim": "La France peut abaisser durablement la TVA sur toutes les énergies, carburants compris, de 20 % à 5,5 %.",
+   "gold_verdict": "trompeur",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "Le Monde",
+    "AFP Factuel",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g004",
+   "speaker": "lepen",
+   "gold_claim": "La baisse de la TVA de 20 % à 5,5 % sur l'énergie représenterait environ 12 milliards d'euros rendus aux ménages.",
+   "gold_verdict": "exact",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Heidi.news"
+   ]
+  },
+  {
+   "gold_id": "g005",
+   "speaker": "lepen",
+   "gold_claim": "Le nombre de personnes sous le seuil de pauvreté a augmenté de 400 000 sous le quinquennat Macron et atteint 9,8 millions.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00555-5",
+   "sic_claim": "Il y a 400 000 pauvres supplémentaires durant le quinquennat d'Emmanuel Macron.",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Les 400 000 pauvres en plus correspondent à 2017-2018, pas au quinquennat entier",
+   "method": "data",
+   "latency_s": 0.25,
+   "outlets": [
+    "Le Monde",
+    "20 Minutes",
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g006",
+   "speaker": "lepen",
+   "gold_claim": "Le chômage n'a pas baissé pendant le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "faux",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Le Monde",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g007",
+   "speaker": "lepen",
+   "gold_claim": "Le nombre de demandeurs d'emploi inscrits à Pôle emploi en catégories A, B et C est passé d'environ 5,5 millions en 2017 à 5,4 millions, soit une baisse très faible du chômage.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c00552-4",
+   "sic_claim": "Les chômeurs de catégories A, B et C sont 5,4 millions en 2022.",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Environ 5,5 millions de demandeurs d'emploi en catégories A, B, C à l'élection de Macron",
+   "method": "data",
+   "latency_s": 44.1,
+   "outlets": [
+    "franceinfo",
+    "TF1 Info",
+    "AFP Factuel",
+    "Libération",
+    "L'Obs",
+    "BFMTV",
+    "Le Monde"
+   ]
+  },
+  {
+   "gold_id": "g008",
+   "speaker": "lepen",
+   "gold_claim": "L'industrie française a perdu 14 500 emplois pendant le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "faux",
+   "claim_id": "c00920-5",
+   "sic_claim": "La France a perdu 14 500 emplois industriels sous le quinquennat d'Emmanuel Macron.",
+   "sic_verdict": "faux",
+   "sic_headline": "L'emploi industriel a augmenté sous le quinquennat, pas diminué : +30 000 à +48 000 emplois entre 2017 et fin 2021 (INSE",
+   "method": "data",
+   "latency_s": 0.31,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "TF1 Info",
+    "Le Monde",
+    "Le JDD",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g009",
+   "speaker": "lepen",
+   "gold_claim": "Au moment où ils partent à la retraite, environ la moitié des Français ne sont déjà plus en emploi.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00484-1",
+   "sic_claim": "À 62 ans et 8 mois, la moitié des Français sont déjà inactifs au moment de prendre leur retraite.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable obtenue sur l'inactivité avant le départ en retraite à 62 ans et 8 mois",
+   "method": "none",
+   "latency_s": 0.69,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "TF1 Info",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g010",
+   "speaker": "lepen",
+   "gold_claim": "La dette publique a augmenté d'environ 600 milliards d'euros sous Emmanuel Macron, dont les deux tiers sans lien avec la crise du Covid.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c00529-3",
+   "sic_claim": "Selon Marine Le Pen, deux tiers des 600 milliards d'euros de dette supplémentaire créés sous Emmanuel Macron n'ont rien à voir avec le Covid.",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Sur ~600 Md€ de dette en plus, environ 165 Md€ seulement sont liés au Covid",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "franceinfo",
+    "AFP Factuel",
+    "TF1 Info",
+    "20 Minutes",
+    "Libération",
+    "Libération",
+    "Le JDD",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g011",
+   "speaker": "lepen",
+   "gold_claim": "Le gouvernement a licencié 15 000 soignants non vaccinés contre le Covid-19.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c00628-0",
+   "sic_claim": "Le gouvernement d'Emmanuel Macron a licencié 15 000 soignants sans salaire pour refus de vaccination contre le Covid-19.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Suspensions de soignants non vaccinés : aucun chiffre fiable obtenu",
+   "method": "none",
+   "latency_s": 0.01,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "Le Monde",
+    "TF1 Info",
+    "Heidi.news",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g012",
+   "speaker": "lepen",
+   "gold_claim": "Des centaines de milliers de travailleurs détachés viennent travailler en France.",
+   "gold_verdict": "faux",
+   "claim_id": "c00382-1",
+   "sic_claim": "Des centaines de milliers de travailleurs détachés viennent travailler en France et paient leurs charges sociales dans leur pays d'origine et non en France.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Détachés : cotisations sociales payées dans le pays d'origine, principe confirmé",
+   "method": "web",
+   "latency_s": 0.02,
+   "outlets": [
+    "20 Minutes",
+    "Le Monde",
+    "Libération",
+    "Libération"
+   ]
+  },
+  {
+   "gold_id": "g013",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a fait valider tous les projets d'éoliennes en mer sauf celui situé face au Touquet, où il possède une résidence.",
+   "gold_verdict": "faux",
+   "claim_id": "c00794-2",
+   "sic_claim": "Tous les projets d'éoliennes en mer ont été actés, sauf celui prévu en face du Touquet.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Statut des projets éoliens en mer face au Touquet non vérifiable faute de sources",
+   "method": "none",
+   "latency_s": 57.26,
+   "outlets": [
+    "franceinfo",
+    "TF1 Info",
+    "Le Monde",
+    "20 Minutes",
+    "Le JDD",
+    "BFMTV",
+    "BFMTV",
+    "Ouest-France",
+    "Ouest-France",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g014",
+   "speaker": "lepen",
+   "gold_claim": "Les émissions liées aux importations représentent environ la moitié de l'empreinte carbone de la France.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00698-2",
+   "sic_claim": "Les importations liées au libre-échange représentent 50% des émissions de gaz à effet de serre de la France",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Les émissions importées représentent près de la moitié de l'empreinte carbone de la France",
+   "method": "web",
+   "latency_s": 0.03,
+   "outlets": [
+    "franceinfo",
+    "Le Monde",
+    "Heidi.news",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g015",
+   "speaker": "lepen",
+   "gold_claim": "Seulement environ 10 % des obligations de quitter le territoire français (OQTF) sont exécutées.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c01323-0",
+   "sic_claim": "Seuls 10 % des obligations de quitter le territoire français (OQTF) sont exécutées.",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "7,8 % en 2020, 14 % en 2019 : le taux d'exécution des OQTF tourne autour de 10 %",
+   "method": "data",
+   "latency_s": 0.0,
+   "outlets": [
+    "franceinfo",
+    "TF1 Info",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g016",
+   "speaker": "lepen",
+   "gold_claim": "En France, une agression gratuite est commise dans la rue toutes les 44 secondes.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c01126-5",
+   "sic_claim": "En France, il y a une agression toutes les 44 secondes dans la rue.",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Une violence physique hors ménage toutes les 44 secondes, mais pas « dans la rue » ni « gratuite »",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Le Monde",
+    "TF1 Info",
+    "BFMTV"
+   ]
+  },
+  {
+   "gold_id": "g017",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a retiré les mathématiques du tronc commun au lycée avant de vouloir les y réintroduire.",
+   "gold_verdict": "exact",
+   "claim_id": "c01048-4",
+   "sic_claim": "Emmanuel Macron a supprimé puis rétabli l'enseignement des mathématiques (notamment au lycée dans le tronc commun)",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "La réforme du lycée a sorti les maths du tronc commun dès 2019",
+   "method": "web",
+   "latency_s": 18.7,
+   "outlets": [
+    "Le Monde",
+    "Le Monde",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g018",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron propose de rémunérer les enseignants selon les résultats de leurs élèves.",
+   "gold_verdict": "faux",
+   "claim_id": "c00985-0",
+   "sic_claim": "Emmanuel Macron propose une réforme qui consiste à payer les professeurs en fonction des résultats de leurs élèves",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable obtenue sur la réforme salariale des enseignants proposée par Macron",
+   "method": "none",
+   "latency_s": 0.03,
+   "outlets": [
+    "Le Monde",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g019",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron aurait pu introduire la proportionnelle aux législatives pendant son quinquennat sans dépendre du Sénat.",
+   "gold_verdict": "exact",
+   "claim_id": "c01394-0",
+   "sic_claim": "Emmanuel Macron n'a pas mis en œuvre la proportionnelle durant son quinquennat 2017-2022, malgré la demande des Gilets jaunes.",
+   "sic_verdict": "exact",
+   "sic_headline": "La proportionnelle promise après les Gilets jaunes n'a jamais été mise en œuvre",
+   "method": "web",
+   "latency_s": 0.04,
+   "outlets": [
+    "Le Monde",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g020",
+   "speaker": "lepen",
+   "gold_claim": "Marine Le Pen peut réviser la Constitution par référendum via l'article 11, sans passer par le Parlement.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c01405-2",
+   "sic_claim": "Le général De Gaulle a utilisé l'article 11 pour une révision constitutionnelle en 1962 et l'a défendue ensuite.",
+   "sic_verdict": "exact",
+   "sic_headline": "De Gaulle a bien révisé la Constitution par référendum via l'article 11 en 1962",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Le Monde",
+    "TF1 Info"
+   ]
+  },
+  {
+   "gold_id": "g021",
+   "speaker": "lepen",
+   "gold_claim": "L'Union européenne attend la fin de l'élection présidentielle française pour décider d'un embargo sur le pétrole russe.",
+   "gold_verdict": "inverifiable",
+   "claim_id": "c00264-2",
+   "sic_claim": "L'embargo sur le gaz et le pétrole russes serait négocié par l'Union européenne après l'élection présidentielle française de 2022",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable trouvée sur le calendrier d'un éventuel embargo européen",
+   "method": "none",
+   "latency_s": 0.01,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g022",
+   "speaker": "lepen",
+   "gold_claim": "La hausse des prix des carburants sous le quinquennat est principalement due aux hausses de taxes décidées par Emmanuel Macron.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c00211-1",
+   "sic_claim": "La hausse des taxes sur le carburant décidée sous Emmanuel Macron a déclenché la crise des gilets jaunes.",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Les Gilets jaunes sont nés de la hausse de la fiscalité carburant, dont la trajectoire datait de 2014",
+   "method": "data",
+   "latency_s": 70.6,
+   "outlets": [
+    "Libération",
+    "Libération"
+   ]
+  },
+  {
+   "gold_id": "g023",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a instauré la taxe carbone sur les carburants.",
+   "gold_verdict": "faux",
+   "claim_id": "c00052-1",
+   "sic_claim": "Le gouvernement d'Emmanuel Macron a mis en place la taxe carbone qui a augmenté le prix de l'essence.",
+   "sic_verdict": "trompeur",
+   "sic_headline": "Taxes carbone relevées en 2017-2018, mais gelées depuis fin 2018",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "AFP Factuel",
+    "Heidi.news"
+   ]
+  },
+  {
+   "gold_id": "g024",
+   "speaker": "lepen",
+   "gold_claim": "Environ 20 % des élèves ne maîtrisent pas les savoirs fondamentaux à la fin de l'école primaire.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c00999-2",
+   "sic_claim": "En 2022, 20% des élèves n'ont pas maîtrisé les savoirs fondamentaux en arrivant en 6e",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable obtenue sur le niveau des élèves en 6e",
+   "method": "none",
+   "latency_s": 0.14,
+   "outlets": [
+    "TF1 Info",
+    "20 Minutes",
+    "Le Monde"
+   ]
+  },
+  {
+   "gold_id": "g025",
+   "speaker": "lepen",
+   "gold_claim": "La suppression de l'ISF et la flat tax ont été les plus grosses baisses d'impôts du quinquennat Macron.",
+   "gold_verdict": "faux",
+   "claim_id": "c00566-2",
+   "sic_claim": "La plus importante baisse d'impôt réalisée par Emmanuel Macron a été la suppression de l'impôt sur la fortune (ISF).",
+   "sic_verdict": "faux",
+   "sic_headline": "Suppression de la taxe d'habitation : 17,6 Md€/an, loin devant la fin de l'ISF (2 à 3 Md€/an)",
+   "method": "web",
+   "latency_s": 0.18,
+   "outlets": [
+    "20 Minutes"
+   ]
+  },
+  {
+   "gold_id": "g026",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a remplacé le drapeau français par le drapeau européen sous l'Arc de Triomphe.",
+   "gold_verdict": "faux",
+   "claim_id": "c00376-0",
+   "sic_claim": "Emmanuel Macron a remplacé le drapeau français sous l'Arc de Triomphe par le drapeau européen.",
+   "sic_verdict": "trompeur",
+   "sic_headline": "Drapeau européen sous l'Arc de Triomphe : une seule nuit (31 déc.–1er jan.), pour la PFUE",
+   "method": "web",
+   "latency_s": 0.01,
+   "outlets": [
+    "20 Minutes"
+   ]
+  },
+  {
+   "gold_id": "g027",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a reçu Vladimir Poutine en grande pompe au château de Versailles.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00298-1",
+   "sic_claim": "Emmanuel Macron a reçu Vladimir Poutine au château de Versailles en 2017",
+   "sic_verdict": "exact",
+   "sic_headline": "Macron a bien reçu Poutine au château de Versailles le 29 mai 2017",
+   "method": "web",
+   "latency_s": 13.71,
+   "outlets": [
+    "Le Monde"
+   ]
+  },
+  {
+   "gold_id": "g028",
+   "speaker": "lepen",
+   "gold_claim": "Marine Le Pen et son parti soutiennent l'ensemble des sanctions européennes contre la Russie, hormis l'embargo sur le gaz et le pétrole.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c00262-1",
+   "sic_claim": "Marine Le Pen désapprouve uniquement la sanction consistant à bloquer l'importation du gaz et du pétrole russes",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Position de Le Pen sur chaque sanction russe non documentée par les sources obtenues",
+   "method": "none",
+   "latency_s": 0.01,
+   "outlets": [
+    "Libération",
+    "Libération"
+   ]
+  },
+  {
+   "gold_id": "g029",
+   "speaker": "lepen",
+   "gold_claim": "Emmanuel Macron a changé de position sur le nucléaire au cours de son quinquennat, passant de fermetures de réacteurs à la construction de nouveaux.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00751-2",
+   "sic_claim": "Emmanuel Macron a envisagé la fermeture de 14 réacteurs nucléaires et a arrêté le programme Astrid.",
+   "sic_verdict": "exact",
+   "sic_headline": "Fermeture de 14 réacteurs annoncée en 2018, Astrid abandonné en 2019 : confirmé",
+   "method": "web",
+   "latency_s": 0.04,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g030",
+   "speaker": "lepen",
+   "gold_claim": "Le programme de Marine Le Pen n'implique pas de sortie de l'Union européenne.",
+   "gold_verdict": "trompeur",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Le JDD"
+   ]
+  },
+  {
+   "gold_id": "g031",
+   "speaker": "lepen",
+   "gold_claim": "La majorité d'Emmanuel Macron s'est opposée à la déconjugalisation de l'allocation aux adultes handicapés (AAH).",
+   "gold_verdict": "exact",
+   "claim_id": "c00074-0",
+   "sic_claim": "Emmanuel Macron s'est opposé à la déconjugalisation de l'allocation adulte handicapé (l'attribution quelle que soit le revenu du conjoint).",
+   "sic_verdict": "exact",
+   "sic_headline": "La majorité LREM a fait rejeter la déconjugalisation de l'AAH en mars 2019",
+   "method": "data",
+   "latency_s": 1.7,
+   "outlets": [
+    "Le Monde"
+   ]
+  },
+  {
+   "gold_id": "g032",
+   "speaker": "lepen",
+   "gold_claim": "Le chèque inflation de 100 euros a été versé à des détenus.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c00220-3",
+   "sic_claim": "Des détenus en prison ont touché le chèque carburant de 100 euros versé par le gouvernement d'Emmanuel Macron.",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Seuls les détenus en formation rémunérée ont touché l'indemnité de 100 euros",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Ouest-France"
+   ]
+  },
+  {
+   "gold_id": "g033",
+   "speaker": "macron",
+   "gold_claim": "Marine Le Pen a voté contre le bouclier tarifaire sur le gaz et l'électricité à l'Assemblée nationale.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00087-3",
+   "sic_claim": "Marine Le Pen a voté contre le bouclier énergétique",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Le Pen a voté contre le budget 2022, loi qui portait le bouclier énergétique",
+   "method": "data",
+   "latency_s": 88.54,
+   "outlets": [
+    "franceinfo",
+    "Le Monde",
+    "Le Monde",
+    "TF1 Info",
+    "Ouest-France",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g034",
+   "speaker": "macron",
+   "gold_claim": "Environ 1,2 million d'emplois ont été créés en France pendant le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "exact",
+   "claim_id": "c00099-2",
+   "sic_claim": "Sous le quinquennat d'Emmanuel Macron, le chômage a baissé de plus de deux points et 1,2 million de personnes ont retrouvé un travail.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Vérification impossible pour le moment",
+   "method": "none",
+   "latency_s": 255.56,
+   "outlets": [
+    "franceinfo",
+    "Le Figaro",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g035",
+   "speaker": "macron",
+   "gold_claim": "Le taux de chômage au sens du BIT est passé de 9,6 % à 7,4 % pendant le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "exact",
+   "claim_id": "c00579-0",
+   "sic_claim": "Le taux de chômage en France est passé de 9,6 % à 7,4 % sous le quinquennat d'Emmanuel Macron.",
+   "sic_verdict": "exact",
+   "sic_headline": "Taux de chômage passé de 9,6 % à 7,4 % entre début 2017 et fin 2021",
+   "method": "data",
+   "latency_s": 0.01,
+   "outlets": [
+    "Le Monde",
+    "Libération",
+    "L'Obs",
+    "AFP Factuel",
+    "BFMTV"
+   ]
+  },
+  {
+   "gold_id": "g036",
+   "speaker": "macron",
+   "gold_claim": "Les eurodéputés du Rassemblement national ont voté contre l'aide financière de l'UE à l'Ukraine.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00274-1",
+   "sic_claim": "Marine Le Pen et les députés RN se sont opposés à l'aide financière à l'Ukraine au Parlement européen",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable sur les votes FN/RN concernant l'aide financière à l'Ukraine",
+   "method": "none",
+   "latency_s": 0.01,
+   "outlets": [
+    "franceinfo",
+    "Le Monde",
+    "Le Monde",
+    "AFP Factuel",
+    "20 Minutes",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g037",
+   "speaker": "macron",
+   "gold_claim": "Le parti de Marine Le Pen a emprunté auprès d'une banque russe proche du pouvoir, la First Czech-Russian Bank.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00282-4",
+   "sic_claim": "Marine Le Pen a contracté en 2015 un prêt auprès d'une banque russe, la First Czech Russian Bank, proche du pouvoir russe",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Un prêt russe d'environ 9-10 millions d'euros contracté via la FCRB, mais en 2014, pas en 2015",
+   "method": "web",
+   "latency_s": 0.01,
+   "outlets": [
+    "franceinfo",
+    "Le Monde",
+    "TF1 Info",
+    "20 Minutes",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g038",
+   "speaker": "macron",
+   "gold_claim": "Marine Le Pen a été l'une des premières responsables politiques à reconnaître le rattachement de la Crimée à la Russie.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00278-2",
+   "sic_claim": "Marine Le Pen a été l'une des premières responsables politiques européennes à reconnaître, dès 2014, le résultat de l'annexion de la Crimée",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Marine Le Pen a reconnu dès 2014 le référendum de rattachement de la Crimée à la Russie",
+   "method": "web",
+   "latency_s": 0.18,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g039",
+   "speaker": "macron",
+   "gold_claim": "Environ 80 % de la hausse des coups et blessures volontaires constatés depuis 2017 est due aux violences intrafamiliales.",
+   "gold_verdict": "exact",
+   "claim_id": "c01122-4",
+   "sic_claim": "Plus de 80% de l'augmentation des violences aux personnes en France concerne les violences intrafamiliales.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Part des violences intrafamiliales dans la hausse des violences aux personnes : pas de source exploitable",
+   "method": "none",
+   "latency_s": 0.0,
+   "outlets": [
+    "franceinfo",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g040",
+   "speaker": "macron",
+   "gold_claim": "Le quinquennat d'Emmanuel Macron a créé 10 000 postes de policiers et gendarmes supplémentaires présents sur le terrain.",
+   "gold_verdict": "faux",
+   "claim_id": "c01115-0",
+   "sic_claim": "10 000 postes de policiers et de gendarmes ont été créés durant le quinquennat d'Emmanuel Macron (2017-2022).",
+   "sic_verdict": "exact",
+   "sic_headline": "10 000 postes de policiers et gendarmes créés sur le quinquennat",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g041",
+   "speaker": "macron",
+   "gold_claim": "Aucun pays n'interdit le voile islamique dans l'espace public comme le propose Marine Le Pen.",
+   "gold_verdict": "exact",
+   "claim_id": "c00459-3",
+   "sic_claim": "Le programme de Marine Le Pen prévoit d'interdire le voile sur la voie publique, ce qui ferait de la France le premier pays au monde à le faire",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Interdiction du voile dans l'espace public : pas de sources exploitables obtenues",
+   "method": "none",
+   "latency_s": 0.0,
+   "outlets": [
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g042",
+   "speaker": "macron",
+   "gold_claim": "Les émissions de gaz à effet de serre de la France ont baissé deux fois plus vite sous Emmanuel Macron que sous François Hollande.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00728-3",
+   "sic_claim": "Le rythme de réduction des gaz à effet de serre a doublé pendant le quinquennat d'Emmanuel Macron (2017-2022)",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Émissions de GES : environ -9 % sur 2017-2021 contre -5 % sous le quinquennat précédent",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Le Monde",
+    "TF1 Info",
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g043",
+   "speaker": "macron",
+   "gold_claim": "Marine Le Pen a tenu des positions climatosceptiques.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "TF1 Info",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g044",
+   "speaker": "macron",
+   "gold_claim": "Le pouvoir d'achat des Français a progressé pendant le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00081-0",
+   "sic_claim": "Selon l'INSEE, le pouvoir d'achat des Français, en particulier des classes moyennes et populaires, a augmenté pendant le quinquennat d'Emmanuel Macron (2017-2022)",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Pouvoir d'achat en hausse sous le quinquennat, environ +8 % selon le Trésor",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Libération",
+    "Libération",
+    "RTBF"
+   ]
+  },
+  {
+   "gold_id": "g045",
+   "speaker": "macron",
+   "gold_claim": "Il y a environ 50 000 travailleurs détachés en France.",
+   "gold_verdict": "faux",
+   "claim_id": "c00408-0",
+   "sic_claim": "Le travail détaché représente environ 500 000 tâches en France correspondant à environ 50 000 travailleurs détachés.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source exploitable obtenue sur le nombre de détachements et de travailleurs détachés",
+   "method": "none",
+   "latency_s": 0.01,
+   "outlets": [
+    "AFP Factuel",
+    "Le Monde",
+    "Libération",
+    "Libération"
+   ]
+  },
+  {
+   "gold_id": "g046",
+   "speaker": "macron",
+   "gold_claim": "Sous le quinquennat d'Emmanuel Macron, la France a créé plus d'emplois industriels qu'elle n'en a détruit.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c00933-1",
+   "sic_claim": "100 000 emplois industriels ont été créés sous le quinquennat d'Emmanuel Macron",
+   "sic_verdict": "faux",
+   "sic_headline": "Emploi industriel : environ -16 000 postes entre début 2017 et fin 2021, pas +100 000",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "Le JDD"
+   ]
+  },
+  {
+   "gold_id": "g047",
+   "speaker": "macron",
+   "gold_claim": "Sur la hausse de 600 milliards de dette publique sous le quinquennat, seuls environ 200 milliards relèvent de l'État.",
+   "gold_verdict": "faux",
+   "claim_id": "c00541-1",
+   "sic_claim": "Sur les 600 milliards d'euros de dette supplémentaires du quinquennat d'Emmanuel Macron, 200 milliards concernent la part de l'État.",
+   "sic_verdict": "faux",
+   "sic_headline": "Sur ~640 Md€ de dette publique en plus, l'État en représente ~530 Md€, pas 200",
+   "method": "data",
+   "latency_s": 153.13,
+   "outlets": [
+    "AFP Factuel"
+   ]
+  },
+  {
+   "gold_id": "g048",
+   "speaker": "macron",
+   "gold_claim": "Le Conseil d'orientation des retraites (COR) prévoit un déséquilibre du système de retraite jusqu'au milieu des années 2030.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c00499-2",
+   "sic_claim": "Selon le COR, le régime des retraites français sera déséquilibré jusqu'au milieu des années 2030.",
+   "sic_verdict": "plutot_exact",
+   "sic_headline": "Le COR table sur un déficit du régime des retraites jusqu'au milieu des années 2030",
+   "method": "library",
+   "latency_s": 0.0,
+   "outlets": [
+    "20 Minutes"
+   ]
+  },
+  {
+   "gold_id": "g049",
+   "speaker": "macron",
+   "gold_claim": "Le budget de la justice a augmenté de 30 % sous le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "imprecis",
+   "claim_id": "c01117-1",
+   "sic_claim": "Les moyens de la justice ont augmenté de 30% entre 2020 et 2022 sous la présidence d'Emmanuel Macron.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Hausse de 30% des moyens de la justice 2020-2022 : aucune donnée sourcée obtenue",
+   "method": "none",
+   "latency_s": 0.02,
+   "outlets": [
+    "20 Minutes",
+    "TF1 Info"
+   ]
+  },
+  {
+   "gold_id": "g050",
+   "speaker": "macron",
+   "gold_claim": "Depuis 2019, aucune classe ne ferme en milieu rural sans l'accord du maire.",
+   "gold_verdict": "faux",
+   "claim_id": "c01059-1",
+   "sic_claim": "Sous le quinquennat d'Emmanuel Macron, la fermeture des classes nécessite l'accord du maire.",
+   "sic_verdict": "inverifiable",
+   "sic_headline": "Aucune source trouvée sur une règle imposant l'accord du maire pour fermer une classe",
+   "method": "web",
+   "latency_s": 0.13,
+   "outlets": [
+    "TF1 Info",
+    "AFP Factuel",
+    "20 Minutes"
+   ]
+  },
+  {
+   "gold_id": "g051",
+   "speaker": "macron",
+   "gold_claim": "Le nombre de nouveaux apprentis par an est passé de moins de 300 000 à plus de 710 000 sous le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "exact",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "TF1 Info"
+   ]
+  },
+  {
+   "gold_id": "g052",
+   "speaker": "macron",
+   "gold_claim": "Sur 99 mosquées soupçonnées de séparatisme, 23 ont été fermées sous le quinquennat d'Emmanuel Macron.",
+   "gold_verdict": "exact",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "TF1 Info"
+   ]
+  },
+  {
+   "gold_id": "g053",
+   "speaker": "macron",
+   "gold_claim": "La centrale nucléaire de Fessenheim n'avait plus fait l'objet d'aucun investissement depuis 2012.",
+   "gold_verdict": "faux",
+   "claim_id": "c00770-0",
+   "sic_claim": "Il n'y avait plus d'investissement dans la centrale de Fessenheim depuis 2012.",
+   "sic_verdict": "imprecis",
+   "sic_headline": "Fessenheim : diesels post-Fukushima jamais bâtis, mais travaux de sûreté exigés avant 2014",
+   "method": "web",
+   "latency_s": 0.05,
+   "outlets": [
+    "Heidi.news"
+   ]
+  },
+  {
+   "gold_id": "g054",
+   "speaker": "macron",
+   "gold_claim": "Emmanuel Macron a mis fin au numerus clausus des études de médecine.",
+   "gold_verdict": "plutot_exact",
+   "claim_id": "c00614-2",
+   "sic_claim": "Le gouvernement d'Emmanuel Macron a supprimé le numerus clausus limitant le nombre de médecins formés en France.",
+   "sic_verdict": "exact",
+   "sic_headline": "Le numerus clausus a bien été supprimé par la loi de juillet 2019, effective à la rentrée 2020",
+   "method": "data",
+   "latency_s": 0.02,
+   "outlets": [
+    "Heidi.news"
+   ]
+  },
+  {
+   "gold_id": "g055",
+   "speaker": "macron",
+   "gold_claim": "Emmanuel Macron n'a pas pu instaurer la proportionnelle aux législatives faute d'accord sur sa réforme constitutionnelle.",
+   "gold_verdict": "trompeur",
+   "claim_id": "c01371-3",
+   "sic_claim": "Emmanuel Macron n'a pas réussi à faire adopter la révision constitutionnelle qu'il souhaitait durant son premier quinquennat (2017-2022), faute d'accord.",
+   "sic_verdict": "exact",
+   "sic_headline": "Aucune révision constitutionnelle adoptée sous le premier quinquennat Macron",
+   "method": "web",
+   "latency_s": 0.03,
+   "outlets": [
+    "Le Monde"
+   ]
+  },
+  {
+   "gold_id": "g056",
+   "speaker": "macron",
+   "gold_claim": "Marine Le Pen n'a pas voté la déconjugalisation de l'AAH car elle était absente lors des votes à l'Assemblée.",
+   "gold_verdict": "exact",
+   "claim_id": null,
+   "sic_claim": null,
+   "sic_verdict": null,
+   "sic_headline": null,
+   "method": null,
+   "latency_s": null,
+   "outlets": [
+    "Le Monde"
+   ]
+  }
+ ]
+}

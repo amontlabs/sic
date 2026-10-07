@@ -279,10 +279,10 @@ REPUTABLE_HOSTS = (
     "lexpress.fr", "lepoint.fr", "nouvelobs.com", "mediapart.fr", "challenges.fr", "latribune.fr", "europe1.fr",
 )
 _BANNED = [
-    (re.compile(r"\bmensonges\b", re.I), "affirmations inexactes"),
-    (re.compile(r"\bmensonge\b", re.I), "affirmation inexacte"),
-    (re.compile(r"\bmenteu(?:r|se|rs|ses)\b", re.I), "inexact"),
-    (re.compile(r"\bmentir\b", re.I), "se tromper"),
+    (re.compile(r"\bmensonges\b", re.IGNORECASE), "affirmations inexactes"),
+    (re.compile(r"\bmensonge\b", re.IGNORECASE), "affirmation inexacte"),
+    (re.compile(r"\bmenteu(?:r|se|rs|ses)\b", re.IGNORECASE), "inexact"),
+    (re.compile(r"\bmentir\b", re.IGNORECASE), "se tromper"),
 ]
 
 

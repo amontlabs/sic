@@ -175,3 +175,51 @@ async def test_aclose_cancels_background_work(fake_models):
     await asyncio.wait_for(started.wait(), 2)
     await asyncio.wait_for(pipe.aclose(), 2)
     assert not pipe._tasks
+
+
+WAV = live_mod.config.DATA / "raw" / "debat-2022.wav"
+
+
+@pytest.mark.skipif(not WAV.exists() or not (live_mod.config.MODELS_DIR / "silero_vad.onnx").exists(), reason="needs local debate audio + VAD model")
+def test_real_vad_yields_non_empty_utterances():
+    """Regression: samples were read after vad.pop() and every utterance was empty."""
+    audio = live_mod.asr.load_audio(WAV, 700, 30)
+    vad = live_mod.make_vad()
+    got = []
+    for i in range(0, len(audio), 8000):
+        vad.accept_waveform(audio[i : i + 8000])
+        got += live_mod.drain_vad(vad, 700)
+    vad.flush()
+    got += live_mod.drain_vad(vad, 700)
+    assert got and all(len(s) > 1600 for s, _ in got)
+    assert all(700 <= t < 730 for _, t in got)
+    assert sum(len(s) for s, _ in got) / 16000 > 15  # most of 30 s of debate is speech
+
+
+@pytest.mark.skipif(not WAV.exists() or not (live_mod.config.MODELS_DIR / "silero_vad.onnx").exists(), reason="needs local debate audio + models")
+@pytest.mark.asyncio
+async def test_real_audio_path_end_to_end_with_fake_llm():
+    """VAD -> Whisper -> voice clusters -> naming -> claims, on 40 s of the real debate (LLM faked)."""
+    events = []
+
+    async def emit(e):
+        events.append(e)
+
+    def responder(messages, kw):
+        system = messages[0]["content"]
+        if "identifies les intervenants" in system:
+            return {"content": json.dumps({"mapping": {f"spk{i}": {"id": "a", "confidence": 0.9} for i in range(8)}})}
+        if "détecteur d'affirmations" in system:
+            line = messages[1]["content"].split("FOCUS :")[1].strip().splitlines()[0]
+            sid, text = line.split("|")[0].strip("[ "), line.split("] ", 1)[1]
+            return {"content": json.dumps({"claims": [{"segment_id": sid, "quote": " ".join(text.split()[:6]), "claim": text, "topic": "énergie", "kind": "autre", "priority": 2, "own_program": False}]})}
+        return {"content": json.dumps({"label": "inverifiable", "headline": "h", "explanation": "e", "sources": [], "confidence": 0.1})}
+
+    llm = FakeLLM(responder)
+    pipe = live_mod.LivePipeline(debate(), llm, Verifier([FakeConnector()], llm), emit)
+    pipe.embedder = live_mod.Embedder()  # the fixture-free real embedder
+    await pipe.run_file(WAV, start=700, duration=40, speed=20)
+    segs = [e.data for e in events if e.type == "segment"]
+    assert len(segs) >= 3 and sum(len(s["text"]) for s in segs) > 200
+    assert all(700 <= s["start"] < 745 for s in segs)
+    assert any(e.type == "claim" for e in events) and events[-1].data.get("state") == "end"

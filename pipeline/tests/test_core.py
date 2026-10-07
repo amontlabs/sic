@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import date
+from typing import ClassVar
 
 import pytest
 
@@ -353,7 +354,7 @@ async def test_stage_verify_reuses_only_matching_cached_verdicts(tmp_path):
     (tmp_path / "verdicts.jsonl").write_text("\n".join(lines) + "\n")
 
     class V:
-        calls: list[str] = []
+        calls: ClassVar[list[str]] = []
 
         async def verify(self, c, ctx):
             V.calls.append(c.id)

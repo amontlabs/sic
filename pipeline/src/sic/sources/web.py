@@ -30,7 +30,7 @@ from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, ClassVar, Literal
 from urllib.parse import unquote, urljoin, urlparse, urlsplit
 
 import httpx
@@ -505,7 +505,7 @@ class McpClient:
 
     # Quota exhaustion (z.ai code 1310, "Weekly/Monthly Limit Exhausted") is shared by every client of a
     # server: once seen, fail fast until the cool-down ends instead of retrying on every search.
-    _exhausted_until: dict[str, float] = {}
+    _exhausted_until: ClassVar[dict[str, float]] = {}
 
     async def call(self, tool: str, args: dict[str, Any]) -> str:
         if time.monotonic() < McpClient._exhausted_until.get(self.url, 0.0):
