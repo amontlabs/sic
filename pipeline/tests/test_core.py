@@ -302,3 +302,71 @@ def test_guard_dedupes_sources():
     s = Source(kind="parliament", title="Scrutin 1", url="https://an.fr/1")
     v = Verdict(claim_id="c", label="faux", headline="h", explanation="e", sources=[s, s, Source(kind="web", title="x", url="https://b")], confidence=0.9)
     assert [x.url for x in guard(v).sources] == ["https://an.fr/1", "https://b"]
+
+
+@pytest.mark.asyncio
+async def test_verifier_recovers_from_prose_final_answer():
+    replies = iter([
+        {"content": "", "tool_calls": [{"id": "1", "function": {"name": "insee_get_series", "arguments": "{}"}}]},
+        {"content": "Je tente une recherche plus ciblée.", "tool_calls": []},
+        {"content": json.dumps({"label": "exact", "headline": "7,4 %", "explanation": "INSEE.", "sources": ["S1"], "confidence": 0.9})},
+    ])
+    llm = FakeLLM(lambda m, kw: next(replies))
+    verdict = await Verifier([FakeConnector()], llm).verify(_claim(), VerifyContext())
+    assert verdict.label == "exact" and verdict.headline == "7,4 %" and verdict.sources
+    assert llm.calls[-1][1]["json_mode"] is True
+
+
+def test_guard_negative_needs_strong_precise_source_and_bans_words():
+    weak = [Source(kind="web", title="blog", url="https://blog.example.com/post"), Source(kind="official_data", title="INSEE", url="https://www.insee.fr")]
+    v = Verdict(claim_id="c", label="faux", headline="C'est un mensonge", explanation="Un mensonge flagrant.", sources=weak, confidence=0.9)
+    g = guard(v)
+    assert g.label == "inverifiable" and "mensonge" not in (g.headline + g.explanation).lower()
+    strong = [Source(kind="parliament", title="Scrutin", url="https://www.assemblee-nationale.fr/dyn/15/scrutins/4289")]
+    assert guard(v.model_copy(update={"sources": strong})).label == "faux"
+    # positive verdicts may rely on web sources
+    assert guard(v.model_copy(update={"label": "exact", "sources": weak[:1]})).label == "exact"
+
+
+def test_locate_quote_tolerates_added_or_garbled_first_word():
+    s = seg(0, "a", "le chômage a augmenté de 20 % depuis cinq ans selon moi", 0.0, 8.0)
+    span = locate_quote("Et le chômage a augmenté de 20 % depuis cinq ans", s.words)
+    assert span is not None and s.words[span[0]].text == "le" and s.words[span[1]].text == "ans"
+    span2 = locate_quote("Le chomage a augmente de 20 % depuis cinq ans", s.words)
+    assert span2 == span
+
+
+@pytest.mark.asyncio
+async def test_stage_verify_reuses_only_matching_cached_verdicts(tmp_path):
+    from sic.pipeline import claim_hash, stage_verify
+
+    d = debate()
+    c_same = Claim(id="c1", speaker="a", start=0, end=1, quote="q1", claim="Le chômage est à 7,4 %.", topic="emploi")
+    c_changed = Claim(id="c2", speaker="a", start=2, end=3, quote="q2", claim="Nouvelle affirmation.", topic="emploi")
+    old = Verdict(claim_id="c2", label="faux", headline="old", explanation="old")
+    keep = Verdict(claim_id="c1", label="exact", headline="keep", explanation="e")
+    lines = [
+        json.dumps(keep.model_dump() | {"_claim_hash": claim_hash(c_same, True)}),
+        json.dumps(old.model_dump() | {"_claim_hash": "stale"}),
+        '{"torn": ',
+    ]
+    (tmp_path / "verdicts.jsonl").write_text("\n".join(lines) + "\n")
+
+    class V:
+        calls: list[str] = []
+
+        async def verify(self, c, ctx):
+            V.calls.append(c.id)
+            return Verdict(claim_id=c.id, label="exact", headline="new", explanation="e")
+
+    out = await stage_verify(d, tmp_path, [c_same, c_changed], V(), True, lambda *a: None, concurrency=2)
+    assert V.calls == ["c2"]
+    assert [v.headline for v in out] == ["keep", "new"]
+
+
+def test_simulated_claim_never_precedes_its_segment():
+    long_seg = seg(0, "a", " ".join(["mot"] * 40) + " le chômage est à 7,4 %", 0, 30)
+    c = Claim(id="c1", speaker="a", start=1, end=3, quote="x", claim="x", topic="emploi", segment_ids=["s00000"])
+    ev = simulate_events([long_seg], [c], [Verdict(claim_id="c1", label="exact", headline="h", explanation="e", latency_s=0.0)])
+    at = {e.type: e.at for e in ev}
+    assert at["segment"] <= at["claim"] <= at["verdict"] and at["verdict"] == at["claim"]

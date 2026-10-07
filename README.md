@@ -24,10 +24,11 @@ audio ──► speech-to-text ──► who speaks ──► claim detection �
 4. **Verification** —
    - first the **library**: fact-checks published *before* the debate (politicians repeat themselves);
    - otherwise a tool-using agent: **INSEE** (51k series, publication-lag aware), **Eurostat** (27 datasets),
-     **Assemblée nationale** votes since 2012 (18k scrutins, every deputy's position), and **web search**
-     (trusted domains first).
-   - Product rules enforced in code: no « Faux / Trompeur / Imprécis » without a cited source; low
-     confidence → « Invérifiable »; never the word « mensonge ».
+     **Assemblée nationale** votes since 2012 (18k scrutins, every deputy's position), **Wikipédia** (read
+     *as it was on the debate day*, permalinked revisions) and **web search** (trusted domains first).
+   - Product rules enforced in code: no verdict without a cited source; « Faux / Trompeur / Imprécis » need
+     an official, parliamentary or published fact-check source with a precise link; low confidence →
+     « Invérifiable »; « mensonge » / « menteur » are rewritten (we judge facts, not intentions).
 5. **Strict live mode** — when replaying an old debate, Sic only uses information available on the
    debate day (data published later, and articles about the debate itself, are filtered out).
 
@@ -36,7 +37,7 @@ audio ──► speech-to-text ──► who speaks ──► claim detection �
 | Path | What |
 |---|---|
 | `pipeline/` | Python package `sic` (uv): ASR, diarization, claims, verification, live mode, API server, evaluation |
-| `pipeline/src/sic/sources/` | Data connectors: `insee.py`, `eurostat.py`, `assemblee.py`, `web.py` |
+| `pipeline/src/sic/sources/` | Data connectors: `insee.py`, `eurostat.py`, `assemblee.py`, `wikipedia.py`, `web.py` |
 | `web/` | React + Vite + Tailwind app: home, replay `/d/:id`, live second screen `/live/:id`, share cards |
 | `data/debates/` | Debate metadata (roster, date, media) |
 | `data/runs/<id>/` | Processed artifacts (`run.json` is what the app loads) |
@@ -80,11 +81,17 @@ cd ../web && bun install && bun run dev  # http://localhost:5173
   or record a live run with latency stats: `uv run python -m sic.live 2022-macron-lepen --from 600 --minutes 10`
 - Any YouTube link: paste it on the home page (downloads audio, infers participants, processes).
 - Operator review (mark a verdict as human-checked / correct it): add `?operator=1` to a replay URL.
+  Write endpoints only accept localhost unless `SIC_OPERATOR_TOKEN` is set on the server; then open the app
+  once with `?token=<token>` (stored locally, sent as `X-Sic-Operator`). See `docs/API.md` → Access control.
+
+Environment variables: `ZAI_API_KEY` (required), `BRAVE_API_KEY` (better web citations), `SIC_OPERATOR_TOKEN`,
+`SIC_CORS_ORIGINS`, `SIC_LLM_CONCURRENCY` / `SIC_VERIFY_CONCURRENCY` (throughput), `SIC_LLM_SMART` /
+`SIC_LLM_FAST` (models, default `glm-5.3` / `glm-5.3-flash`).
 
 ## Tests
 
 ```bash
-cd pipeline && uv run pytest -m "not network"     # unit + API tests (no network)
+cd pipeline && uv run pytest -m "not network"     # unit + API tests (no network, no LLM calls)
 cd pipeline && uv run pytest -m network           # live checks against INSEE / Eurostat / AN
 cd web && bun run test && bun run typecheck       # unit/component tests
 cd web && bun run e2e                             # Playwright, against a mock API

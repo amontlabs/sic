@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import re
 from collections.abc import Sequence
 
@@ -10,6 +11,8 @@ from sic import config
 from sic.llm import LLM
 from sic.models import Claim, Debate, Segment
 from sic.text import locate_quote, normalize
+
+log = logging.getLogger(__name__)
 
 TOPICS = [
     "pouvoir d'achat", "emploi", "retraites", "dette et déficits", "fiscalité", "énergie", "climat", "Russie et Ukraine",
@@ -118,8 +121,6 @@ async def detect_claims(
             continue  # the model invented text that was not said: drop it
         segs, start, end = span
         speaker = segs[0].speaker or "autre"
-        if names and speaker not in names:
-            speaker = segs[0].speaker or "autre"
         topic = item.get("topic") if item.get("topic") in TOPICS else "autre"
         kind = item.get("kind") if item.get("kind") in ("chiffre", "vote", "loi", "historique", "comparaison", "citation", "autre") else "autre"
         try:
@@ -212,19 +213,34 @@ def windows(segments: list[Segment], focus_s: float = 150.0, context_s: float = 
     return out
 
 
-async def detect_all(segments: list[Segment], debate: Debate, llm: LLM, model: str | None = None, on_progress=None) -> list[Claim]:
+async def detect_all(
+    segments: list[Segment], debate: Debate, llm: LLM, model: str | None = None, on_progress=None
+) -> tuple[list[Claim], int]:
+    """Detect claims over the whole transcript. Returns (claims, number of windows that failed).
+
+    A failing window (LLM error, unparsable answer) is retried once, then skipped: one bad window
+    must not abort a 3-hour run. Callers should not cache a result with failures.
+    """
     wins = windows(segments)
     done = 0
 
     async def run(focus, ctx):
         nonlocal done
         try:
-            return await detect_claims(focus, ctx, debate, llm, model)
+            for attempt in range(2):
+                try:
+                    return await detect_claims(focus, ctx, debate, llm, model)
+                except Exception as e:  # noqa: BLE001 - isolate window failures
+                    log.warning("claim window %s failed (attempt %d): %s", focus[0].id, attempt + 1, e)
+            return None
         finally:
             done += 1
             if on_progress:
                 on_progress(done / len(wins))
 
     results = await asyncio.gather(*(run(f, c) for f, c in wins))
-    claims = [c for r in results for c in r]
-    return dedupe(claims)
+    failed = sum(r is None for r in results)
+    claims = [c for r in results if r for c in r]
+    moderators = {p.id for p in debate.roster if p.role == "moderator"}
+    claims = [c for c in claims if c.speaker not in moderators]
+    return dedupe(claims), failed

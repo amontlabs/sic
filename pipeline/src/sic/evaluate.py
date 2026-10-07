@@ -77,7 +77,16 @@ async def match(gold: list[GoldItem], claims: list[Claim], llm: LLM) -> dict[str
         mid = data.get("match") if isinstance(data, dict) else None
         return g.id, mid if any(c.id == mid for c in cands) else None
 
-    return dict(await asyncio.gather(*(one(g) for g in gold)))
+    raw = dict(await asyncio.gather(*(one(g) for g in gold)))
+    # One-to-one: a Sic claim can only account for one gold claim (no inflated recall).
+    used: set[str] = set()
+    out: dict[str, str | None] = {}
+    for g in gold:
+        mid = raw.get(g.id)
+        out[g.id] = mid if mid and mid not in used else None
+        if mid:
+            used.add(mid)
+    return out
 
 
 def score(gold: list[GoldItem], run: Run, matches: dict[str, str | None]) -> dict:

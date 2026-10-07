@@ -11,6 +11,25 @@ export class ApiError extends Error {
 
 type Fetch = typeof fetch;
 
+const TOKEN_KEY = "sic.operatorToken";
+
+/** Operator token for write endpoints (server env SIC_OPERATOR_TOKEN). Set once with `?token=…`
+ * on any page; it is kept in localStorage and sent as `X-Sic-Operator`. */
+export function operatorToken(): string | null {
+  try {
+    const fromUrl = new URLSearchParams(globalThis.location?.search ?? "").get("token");
+    if (fromUrl) globalThis.localStorage?.setItem(TOKEN_KEY, fromUrl);
+    return globalThis.localStorage?.getItem(TOKEN_KEY) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function writeHeaders(): Record<string, string> {
+  const t = operatorToken();
+  return t ? { "X-Sic-Operator": t } : {};
+}
+
 /** Thin typed client for docs/API.md. All paths are relative so the Vite proxy (dev) or
  * the same-origin server (prod) handles them. */
 export function createApi(base = "", fetchImpl: Fetch = (...a) => fetch(...a)) {
@@ -44,11 +63,11 @@ export function createApi(base = "", fetchImpl: Fetch = (...a) => fetch(...a)) {
         signal: opts.signal,
       }),
     analyze: (url: string) =>
-      request<AnalyzeResponse>("/api/analyze", { method: "POST", body: JSON.stringify({ url }) }),
+      request<AnalyzeResponse>("/api/analyze", { method: "POST", body: JSON.stringify({ url }), headers: writeHeaders() }),
     reviewVerdict: (debateId: string, claimId: string, review: VerdictReview) =>
       request<Verdict>(
         `/api/debates/${encodeURIComponent(debateId)}/verdicts/${encodeURIComponent(claimId)}`,
-        { method: "POST", body: JSON.stringify(review) },
+        { method: "POST", body: JSON.stringify(review), headers: writeHeaders() },
       ),
   };
 }

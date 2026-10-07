@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import logging
 import sys
@@ -79,12 +80,27 @@ def stage_diarize(debate: Debate, d: Path, minutes: float | None, progress: Prog
     return turns
 
 
-async def stage_speakers(debate: Debate, d: Path, segments: list[Segment], llm: LLM) -> dict[str, str]:
+def _hash(*parts: object) -> str:
+    return hashlib.sha256(json.dumps(parts, ensure_ascii=False, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def claim_hash(c: Claim, strict: bool) -> str:
+    """Identity of a verification request: a cached verdict is only reused for the exact same claim."""
+    return _hash(c.id, c.speaker, c.quote, c.claim, strict)
+
+
+async def stage_speakers(debate: Debate, d: Path, segments: list[Segment], turns: list[diarize.Turn], llm: LLM) -> dict[str, str]:
     out = d / "speakers.json"
+    turns_hash = _hash([(t.start, t.end, t.speaker) for t in turns])
     if out.exists():
-        return json.loads(out.read_text())
+        cached = json.loads(out.read_text())
+        if "mapping" not in cached:  # legacy format: plain mapping
+            return cached
+        if cached.get("turns_hash") == turns_hash:
+            return cached["mapping"]
+        log.info("diarization changed since speakers were named: renaming")
     mapping = await speakers.name_speakers(segments, debate, llm)
-    out.write_text(json.dumps(mapping, ensure_ascii=False, indent=1))
+    out.write_text(json.dumps({"turns_hash": turns_hash, "mapping": mapping}, ensure_ascii=False, indent=1))
     return mapping
 
 
@@ -92,8 +108,11 @@ async def stage_claims(debate: Debate, d: Path, segments: list[Segment], llm: LL
     out = d / "claims.json"
     if out.exists():
         return [Claim.model_validate(c) for c in json.loads(out.read_text())]
-    claims = await detect_all(segments, debate, llm, on_progress=lambda p: progress("affirmations", p))
-    _dump(out, claims)
+    claims, failed = await detect_all(segments, debate, llm, on_progress=lambda p: progress("affirmations", p))
+    if failed:
+        log.warning("%d claim window(s) failed; not caching claims so the next run retries them", failed)
+    else:
+        _dump(out, claims)
     return claims
 
 
@@ -104,12 +123,21 @@ async def stage_verify(
 
     concurrency = concurrency or int(os.environ.get("SIC_VERIFY_CONCURRENCY", "12"))
     out = d / "verdicts.jsonl"
+    expected = {c.id: claim_hash(c, strict) for c in claims}
     done: dict[str, Verdict] = {}
     if out.exists():
         for line in out.read_text().splitlines():
-            if line.strip():
-                v = Verdict.model_validate_json(line)
-                done[v.claim_id] = v
+            if not line.strip():
+                continue
+            try:
+                raw = json.loads(line)
+                v = Verdict.model_validate(raw)
+            except ValueError:
+                continue  # torn write from an interrupted run
+            h = raw.get("_claim_hash")
+            if h is not None and h != expected.get(v.claim_id):
+                continue  # verdict was for a different claim that had the same id: re-verify
+            done[v.claim_id] = v
     todo = [c for c in claims if c.id not in done and c.checkable]
     people = {p.id: p for p in debate.roster}
     sem = asyncio.Semaphore(concurrency)
@@ -123,7 +151,7 @@ async def stage_verify(
             v = await verifier.verify(c, ctx)
         done[c.id] = v
         with out.open("a") as f:
-            f.write(v.model_dump_json() + "\n")
+            f.write(json.dumps(v.model_dump(mode="json") | {"_claim_hash": expected[c.id]}, ensure_ascii=False) + "\n")
         n_done += 1
         progress("vérification", n_done / max(1, n_total))
 
@@ -134,16 +162,20 @@ async def stage_verify(
 def simulate_events(segments: list[Segment], claims: list[Claim], verdicts: list[Verdict]) -> list[Event]:
     """Place offline results on a live clock: when each item would have been available."""
     raw: list[tuple[float, str, float, dict]] = []
+    seg_at: dict[str, float] = {}
     for s in segments:
-        raw.append((s.end + ASR_LATENCY, "segment", s.start, s.model_dump(exclude={"words"}) | {"words": []}))
+        seg_at[s.id] = s.end + ASR_LATENCY
+        raw.append((seg_at[s.id], "segment", s.start, s.model_dump(exclude={"words"}) | {"words": []}))
     claim_at: dict[str, float] = {}
     for c in claims:
-        at = c.end + ASR_LATENCY + CLAIM_LATENCY
+        # a claim can only be detected once all the segments it spans have been transcribed
+        avail = max([seg_at[i] for i in c.segment_ids if i in seg_at] or [c.end + ASR_LATENCY])
+        at = avail + CLAIM_LATENCY
         claim_at[c.id] = at
         raw.append((at, "claim", c.start, c.model_dump()))
     starts = {c.id: c.start for c in claims}
     for v in verdicts:
-        at = claim_at.get(v.claim_id, 0.0) + (v.latency_s or 8.0)
+        at = claim_at.get(v.claim_id, 0.0) + (v.latency_s if v.latency_s is not None else 8.0)
         raw.append((at, "verdict", starts.get(v.claim_id, 0.0), v.model_dump()))
     raw.sort(key=lambda r: (r[0], ["segment", "claim", "verdict"].index(r[1])))
     return [Event(seq=i + 1, type=typ, t=round(t, 3), at=round(at, 3), data=data) for i, (at, typ, t, data) in enumerate(raw)]
@@ -185,12 +217,13 @@ async def process(
     d = run_dir(debate_id if not minutes else f"{debate_id}-{int(minutes)}m")
     llm = LLM()
     try:
-        words = stage_transcribe(debate, d, minutes, progress)
-        turns = diarize.merge_small(stage_diarize(debate, d, minutes, progress))
+        # CPU/GPU-bound stages run in a thread so the API server's event loop stays responsive.
+        words = await asyncio.to_thread(stage_transcribe, debate, d, minutes, progress)
+        turns = diarize.merge_small(await asyncio.to_thread(stage_diarize, debate, d, minutes, progress))
         spk = diarize.assign_words(words, turns)
         segments = build_segments(words, spk)
         progress("locuteurs", 1.0)
-        mapping = await stage_speakers(debate, d, segments, llm)
+        mapping = await stage_speakers(debate, d, segments, turns, llm)
         segments = speakers.apply_mapping(segments, mapping)
         claims = await stage_claims(debate, d, segments, llm, progress)
         verdicts: list[Verdict] = []

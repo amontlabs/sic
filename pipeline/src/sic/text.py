@@ -85,46 +85,44 @@ def normalize(s: str) -> str:
 def locate_quote(quote: str, words: list[Word]) -> tuple[int, int] | None:
     """Find the word span best matching `quote` (fuzzy, accent/punctuation-insensitive).
 
-    Returns (i, j) inclusive word indices, or None if no reasonable match.
+    Windows are anchored on any of the quote's first three tokens (the model may add a word like
+    "Et", or ASR may garble the first one). Returns (i, j) inclusive word indices, or None.
     """
     q = normalize(quote).replace(",", " ").replace(".", " ").split()
     if not q or not words:
         return None
     toks = [normalize(w.text).replace(",", " ").replace(".", " ").strip() for w in words]
-    # Expand multi-token words ("d'un" -> "d un") keeping the word index.
-    flat: list[tuple[str, int]] = []
+    flat: list[tuple[str, int]] = []  # sub-tokens ("d'un" -> "d", "un") keeping their word index
     for i, t in enumerate(toks):
-        for p in t.split():
-            flat.append((p, i))
+        for part in t.split():
+            flat.append((part, i))
     if not flat:
         return None
     n = len(q)
-    best = (0.0, None)
-    first, last = q[0], q[-1]
-    qset = {}
+    qcount: dict[str, int] = {}
     for t in q:
-        qset[t] = qset.get(t, 0) + 1
-    for s in range(len(flat)):
-        if flat[s][0] != first and (s == 0 or flat[s - 1][0] != first):
+        qcount[t] = qcount.get(t, 0) + 1
+    anchors = {t: k for k, t in reversed(list(enumerate(q[:3])))}
+    best_score, best_span = 0.0, None
+    for pos, (tok, _) in enumerate(flat):
+        k = anchors.get(tok)
+        if k is None:
             continue
-        e = min(len(flat), s + n + 4)
-        window = [t for t, _ in flat[s:e]]
-        # bag-of-words overlap with order bonus
-        cnt = dict(qset)
+        s0 = max(0, pos - k)
+        window = flat[s0 : s0 + n + 3]
+        cnt = dict(qcount)
         hit = 0
-        for t in window[: n + 2]:
+        first = last = None
+        for idx, (t, _) in enumerate(window):
             if cnt.get(t, 0) > 0:
                 cnt[t] -= 1
                 hit += 1
+                if first is None:
+                    first = idx
+                last = idx
         score = hit / n
-        if score > best[0]:
-            # end at the last occurrence of the last query token inside the window
-            end = s + min(n, len(window)) - 1
-            for k in range(min(len(window), n + 3) - 1, -1, -1):
-                if window[k] == last:
-                    end = s + k
-                    break
-            best = (score, (flat[s][1], flat[end][1]))
-    if best[0] >= 0.6 and best[1] is not None:
-        return best[1]
+        if first is not None and score > best_score:
+            best_score, best_span = score, (window[first][1], window[last][1])
+    if best_score >= 0.6 and best_span is not None:
+        return best_span
     return None

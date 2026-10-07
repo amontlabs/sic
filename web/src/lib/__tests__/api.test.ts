@@ -84,3 +84,18 @@ describe("url helpers", () => {
       expect(parseYouTubeId(u), u).toBeNull();
   });
 });
+
+describe("operator token", () => {
+  it("sends X-Sic-Operator on write requests once a token is set", async () => {
+    localStorage.setItem("sic.operatorToken", "secret-1");
+    const calls: [string, RequestInit | undefined][] = [];
+    const fake = (async (url: string, init?: RequestInit) => {
+      calls.push([url, init]);
+      return new Response(JSON.stringify({ debate_id: "yt-x" }), { status: 200 });
+    }) as typeof fetch;
+    const a = createApi("", fake);
+    await a.analyze("https://youtu.be/elgTG9oDiJY");
+    expect((calls[0]![1]!.headers as Record<string, string>)["X-Sic-Operator"]).toBe("secret-1");
+    localStorage.removeItem("sic.operatorToken");
+  });
+});

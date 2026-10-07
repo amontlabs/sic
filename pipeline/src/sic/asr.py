@@ -108,7 +108,7 @@ def transcribe_long(
     """Transcribe a long file in chunks (bounded memory, progress reporting).
 
     Chunks overlap by `overlap` seconds; words from the overlap are taken from the
-    chunk where they are farther from the edge.
+    chunk where they are farther from the edge (see `merge_chunk`).
     """
     import soundfile as sf
 
@@ -119,24 +119,66 @@ def transcribe_long(
         dur = min(chunk + overlap, total - t)
         audio = load_audio(path, t, dur)
         chunk_words = transcribe(audio, offset=t, names=names)
-        cut = t + overlap / 2 if t > 0 else -1.0
-        words = [w for w in words if w.start < cut] + [w for w in chunk_words if w.start >= cut]
+        words = merge_chunk(words, chunk_words, cut=t + overlap / 2) if t > 0 else chunk_words
         t += chunk
         if on_progress:
             on_progress(min(t, total) / total)
     return words
 
 
+def _norm(text: str) -> str:
+    return re.sub(r"[^\w]+", "", text.lower())
+
+
+def merge_chunk(words: list[Word], chunk_words: list[Word], cut: float, tol: float = 0.05, same: float = 0.5) -> list[Word]:
+    """Merge the words of an overlapping chunk into `words` (both sorted by start).
+
+    Words before `cut` (the overlap midpoint) come from the previous chunk. From the new chunk we keep
+    the words starting after the last kept word's end (minus `tol`): the boundary follows the actual
+    words rather than a fixed time, so a word whose start jitters across `cut` between the two chunks
+    is neither dropped nor duplicated. Identical words at ~the same time (within `same` s) are deduped.
+    """
+    kept = [w for w in words if w.start < cut]
+    floor = kept[-1].end - tol if kept else float("-inf")
+    out = list(kept)
+    tail = kept[-3:]
+    for w in chunk_words:
+        if w.start < floor:
+            continue
+        key = _norm(w.text)
+        if any(_norm(k.text) == key and abs(k.start - w.start) < same for k in tail):
+            continue
+        out.append(w)
+        tail = (tail + [w])[-3:]
+    return out
+
+
 def ensure_wav(media: str | Path, out: str | Path) -> Path:
-    """Extract 16 kHz mono wav from any media file with ffmpeg (cached)."""
+    """Extract 16 kHz mono wav from any media file with ffmpeg (cached).
+
+    ffmpeg writes to a temporary file that is atomically renamed when it succeeds, so an
+    interrupted extraction never leaves a truncated wav that would be reused as the cache.
+    """
+    import os
     import subprocess
+    import tempfile
 
     out = Path(out)
     if out.exists() and out.stat().st_size > 0:
         return out
     out.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(
-        ["ffmpeg", "-v", "error", "-y", "-i", str(media), "-vn", "-ac", "1", "-ar", str(SAMPLE_RATE), "-c:a", "pcm_s16le", str(out)],
-        check=True,
-    )
+    fd, tmp_name = tempfile.mkstemp(dir=out.parent, prefix=f".{out.stem}.", suffix=".wav.tmp")
+    os.close(fd)
+    tmp = Path(tmp_name)
+    try:
+        subprocess.run(
+            ["ffmpeg", "-v", "error", "-y", "-i", str(media), "-vn", "-ac", "1", "-ar", str(SAMPLE_RATE), "-c:a", "pcm_s16le",
+             "-f", "wav", str(tmp)],
+            check=True,
+        )
+        if tmp.stat().st_size == 0:
+            raise RuntimeError(f"ffmpeg produced an empty wav for {media}")
+        tmp.replace(out)
+    finally:
+        tmp.unlink(missing_ok=True)
     return out

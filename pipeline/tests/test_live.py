@@ -79,9 +79,8 @@ async def test_live_pipeline_emits_segments_claims_verdicts(fake_models):
         await pipe._utterance(np.zeros(16000 * 6, dtype=np.float32), t)
         t += 6.5
     await pipe._detect(force=True)
-    import asyncio
-
-    await asyncio.gather(*list(pipe._tasks))
+    await pipe.drain()
+    await pipe.aclose()
 
     types = [e.type for e in events]
     assert types.count("segment") >= len(SCRIPT)
@@ -104,3 +103,75 @@ async def test_live_pipeline_emits_segments_claims_verdicts(fake_models):
 def test_clock_speed():
     c = live_mod.Clock(start=100.0, speed=10.0)
     assert 100.0 <= c.now() < 101.0
+
+
+@pytest.mark.asyncio
+async def test_claims_held_until_voice_named_then_reemitted_on_rename(fake_models):
+    """No claim is ever published under an anonymous voice; a later rename re-publishes and re-verifies."""
+    import asyncio
+
+    events = []
+
+    async def emit(e):
+        events.append(e)
+
+    naming = {"n": 0}
+
+    def responder(messages, kw):
+        system = messages[0]["content"]
+        if "identifies les intervenants" in system:
+            naming["n"] += 1
+            if naming["n"] == 1:  # first attempt: the model is unsure about everyone
+                return {"content": json.dumps({"mapping": {}})}
+            if naming["n"] == 2:  # then names spk1 (wrongly) as b
+                return {"content": json.dumps({"mapping": {"spk0": {"id": "m", "confidence": 0.9}, "spk1": {"id": "b", "confidence": 0.9}}})}
+            return {"content": json.dumps({"mapping": {"spk0": {"id": "m", "confidence": 0.9}, "spk1": {"id": "a", "confidence": 0.9}}})}
+        return _responder(messages, kw)
+
+    llm = FakeLLM(responder)
+    pipe = live_mod.LivePipeline(debate(), llm, Verifier([FakeConnector()], llm), emit)
+    await pipe._utterance(np.zeros(16000 * 6, dtype=np.float32), 0.0)  # moderator
+    await pipe._utterance(np.zeros(16000 * 6, dtype=np.float32), 6.5)  # spk1: "Le chômage est à 7,4 %"
+    await pipe._detect(force=True)
+    await pipe.drain()
+    # first naming returned nothing usable -> claim is held, nothing published
+    assert not [e for e in events if e.type == "claim"] or all(e.data["speaker"] in ("a", "b") for e in events if e.type == "claim")
+    await pipe._name()  # names spk1 = b -> held claim published as b
+    await pipe.drain()
+    first = [e.data for e in events if e.type == "claim"]
+    assert first and first[-1]["speaker"] == "b" and first[-1]["cluster"] == "spk1"
+    await pipe._name()  # corrected: spk1 = a -> claim re-published as a and re-verified
+    await pipe.drain()
+    claims = [e.data for e in events if e.type == "claim"]
+    assert claims[-1]["speaker"] == "a" and claims[-1].get("revised") is True and claims[-1]["id"] == first[-1]["id"]
+    verdict_events = [e for e in events if e.type == "verdict" and e.data["claim_id"] == first[-1]["id"]]
+    assert len(verdict_events) >= 1 and verdict_events[-1].seq > [e for e in events if e.type == "claim"][-1].seq
+    await pipe.aclose()
+    assert not pipe._tasks and not pipe._workers
+    await asyncio.sleep(0)
+
+
+@pytest.mark.asyncio
+async def test_aclose_cancels_background_work(fake_models):
+    import asyncio
+
+    started = asyncio.Event()
+
+    def slow(messages, kw):
+        raise AssertionError("should be cancelled before answering")
+
+    class SlowLLM(FakeLLM):
+        async def chat(self, messages, model=None, **kw):
+            started.set()
+            await asyncio.sleep(3600)
+
+    async def emit(e):
+        pass
+
+    pipe = live_mod.LivePipeline(debate(), SlowLLM(slow), None, emit)
+    for i in range(3):
+        await pipe._utterance(np.zeros(16000 * 10, dtype=np.float32), i * 10.5)
+    await pipe._detect(force=True)
+    await asyncio.wait_for(started.wait(), 2)
+    await asyncio.wait_for(pipe.aclose(), 2)
+    assert not pipe._tasks

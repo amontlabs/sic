@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import time
 from typing import Any
+from urllib.parse import urlparse
 
 from sic import config
 from sic.library import Library, LibraryEntry, entry_text
@@ -39,8 +41,9 @@ On te donne une affirmation prononcée pendant un débat. Vérifie-la avec les o
 Méthode :
 1. Identifie précisément ce qu'il faut vérifier (chiffre, période, périmètre, personne).
 2. Utilise d'abord les sources structurées : INSEE (insee_*), Eurostat (eurostat_get), votes de l'Assemblée
-   (an_*). Puis web_search / web_read pour le reste (lois, rapports, faits, fact-checks existants).
-3. Sois efficace : {max_steps} appels d'outils au maximum, en parallèle quand c'est possible.
+   (an_*). Pour les faits historiques, dates, institutions, histoire des lois : Wikipédia (wikipedia_*, version
+   datée). Puis web_search / web_read pour le reste (rapports, déclarations, fact-checks déjà publiés).
+3. Sois efficace : {max_steps} tours d'appels d'outils au maximum (plusieurs appels en parallèle par tour).
 {scale}
 {rules}
 Quand tu as fini, réponds UNIQUEMENT avec ce JSON :
@@ -54,6 +57,21 @@ même affirmation si la vérification permet de trancher).
 {rules}
 Réponds en JSON : {{"match": "<id de l'entrée ou null>", "label": "...", "headline": "...", "explanation": "...",
 "confidence": 0.0-1.0}}. Si aucune entrée ne correspond, {{"match": null}}."""
+
+
+FINAL_NUDGE = (
+    "Les recherches sont terminées : tu ne peux plus utiliser d'outils. Donne MAINTENANT ton verdict au format JSON "
+    "demandé, avec les sources [S#] déjà obtenues. Si elles ne suffisent pas pour trancher, réponds \"inverifiable\" "
+    "et explique en une phrase ce qui manque."
+)
+
+
+def _is_verdict_json(content: str) -> bool:
+    try:
+        data = parse_json(content)
+    except ValueError:
+        return False
+    return isinstance(data, dict) and data.get("label") in LABELS
 
 
 class Verifier:
@@ -129,7 +147,9 @@ class Verifier:
         return Verdict(
             claim_id=claim.id, label=data["label"], headline=str(data.get("headline") or "")[:120],
             explanation=str(data.get("explanation") or entry.explanation), sources=sources, method="library",
-            reviewed=entry.reviewed, confidence=_conf(data.get("confidence"), 0.7), library_id=entry.id,
+            # "Relu" only holds if we kept the human-reviewed label, not a model rewrite of it.
+            reviewed=entry.reviewed and data["label"] == entry.verdict,
+            confidence=_conf(data.get("confidence"), 0.7), library_id=entry.id,
         )
 
     # -- agent ---------------------------------------------------------------------------------
@@ -142,7 +162,7 @@ class Verifier:
             if ctx.as_of
             else ""
         )
-        system = SYSTEM_AGENT.format(as_of=as_of, max_steps=self.max_steps + 2, scale=SCALE, rules=RULES)
+        system = SYSTEM_AGENT.format(as_of=as_of, max_steps=self.max_steps, scale=SCALE, rules=RULES)
         debate = ctx.debate.title if ctx.debate else ""
         user = (
             f"Débat : {debate}\nOrateur : {speaker}\nThème : {claim.topic}\n"
@@ -154,15 +174,21 @@ class Verifier:
 
         for step in range(self.max_steps + 1):
             last = step == self.max_steps
+            if last:
+                messages.append({"role": "user", "content": FINAL_NUDGE})
             msg = await self.llm.chat(
-                messages, self.model, tools=None if last else self._specs, thinking=self.thinking, max_tokens=3000
+                messages, self.model, tools=None if last else self._specs, json_mode=last, thinking=self.thinking, max_tokens=3000
             )
             calls = msg.get("tool_calls") or []
             if not calls or last:
-                if last and calls:  # model still wants tools: ask for the verdict now
-                    messages.append({"role": "user", "content": "Plus d'appels d'outils possibles. Donne ton verdict JSON maintenant."})
+                content = msg.get("content") or ""
+                if not _is_verdict_json(content):
+                    # The model answered in prose (or wants more searches): ask once more for the JSON verdict.
+                    messages.append({"role": "assistant", "content": content})
+                    messages.append({"role": "user", "content": FINAL_NUDGE})
                     msg = await self.llm.chat(messages, self.model, json_mode=True, max_tokens=1500)
-                return self._final(claim, msg.get("content") or "", sources, used_tools)
+                    content = msg.get("content") or ""
+                return self._final(claim, content, sources, used_tools)
             messages.append({"role": "assistant", "content": msg.get("content") or "", "tool_calls": calls})
             results = await asyncio.gather(*(self._run_tool(c, ctx) for c in calls))
             for call, res in zip(calls, results, strict=True):
@@ -235,9 +261,43 @@ def dedupe_sources(v: Verdict) -> Verdict:
     return v if len(out) == len(v.sources) else v.model_copy(update={"sources": out})
 
 
+STRONG_KINDS = ("official_data", "parliament", "law", "factcheck")
+_BANNED = [
+    (re.compile(r"\bmensonges\b", re.I), "affirmations inexactes"),
+    (re.compile(r"\bmensonge\b", re.I), "affirmation inexacte"),
+    (re.compile(r"\bmenteu(?:r|se|rs|ses)\b", re.I), "inexact"),
+    (re.compile(r"\bmentir\b", re.I), "se tromper"),
+]
+
+
+def _is_strong(s: Source) -> bool:
+    """A source that can back a negative verdict: official/parliament/law/fact-check with a precise URL."""
+    if s.kind == "library":
+        return True
+    if s.kind not in STRONG_KINDS or not s.url:
+        return False
+    return bool(urlparse(s.url).path.strip("/"))
+
+
+def _clean_words(text: str) -> str:
+    for rx, repl in _BANNED:
+        text = rx.sub(repl, text)
+    return text
+
+
 def guard(v: Verdict) -> Verdict:
-    """Product rules applied after the model: no negative verdict without a cited source, etc."""
+    """Product rules applied after the model (never trust the prompt alone):
+    - no verdict without a cited source; negative verdicts need a strong, precise source;
+    - low confidence -> invérifiable; never accuse of lying."""
     v = dedupe_sources(v)
+    v = v.model_copy(update={"headline": _clean_words(v.headline), "explanation": _clean_words(v.explanation)})
+    if v.label in NEGATIVE and v.sources and not any(_is_strong(s) for s in v.sources):
+        return v.model_copy(update={
+            "label": "inverifiable",
+            "explanation": v.explanation + " (Sources insuffisantes pour un verdict négatif : seules des sources officielles,"
+            " parlementaires ou des fact-checks publiés peuvent l'établir.)",
+            "confidence": min(v.confidence, 0.4),
+        })
     if v.label in NEGATIVE + ("exact", "plutot_exact") and not v.sources:
         return v.model_copy(update={
             "label": "inverifiable",
@@ -260,6 +320,4 @@ def _conf(x: Any, default: float) -> float:
 
 
 def _host(url: str) -> str:
-    from urllib.parse import urlparse
-
     return (urlparse(url).hostname or "").removeprefix("www.")

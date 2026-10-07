@@ -74,12 +74,17 @@ async def name_speakers(segments: list[Segment], debate: Debate, llm: LLM) -> di
         [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}], config.LLM_SMART, max_tokens=6000
     )
     valid = {p.id for p in debate.roster}
+    mapping = data.get("mapping") if isinstance(data, dict) else None
+    mapping = mapping if isinstance(mapping, dict) else {}
     out: dict[str, str] = {}
     for spk in digest:
-        m = (data.get("mapping") or {}).get(spk) or {}
+        m = mapping.get(spk) or {}
         pid = m.get("id") if isinstance(m, dict) else m
-        conf = float(m.get("confidence", 0.0)) if isinstance(m, dict) else 0.5
-        out[spk] = pid if pid in valid and conf >= 0.4 else UNKNOWN
+        try:
+            conf = float(m.get("confidence", 0.0)) if isinstance(m, dict) else 0.5
+        except (TypeError, ValueError):
+            conf = 0.0
+        out[spk] = pid if isinstance(pid, str) and pid in valid and conf >= 0.4 else UNKNOWN
     return out
 
 

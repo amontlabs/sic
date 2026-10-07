@@ -6,16 +6,19 @@
 from __future__ import annotations
 
 import asyncio
+import hmac
 import json
 import logging
 import os
 import re
+import subprocess
 from collections import Counter
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Request
+import anyio
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
@@ -28,6 +31,12 @@ log = logging.getLogger("sic.server")
 
 
 class _RunCache:
+    """run.json files keyed by *directory* id (``RUNS/<debate_id>/``).
+
+    The directory id is not always ``run.debate.id``: a ``--minutes 20`` run lives in
+    ``RUNS/<id>-20m/`` but its ``debate.id`` is ``<id>``. Always save with the id it was loaded with.
+    """
+
     def __init__(self) -> None:
         self._runs: dict[str, tuple[float, Run]] = {}
 
@@ -46,12 +55,13 @@ class _RunCache:
         self._runs[debate_id] = (mtime, run)
         return run
 
-    def save(self, run: Run) -> None:
-        p = self.path(run.debate.id)
+    def save(self, debate_id: str, run: Run) -> None:
+        p = self.path(debate_id)
         p.parent.mkdir(parents=True, exist_ok=True)
         tmp = p.with_suffix(".tmp")
         tmp.write_text(run.model_dump_json())
         tmp.replace(p)
+        self._runs[debate_id] = (p.stat().st_mtime, run)
 
 
 runs = _RunCache()
@@ -99,8 +109,39 @@ async def lifespan(app: FastAPI):
     yield
 
 
+def cors_origins() -> list[str]:
+    raw = os.environ.get("SIC_CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+    return [o.strip() for o in raw.split(",") if o.strip()]
+
+
+OPERATOR_HEADER = "X-Sic-Operator"
+_LOCAL_CLIENTS = {"127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "testclient"}
+
+
+def require_operator(request: Request) -> None:
+    """Guard for write routes.
+
+    With ``SIC_OPERATOR_TOKEN`` set, the request must carry ``X-Sic-Operator: <token>`` (401 otherwise).
+    Without it (local dev), only clients connecting from localhost are accepted (403 otherwise).
+    """
+    token = os.environ.get("SIC_OPERATOR_TOKEN", "")
+    if token:
+        given = request.headers.get(OPERATOR_HEADER, "")
+        if not hmac.compare_digest(given.encode(), token.encode()):
+            raise HTTPException(401, "operator token required", headers={"WWW-Authenticate": OPERATOR_HEADER})
+        return
+    host = request.client.host if request.client else ""
+    if host not in _LOCAL_CLIENTS:
+        raise HTTPException(403, "write routes are local-only when SIC_OPERATOR_TOKEN is not set")
+
+
 app = FastAPI(title="Sic API", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_origins(),
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Range", OPERATOR_HEADER],
+)
 
 
 @app.get("/api/health")
@@ -112,8 +153,9 @@ async def health() -> dict[str, str]:
 async def list_debates() -> list[dict[str, Any]]:
     ids = {p.stem for p in config.DEBATES.glob("*.json")} | {p.parent.name for p in config.RUNS.glob("*/run.json")} | set(jobs)
     out = [s for s in (summary(i) for i in sorted(ids)) if s]
-    out.sort(key=lambda s: (s["status"] != "processing", str(s.get("date") or "")), reverse=False)
-    return sorted(out, key=lambda s: str(s.get("date") or ""), reverse=True)
+    out.sort(key=lambda s: str(s.get("date") or ""), reverse=True)  # newest first...
+    out.sort(key=lambda s: s["status"] != "processing")  # ...with running jobs on top (stable sort)
+    return out
 
 
 @app.get("/api/debates/{debate_id}")
@@ -158,34 +200,34 @@ async def _replay(run: Run, start: float, speed: float, request: Request):
     yield {"event": "status", "data": json.dumps({"seq": 0, "type": "status", "t": end, "at": end, "data": {"state": "end"}})}
 
 
-async def _pipeline_stream(debate_id: str, start: float, request: Request):
+async def _pipeline_stream(debate, wav: Path, start: float, request: Request):
     from sic.library import Library
     from sic.live import LivePipeline
     from sic.llm import LLM
-    from sic.pipeline import load_debate
     from sic.sources import build_connectors
     from sic.verify import Verifier
 
-    debate = load_debate(debate_id)
-    wav = config.CACHE / "audio" / f"{debate_id}.wav"
-    if not wav.exists():
-        raise HTTPException(404, "no audio for this debate")
     queue: asyncio.Queue[Event | None] = asyncio.Queue()
     llm = LLM()
+    pipe = None
+    task: asyncio.Task | None = None
 
     async def emit(e: Event) -> None:
         await queue.put(e)
 
-    pipe = LivePipeline(debate, llm, Verifier(build_connectors(debate), llm, Library.load(), model=config.LLM_FAST), emit)
-
-    async def runner():
-        try:
-            await pipe.run_file(wav, start=start)
-        finally:
-            await queue.put(None)
-
-    task = asyncio.create_task(runner())
     try:
+        # Connector construction and the library load read big local indexes: keep them off the loop.
+        connectors = await asyncio.to_thread(build_connectors, debate)
+        library = await asyncio.to_thread(Library.load)
+        pipe = LivePipeline(debate, llm, Verifier(connectors, llm, library), emit)  # verifier: config.LLM_SMART
+
+        async def runner():
+            try:
+                await pipe.run_file(wav, start=start)
+            finally:
+                await queue.put(None)
+
+        task = asyncio.create_task(runner())
         while True:
             if await request.is_disconnected():
                 break
@@ -199,8 +241,40 @@ async def _pipeline_stream(debate_id: str, start: float, request: Request):
                 break
             yield {"event": e.type, "id": str(e.seq), "data": e.model_dump_json()}
     finally:
+        # On client disconnect sse-starlette cancels us: shield the cleanup so it is not cut short.
+        with anyio.move_on_after(15, shield=True):
+            await _close_pipeline(pipe, task, llm)
+
+
+async def _close_pipeline(pipe, task: asyncio.Task | None, llm) -> None:
+    """Stop everything a pipeline-mode stream started: background verifications, the runner, the LLM client."""
+    aclose = getattr(pipe, "aclose", None)
+    if aclose is not None:
+        try:
+            await aclose()
+        except Exception:
+            log.exception("live pipeline aclose failed")
+    if task is not None:
         task.cancel()
-        await llm.aclose()
+        res = (await asyncio.gather(task, return_exceptions=True))[0]
+        if isinstance(res, Exception):
+            log.error("live pipeline failed", exc_info=res)
+    await llm.aclose()
+
+
+async def _pipeline_source(debate_id: str):
+    """Debate + 16 kHz wav for pipeline mode, or a 404 (raised before the SSE response starts)."""
+    from sic.ingest import audio_path
+    from sic.pipeline import load_debate
+
+    if not (config.DEBATES / f"{debate_id}.json").exists():
+        raise HTTPException(404, "debate not found")
+    debate = await asyncio.to_thread(load_debate, debate_id)
+    try:
+        wav = await asyncio.to_thread(audio_path, debate)  # may extract the wav from media.file (ffmpeg)
+    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        raise HTTPException(404, "no audio for this debate") from e
+    return debate, wav
 
 
 @app.get("/api/debates/{debate_id}/live")
@@ -213,7 +287,8 @@ async def live(
 ):
     _valid_id(debate_id)
     if mode == "pipeline":
-        return EventSourceResponse(_pipeline_stream(debate_id, from_, request), ping=15)
+        debate, wav = await _pipeline_source(debate_id)
+        return EventSourceResponse(_pipeline_stream(debate, wav, from_, request), ping=15)
     run = runs.get(debate_id)
     if run is None:
         raise HTTPException(404, "debate not processed yet")
@@ -230,10 +305,25 @@ async def media(debate_id: str):
     if not meta.exists():
         raise HTTPException(404, "debate not found")
     f = (json.loads(meta.read_text()).get("media") or {}).get("file")
-    path = (config.ROOT / f).resolve() if f else None
-    if not path or not path.exists() or config.ROOT.resolve() not in path.parents:
+    path = _media_file(f) if isinstance(f, str) and f else None
+    if path is None:
         raise HTTPException(404, "no local media")
-    return FileResponse(path, media_type="video/mp4")
+    return FileResponse(path, media_type=MEDIA_TYPES[path.suffix.lower()])
+
+
+MEDIA_TYPES = {".mp4": "video/mp4", ".webm": "video/webm", ".mkv": "video/x-matroska", ".m4a": "audio/mp4", ".mp3": "audio/mpeg"}
+
+
+def _media_file(f: str) -> Path | None:
+    """Only audio/video files under data/raw/ are ever served (never .env, run files, ...)."""
+    raw = (config.DATA / "raw").resolve()
+    try:
+        path = (config.ROOT / f).resolve()
+    except (OSError, RuntimeError, ValueError):
+        return None
+    if raw not in path.parents or path.suffix.lower() not in MEDIA_TYPES or not path.is_file():
+        return None
+    return path
 
 
 # -- review ---------------------------------------------------------------------------------------
@@ -246,20 +336,29 @@ class ReviewIn(BaseModel):
     reviewed: bool = True
 
 
-@app.post("/api/debates/{debate_id}/verdicts/{claim_id}")
+NEGATIVE_LABELS = {"faux", "trompeur", "imprecis"}
+_FORBIDDEN = re.compile(r"mensonge|menteu(?:r|se)", re.IGNORECASE)
+
+
+@app.post("/api/debates/{debate_id}/verdicts/{claim_id}", dependencies=[Depends(require_operator)])
 async def review(debate_id: str, claim_id: str, body: ReviewIn) -> Verdict:
     run = runs.get(_valid_id(debate_id))
     if run is None:
         raise HTTPException(404, "debate not found")
+    for text in (body.headline, body.explanation):
+        if text and _FORBIDDEN.search(text):
+            raise HTTPException(422, "vocabulaire interdit : Sic ne qualifie jamais une affirmation de « mensonge »")
     for i, v in enumerate(run.verdicts):
         if v.claim_id == claim_id:
             upd = {k: val for k, val in body.model_dump().items() if val is not None}
             nv = v.model_copy(update=upd)
+            if nv.label in NEGATIVE_LABELS and not nv.sources:
+                raise HTTPException(422, "un verdict négatif doit citer une source")
             run.verdicts[i] = nv
             for e in run.events:
                 if e.type == "verdict" and e.data.get("claim_id") == claim_id:
                     e.data = nv.model_dump()
-            runs.save(run)
+            runs.save(debate_id, run)  # the directory it was loaded from (not run.debate.id)
             return nv
     raise HTTPException(404, "verdict not found")
 
@@ -273,7 +372,7 @@ class AnalyzeIn(BaseModel):
     url: str
 
 
-@app.post("/api/analyze")
+@app.post("/api/analyze", dependencies=[Depends(require_operator)])
 async def analyze(body: AnalyzeIn, background: BackgroundTasks) -> dict[str, str]:
     m = _YT.search(body.url)
     if not m:

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from sic import asr, config
 from sic.llm import LLM
-from sic.models import Debate, Media, Person
+from sic.models import Debate, Media, Person, Word
 
 ROSTER_SYSTEM = """On te donne le titre, la description et le début de la transcription d'une vidéo politique
 (débat, interview, discours). Liste les personnes qui PARLENT dans la vidéo (pas celles dont on parle).
@@ -26,6 +26,31 @@ def _yt_dlp(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["yt-dlp", *args], check=True, capture_output=True, text=True)
 
 
+# Final audio containers yt-dlp may produce with "bestaudio" (anything else in the folder is ignored).
+AUDIO_EXTS = {".m4a", ".webm", ".opus", ".ogg", ".mp3", ".aac", ".mka", ".mp4", ".flac", ".wav"}
+
+
+def find_audio(raw: Path) -> Path | None:
+    """The completed `audio.<ext>` download in `raw`, ignoring yt-dlp leftovers.
+
+    An interrupted download leaves `audio.m4a.part`, `audio.m4a.ytdl`, `audio.f140.m4a.part`, ... yt-dlp
+    only renames to the final `audio.<ext>` once the file is complete, so only exact `audio.<audio ext>`
+    names are accepted.
+    """
+    if not raw.is_dir():
+        return None
+    found = [p for p in raw.iterdir() if p.is_file() and p.stem == "audio" and p.suffix.lower() in AUDIO_EXTS and p.stat().st_size > 0]
+    return max(found, key=lambda p: p.stat().st_mtime) if found else None
+
+
+def _download(url: str, raw: Path) -> None:
+    _yt_dlp("-f", "bestaudio[ext=m4a]/bestaudio", "--write-info-json", "--no-playlist", "-o", str(raw / "audio.%(ext)s"), url)
+
+
+def _excerpt_words(wav: Path, seconds: float = 240.0) -> list[Word]:
+    return asr.transcribe(asr.load_audio(wav, 0, seconds), 0.0, [])
+
+
 async def ingest_youtube(video_id: str, debate_id: str, progress=None, llm: LLM | None = None) -> Debate:
     progress = progress or (lambda s, p: None)
     url = f"https://www.youtube.com/watch?v={video_id}"
@@ -33,11 +58,14 @@ async def ingest_youtube(video_id: str, debate_id: str, progress=None, llm: LLM 
     raw.mkdir(parents=True, exist_ok=True)
     progress("téléchargement", 0.05)
     info_path = raw / "audio.info.json"
-    audio_file = next(raw.glob("audio.*[!json]"), None) if raw.exists() else None
+    audio_file = await asyncio.to_thread(find_audio, raw)
     if audio_file is None or not info_path.exists():
-        await asyncio.to_thread(_yt_dlp, "-f", "bestaudio[ext=m4a]/bestaudio", "--write-info-json", "--no-playlist", "-o", str(raw / "audio.%(ext)s"), url)
-        audio_file = next(p for p in raw.iterdir() if p.name.startswith("audio.") and not p.name.endswith(".json"))
-    info = json.loads(info_path.read_text())
+        # (Re)download: yt-dlp resumes a leftover .part file by itself.
+        await asyncio.to_thread(_download, url, raw)
+        audio_file = await asyncio.to_thread(find_audio, raw)
+        if audio_file is None or not info_path.exists():
+            raise RuntimeError(f"yt-dlp did not produce an audio file for {video_id}")
+    info = json.loads(await asyncio.to_thread(info_path.read_text))
     progress("téléchargement", 0.6)
     wav = await asyncio.to_thread(asr.ensure_wav, audio_file, config.CACHE / "audio" / f"{debate_id}.wav")
     progress("téléchargement", 0.8)
@@ -45,7 +73,7 @@ async def ingest_youtube(video_id: str, debate_id: str, progress=None, llm: LLM 
     if meta.exists():
         return Debate.model_validate_json(meta.read_text())
 
-    words = await asyncio.to_thread(asr.transcribe, asr.load_audio(wav, 0, 240), 0.0, [])
+    words = await asyncio.to_thread(_excerpt_words, wav)  # load + transcribe, both blocking
     excerpt = " ".join(w.text for w in words)[:4000]
     own = llm is None
     llm = llm or LLM()
@@ -87,9 +115,12 @@ async def ingest_youtube(video_id: str, debate_id: str, progress=None, llm: LLM 
 
 
 def audio_path(debate: Debate) -> Path:
+    """16 kHz wav for a debate, extracted from `media.file` if needed (blocking: run it in a thread)."""
     wav = config.CACHE / "audio" / f"{debate.id}.wav"
-    if wav.exists():
+    if wav.exists() and wav.stat().st_size > 0:
         return wav
     if debate.media.file:
-        return asr.ensure_wav(config.ROOT / debate.media.file, wav)
+        media = config.ROOT / debate.media.file
+        if media.is_file():
+            return asr.ensure_wav(media, wav)
     raise FileNotFoundError(f"no audio for {debate.id}")
