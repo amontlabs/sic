@@ -391,3 +391,32 @@ async def test_cache_is_atomic_and_corrupt_entries_are_misses(monkeypatch, tmp_p
     assert len(await w._raw_search("q", None)) == 1 and calls == 2
     assert json.loads(files[0].read_text())[0]["title"] == "T"
     assert [f.name for f in (tmp_path / "search").iterdir()] == [files[0].name]  # no temp leftovers
+
+
+@pytest.mark.asyncio
+async def test_mcp_quota_exhaustion_fails_fast(monkeypatch):
+    from sic.sources.web import McpClient
+
+    c = McpClient("web_search_prime")
+    McpClient._exhausted_until.pop(c.url, None)
+    calls = {"n": 0}
+    body = 'data: {"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"MCP error -429: {\\"error\\":{\\"code\\":\\"1310\\",\\"message\\":\\"Weekly/Monthly Limit Exhausted\\"}}"}],"isError":true}}'
+
+    async def fake_post(self, url, **kw):
+        calls["n"] += 1
+        return httpx.Response(200, text=body, headers={"mcp-session-id": "s"}, request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(httpx.AsyncClient, "post", fake_post)
+    with pytest.raises(RuntimeError, match="quota"):
+        await c.call("web_search_prime", {"search_query": "x"})
+    n = calls["n"]
+    with pytest.raises(RuntimeError, match="quota"):
+        await c.call("web_search_prime", {"search_query": "y"})
+    assert calls["n"] == n  # second call short-circuits without any HTTP request
+    McpClient._exhausted_until.pop(c.url, None)
+
+
+@pytest.mark.asyncio
+async def test_web_read_routes_wikipedia_to_dated_reader():
+    r = await WebConnector().call("web_read", {"url": "https://fr.wikipedia.org/w/index.php?oldid=1"}, VerifyContext())
+    assert "wikipedia_read" in r.content and r.sources == []

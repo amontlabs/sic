@@ -15,6 +15,9 @@ from sic.llm import LLM, parse_json
 from sic.models import Claim, Source, Verdict
 from sic.sources.base import Connector, ToolResult, VerifyContext
 
+# Bump when prompts/rules change: cached verdicts from an older verifier are then re-computed.
+VERIFIER_VERSION = "2026-10-07.3"
+
 LABELS = ("exact", "plutot_exact", "imprecis", "trompeur", "faux", "inverifiable")
 NEGATIVE = ("imprecis", "trompeur", "faux")
 
@@ -28,6 +31,12 @@ SCALE = """Échelle des verdicts :
 
 RULES = """Règles :
 - Neutralité absolue : même exigence pour tous. Jamais de mot comme « mensonge » ni de jugement d'intention.
+- Sois exigeant : « exact » ou « plutot_exact » seulement si une source confirme le fait ET le chiffre tel
+  qu'il a été dit (même ordre de grandeur, même période, même périmètre). Vérifie aussi ce que la phrase
+  laisse entendre : un chiffre juste utilisé pour suggérer une conclusion fausse est « trompeur ».
+- Ne complète pas les trous avec tes connaissances : si les sources obtenues ne tranchent pas, c'est
+  « inverifiable ». Une affirmation absolue (« tous », « aucun », « jamais », « toujours ») est fausse dès
+  qu'un contre-exemple sourcé existe.
 - Ne conclus « faux », « trompeur » ou « imprecis » que si une source citée le montre.
 - Si la réponse dépend d'une définition (chômage BIT vs inscrits France Travail, dette brute vs nette, euros
   courants vs constants), dis laquelle tu utilises et juge selon l'interprétation la plus raisonnable.
@@ -93,7 +102,7 @@ class Verifier:
         self.library_model = library_model or config.LLM_FAST
         self.max_steps = max_steps
         self.tool_timeout = tool_timeout
-        self.thinking = thinking
+        self.thinking = thinking if thinking is not None else config.VERIFY_THINKING
         self._tools: dict[str, Connector] = {}
         self._specs: list[dict[str, Any]] = []
         for c in connectors:
@@ -262,6 +271,13 @@ def dedupe_sources(v: Verdict) -> Verdict:
 
 
 STRONG_KINDS = ("official_data", "parliament", "law", "factcheck")
+# Reference outlets whose factual reporting can back a negative verdict (with a precise article link).
+REPUTABLE_HOSTS = (
+    "wikipedia.org", "reuters.com", "afp.com", "apnews.com", "lemonde.fr", "lefigaro.fr", "liberation.fr",
+    "francetvinfo.fr", "franceinfo.fr", "lesechos.fr", "la-croix.com", "ouest-france.fr", "publicsenat.fr", "lcp.fr",
+    "bfmtv.com", "tf1info.fr", "20minutes.fr", "france24.com", "rfi.fr", "bbc.com", "nytimes.com", "ft.com",
+    "lexpress.fr", "lepoint.fr", "nouvelobs.com", "mediapart.fr", "challenges.fr", "latribune.fr", "europe1.fr",
+)
 _BANNED = [
     (re.compile(r"\bmensonges\b", re.I), "affirmations inexactes"),
     (re.compile(r"\bmensonge\b", re.I), "affirmation inexacte"),
@@ -274,9 +290,14 @@ def _is_strong(s: Source) -> bool:
     """A source that can back a negative verdict: official/parliament/law/fact-check with a precise URL."""
     if s.kind == "library":
         return True
-    if s.kind not in STRONG_KINDS or not s.url:
+    if not s.url:
         return False
-    return bool(urlparse(s.url).path.strip("/"))
+    u = urlparse(s.url)
+    precise = bool(u.path.strip("/")) or "oldid=" in (u.query or "")
+    if not precise:
+        return False
+    host = (u.hostname or "").lower()
+    return s.kind in STRONG_KINDS or any(host == h or host.endswith("." + h) for h in REPUTABLE_HOSTS)
 
 
 def _clean_words(text: str) -> str:

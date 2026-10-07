@@ -503,7 +503,13 @@ class McpClient:
         self._sid = r.headers.get("mcp-session-id")
         await client.post(self.url, headers=self._headers(), json={"jsonrpc": "2.0", "method": "notifications/initialized"})
 
+    # Quota exhaustion (z.ai code 1310, "Weekly/Monthly Limit Exhausted") is shared by every client of a
+    # server: once seen, fail fast until the cool-down ends instead of retrying on every search.
+    _exhausted_until: dict[str, float] = {}
+
     async def call(self, tool: str, args: dict[str, Any]) -> str:
+        if time.monotonic() < McpClient._exhausted_until.get(self.url, 0.0):
+            raise RuntimeError(f"MCP {tool}: quota z.ai épuisé (outil désactivé temporairement)")
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             for attempt in range(3):
                 async with self._lock:
@@ -526,11 +532,14 @@ class McpClient:
                         raise RuntimeError(str(data["error"]))
                     res = data["result"]
                     text = "".join(c.get("text", "") for c in res.get("content", []))
+                    if '"code":"1310"' in text[:300] or "Limit Exhausted" in text[:300]:
+                        McpClient._exhausted_until[self.url] = time.monotonic() + 3600
+                        raise RuntimeError(f"MCP {tool}: quota z.ai épuisé — {text[:160]}")
                     if res.get("isError") or '"code":"1234"' in text[:300]:
                         raise ValueError(text[:300])
                     return text
                 except (httpx.HTTPError, ValueError, RuntimeError) as e:
-                    if attempt == 2:
+                    if "quota z.ai épuisé" in str(e) or attempt == 2:
                         raise RuntimeError(f"MCP {tool} failed: {e}") from e
                     await asyncio.sleep(1.5 * (attempt + 1))
         raise RuntimeError(f"MCP {tool} failed")
@@ -743,6 +752,9 @@ class WebConnector:
             check_url_syntax(url)
         except UnsafeUrl as e:
             return ToolResult(content=str(e))
+        if (urlparse(url).hostname or "").endswith("wikipedia.org"):
+            # Wikipedia blocks generic fetchers and its current version may postdate the debate.
+            return ToolResult(content="Pour Wikipédia, utilise l'outil wikipedia_read (titre de l'article) : il lit la version datée.")
         cached, path = self._cache_get("read", {"u": url})
         if cached is None:
             try:

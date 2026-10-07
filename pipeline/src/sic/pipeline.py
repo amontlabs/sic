@@ -28,7 +28,7 @@ from sic.models import Claim, Debate, Event, Run, Segment, Verdict, Word
 from sic.sources import build_connectors
 from sic.sources.base import VerifyContext
 from sic.text import build_segments
-from sic.verify import Verifier, dedupe_sources
+from sic.verify import VERIFIER_VERSION, Verifier, dedupe_sources
 
 log = logging.getLogger("sic.pipeline")
 
@@ -86,7 +86,7 @@ def _hash(*parts: object) -> str:
 
 def claim_hash(c: Claim, strict: bool) -> str:
     """Identity of a verification request: a cached verdict is only reused for the exact same claim."""
-    return _hash(c.id, c.speaker, c.quote, c.claim, strict)
+    return _hash(c.id, c.speaker, c.quote, c.claim, strict, VERIFIER_VERSION)
 
 
 async def stage_speakers(debate: Debate, d: Path, segments: list[Segment], turns: list[diarize.Turn], llm: LLM) -> dict[str, str]:
