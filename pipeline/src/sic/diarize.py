@@ -121,6 +121,30 @@ def diarize_long(
     return out
 
 
+def merge_small(turns: list[Turn], min_total: float = 20.0) -> list[Turn]:
+    """Reassign turns of tiny clusters (spurious voices) to the nearest turn of a real speaker."""
+    total: dict[str, float] = {}
+    for t in turns:
+        total[t.speaker] = total.get(t.speaker, 0.0) + t.end - t.start
+    big = {k for k, v in total.items() if v >= min_total}
+    if not big or len(big) == len(total):
+        return turns
+    anchors = [t for t in turns if t.speaker in big]
+    out: list[Turn] = []
+    j = 0
+    for t in turns:
+        if t.speaker in big:
+            out.append(t)
+            continue
+        mid = (t.start + t.end) / 2
+        while j + 1 < len(anchors) and anchors[j + 1].start <= mid:
+            j += 1
+        cands = anchors[max(0, j - 1) : j + 2]
+        near = min(cands, key=lambda a: 0 if a.start <= mid <= a.end else min(abs(a.start - mid), abs(a.end - mid)))
+        out.append(Turn(t.start, t.end, near.speaker))
+    return out
+
+
 def assign_words(words: list[Word], turns: list[Turn]) -> list[str | None]:
     """Speaker for each word: the turn with max overlap, else the nearest turn (within 1 s)."""
     out: list[str | None] = []

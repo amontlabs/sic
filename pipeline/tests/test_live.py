@@ -28,7 +28,7 @@ def fake_models(monkeypatch):
     state = {"i": 0}
 
     def fake_transcribe(samples, offset=0.0, names=None):
-        vec, text = SCRIPT[state["i"] % len(SCRIPT)]
+        _vec, text = SCRIPT[state["i"] % len(SCRIPT)]
         toks = text.split()
         dur = len(samples) / 16000
         return [Word(start=offset + k * dur / len(toks), end=offset + (k + 1) * dur / len(toks), text=t) for k, t in enumerate(toks)]

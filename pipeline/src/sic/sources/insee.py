@@ -346,7 +346,7 @@ class CachedHttp:
         self.timeout = timeout
         self.retries = retries
         self.headers = headers or {"User-Agent": "sic-factcheck/0.1 (+https://github.com)"}
-        self._lock = asyncio.Lock()
+        self._locks: dict[int, asyncio.Lock] = {}  # one per event loop
         self._last = 0.0
 
     def _path(self, url: str, params: dict[str, Any] | None) -> Path:
@@ -365,7 +365,8 @@ class CachedHttp:
         last_err: str = ""
         async with httpx.AsyncClient(timeout=self.timeout, headers=self.headers) as client:
             for attempt in range(self.retries + 1):
-                async with self._lock:
+                lock = self._locks.setdefault(id(asyncio.get_running_loop()), asyncio.Lock())
+                async with lock:
                     wait = self.min_interval - (time.monotonic() - self._last)
                     if wait > 0:
                         await asyncio.sleep(wait)

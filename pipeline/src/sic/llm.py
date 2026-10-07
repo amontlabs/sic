@@ -6,6 +6,7 @@ import asyncio
 import hashlib
 import json
 import os
+import random
 import re
 import time
 from typing import Any
@@ -24,13 +25,13 @@ class LLM:
         self,
         api_key: str | None = None,
         base_url: str | None = None,
-        concurrency: int = 12,
+        concurrency: int | None = None,
         cache: bool | None = None,
         timeout: float = 120.0,
     ) -> None:
         self.api_key = api_key or config.ZAI_API_KEY
         self.base_url = (base_url or config.ZAI_BASE_URL).rstrip("/")
-        self._sem = asyncio.Semaphore(concurrency)
+        self._sem = asyncio.Semaphore(concurrency or int(os.environ.get("SIC_LLM_CONCURRENCY", "6")))
         self._client: httpx.AsyncClient | None = None
         self.timeout = timeout
         self.cache = cache if cache is not None else os.environ.get("SIC_LLM_CACHE", "1") == "1"
@@ -85,7 +86,7 @@ class LLM:
 
         delay = 1.0
         last_err: Exception | None = None
-        for attempt in range(6):
+        for attempt in range(12):
             async with self._sem:
                 t0 = time.monotonic()
                 try:
@@ -114,8 +115,8 @@ class LLM:
                 raise LLMError(f"z.ai {r.status_code}: {r.text[:500]}")
             if r is not None:
                 last_err = LLMError(f"z.ai {r.status_code}: {r.text[:200]}")
-            await asyncio.sleep(delay)
-            delay = min(delay * 2, 20)
+            await asyncio.sleep(delay + random.random())
+            delay = min(delay * 2, 30)
         raise LLMError(f"z.ai request failed after retries: {last_err}")
 
     async def json(

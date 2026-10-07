@@ -224,8 +224,20 @@ class Verifier:
         )
 
 
+def dedupe_sources(v: Verdict) -> Verdict:
+    seen: set[str] = set()
+    out = []
+    for s in v.sources:
+        key = s.url or s.title
+        if key not in seen:
+            seen.add(key)
+            out.append(s)
+    return v if len(out) == len(v.sources) else v.model_copy(update={"sources": out})
+
+
 def guard(v: Verdict) -> Verdict:
     """Product rules applied after the model: no negative verdict without a cited source, etc."""
+    v = dedupe_sources(v)
     if v.label in NEGATIVE + ("exact", "plutot_exact") and not v.sources:
         return v.model_copy(update={
             "label": "inverifiable",

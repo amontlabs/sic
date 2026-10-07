@@ -133,7 +133,7 @@ def test_windows_cover_everything_once():
 
 
 def test_dedupe_and_similarity():
-    mk = lambda i, t, start: Claim(id=f"c{i}", speaker="a", start=start, end=start + 3, quote=t, claim=t, topic="emploi")  # noqa: E731
+    mk = lambda i, t, start: Claim(id=f"c{i}", speaker="a", start=start, end=start + 3, quote=t, claim=t, topic="emploi")
     cl = [mk(1, "Le chômage est à 7,4 % fin 2021", 10), mk(2, "Le chômage est à 7,4 % fin 2021 !", 500), mk(3, "La dette atteint 3000 milliards", 20)]
     assert similar(cl[0].claim, cl[1].claim) > 0.8
     assert [c.id for c in dedupe(cl)] == ["c1", "c3"]
@@ -296,3 +296,9 @@ def test_evaluation_scoring():
     assert s["bucket_agreement"] == round(1 / 3, 3)
     assert s["bucket_agreement_when_decided"] == 0.5
     assert s["critical_errors"] == 1 and s["sic_unverifiable_on_matched"] == 1
+
+
+def test_guard_dedupes_sources():
+    s = Source(kind="parliament", title="Scrutin 1", url="https://an.fr/1")
+    v = Verdict(claim_id="c", label="faux", headline="h", explanation="e", sources=[s, s, Source(kind="web", title="x", url="https://b")], confidence=0.9)
+    assert [x.url for x in guard(v).sources] == ["https://an.fr/1", "https://b"]

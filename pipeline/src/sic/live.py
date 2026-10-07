@@ -205,3 +205,67 @@ class LivePipeline:
             v = await self.verifier.verify(c, ctx)
         self.verdicts.append(v)
         await self.emit("verdict", c.start, v.model_dump())
+
+
+async def record(debate_id: str, start: float, minutes: float, speed: float = 1.0, strict: bool = True) -> dict:
+    """Run the real live pipeline on part of a debate and save the event log + latency stats."""
+    import json
+
+    from sic.ingest import audio_path
+    from sic.library import Library
+    from sic.pipeline import load_debate, run_dir
+    from sic.sources import build_connectors
+
+    debate = load_debate(debate_id)
+    events: list[Event] = []
+
+    async def emit(e: Event) -> None:
+        events.append(e)
+        if e.type in ("claim", "verdict"):
+            label = e.data.get("label") or ""
+            print(f"[{e.at:8.1f}] {e.type:7s} t={e.t:8.1f} {label:12s} {(e.data.get('claim') or e.data.get('headline') or '')[:90]}", flush=True)
+
+    llm = LLM()
+    try:
+        verifier = Verifier(build_connectors(debate), llm, Library.load())
+        pipe = LivePipeline(debate, llm, verifier, emit, strict=strict)
+        await pipe.run_file(audio_path(debate), start=start, duration=minutes * 60, speed=speed)
+    finally:
+        await llm.aclose()
+    claim_end = {e.data["id"]: e.data["end"] for e in events if e.type == "claim"}
+    claim_lat = sorted(e.at - e.data["end"] for e in events if e.type == "claim")
+    verdict_lat = sorted(e.at - claim_end[e.data["claim_id"]] for e in events if e.type == "verdict" and e.data["claim_id"] in claim_end)
+    seg_lat = sorted(e.at - e.data["end"] for e in events if e.type == "segment")
+
+    def pct(xs: list[float], p: float) -> float | None:
+        return round(xs[min(len(xs) - 1, int(len(xs) * p))], 1) if xs else None
+
+    stats = {
+        "from": start, "minutes": minutes, "speed": speed,
+        "segments": len(seg_lat), "claims": len(claim_lat), "verdicts": len(verdict_lat),
+        "segment_latency_p50": pct(seg_lat, 0.5), "segment_latency_p90": pct(seg_lat, 0.9),
+        "claim_latency_p50": pct(claim_lat, 0.5), "claim_latency_p90": pct(claim_lat, 0.9),
+        "verdict_latency_p50": pct(verdict_lat, 0.5), "verdict_latency_p90": pct(verdict_lat, 0.9),
+        "llm_usage": dict(llm.usage),
+    }
+    out = run_dir(debate_id) / f"live-{int(start)}-{int(minutes)}m.json"
+    out.write_text(json.dumps({"stats": stats, "events": [e.model_dump() for e in events]}, ensure_ascii=False))
+    return stats
+
+
+def main() -> None:
+    import argparse
+    import json
+
+    ap = argparse.ArgumentParser(prog="sic.live", description="Record a real live run on part of a debate")
+    ap.add_argument("debate_id")
+    ap.add_argument("--from", dest="start", type=float, default=0.0)
+    ap.add_argument("--minutes", type=float, default=10.0)
+    ap.add_argument("--speed", type=float, default=1.0)
+    a = ap.parse_args()
+    logging.basicConfig(level=logging.WARNING)
+    print(json.dumps(asyncio.run(record(a.debate_id, a.start, a.minutes, a.speed)), indent=1))
+
+
+if __name__ == "__main__":
+    main()

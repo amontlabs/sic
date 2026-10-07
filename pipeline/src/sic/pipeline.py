@@ -27,7 +27,7 @@ from sic.models import Claim, Debate, Event, Run, Segment, Verdict, Word
 from sic.sources import build_connectors
 from sic.sources.base import VerifyContext
 from sic.text import build_segments
-from sic.verify import Verifier
+from sic.verify import Verifier, dedupe_sources
 
 log = logging.getLogger("sic.pipeline")
 
@@ -98,8 +98,11 @@ async def stage_claims(debate: Debate, d: Path, segments: list[Segment], llm: LL
 
 
 async def stage_verify(
-    debate: Debate, d: Path, claims: list[Claim], verifier: Verifier, strict: bool, progress: Progress, concurrency: int = 6
+    debate: Debate, d: Path, claims: list[Claim], verifier: Verifier, strict: bool, progress: Progress, concurrency: int | None = None
 ) -> list[Verdict]:
+    import os
+
+    concurrency = concurrency or int(os.environ.get("SIC_VERIFY_CONCURRENCY", "12"))
     out = d / "verdicts.jsonl"
     done: dict[str, Verdict] = {}
     if out.exists():
@@ -125,7 +128,7 @@ async def stage_verify(
         progress("vérification", n_done / max(1, n_total))
 
     await asyncio.gather(*(one(c) for c in todo))
-    return [done[c.id] for c in claims if c.id in done]
+    return [dedupe_sources(done[c.id]) for c in claims if c.id in done]
 
 
 def simulate_events(segments: list[Segment], claims: list[Claim], verdicts: list[Verdict]) -> list[Event]:
@@ -183,7 +186,7 @@ async def process(
     llm = LLM()
     try:
         words = stage_transcribe(debate, d, minutes, progress)
-        turns = stage_diarize(debate, d, minutes, progress)
+        turns = diarize.merge_small(stage_diarize(debate, d, minutes, progress))
         spk = diarize.assign_words(words, turns)
         segments = build_segments(words, spk)
         progress("locuteurs", 1.0)

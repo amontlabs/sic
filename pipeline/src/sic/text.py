@@ -64,9 +64,7 @@ def build_segments(
         if cur:
             gap = w.start - cur[-1].end
             dur = cur[-1].end - cur[0].start
-            if spk != cur_spk or gap > max_gap or dur > max_len:
-                flush()
-            elif _SENT_END.search(cur[-1].text) and dur >= min_sentence:
+            if spk != cur_spk or gap > max_gap or dur > max_len or _SENT_END.search(cur[-1].text) and dur >= min_sentence:
                 flush()
         if not cur:
             cur_spk = spk

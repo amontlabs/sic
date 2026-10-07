@@ -33,6 +33,9 @@ prédictions, questions, généralités vagues sans contenu précis, attaques sa
 « mon projet prévoit », « mes mesures rendraient X euros ») — ce sont des promesses et des chiffrages, pas des
 faits. En revanche, ce qu'un candidat affirme du programme, des votes ou des actes de son ADVERSAIRE est
 vérifiable (« vous proposez de sortir du marché européen », « vous avez voté contre ») : garde-le.
+Exception : quand un candidat affirme un fait vérifiable SUR sa propre proposition — son coût ou son chiffrage
+(« cela rendra 12 milliards aux Français »), sa faisabilité juridique (« la France peut baisser la TVA seule »),
+ou ce qu'elle n'implique pas (« mon projet ne fait pas sortir de l'UE ») — garde-le avec own_program=false.
 Ignore les propos des modérateurs sauf s'ils énoncent eux-mêmes un fait chiffré.
 
 Pour chaque affirmation :

@@ -1,0 +1,424 @@
+{
+  "_doc": "Séries INSEE clés (description en clair + mots-clés pour la recherche; 'boost' = priorité de classement). Vérifier avec `uv run python -m sic.sources.insee verify-keys` (le titre doit correspondre à l'API).",
+  "series": [
+    {
+      "idbank": "001688527",
+      "description": "Taux de chômage BIT, France hors Mayotte, CVS (trimestriel, %) — chiffre officiel du chômage",
+      "keywords": [
+        "taux de chômage",
+        "chômage",
+        "BIT"
+      ],
+      "title": "Taux de chômage au sens du BIT - Ensemble - France hors Mayotte - Données CVS",
+      "freq": "T",
+      "dataflow": "CHOMAGE-TRIM-NATIONAL",
+      "boost": 1.3
+    },
+    {
+      "idbank": "001688537",
+      "description": "Taux de chômage BIT des moins de 25 ans, France hors Mayotte, CVS (trimestriel, %)",
+      "keywords": [
+        "chômage des jeunes"
+      ],
+      "title": "Taux de chômage au sens du BIT - Ensemble des moins de 25 ans - France hors Mayotte - Données CVS",
+      "freq": "T",
+      "dataflow": "CHOMAGE-TRIM-NATIONAL"
+    },
+    {
+      "idbank": "011818581",
+      "description": "Taux de chômage de longue durée (1 an ou plus), France entière, CVS (trimestriel, %)",
+      "keywords": [
+        "chômage longue durée"
+      ],
+      "title": "Taux de chômage de longue durée - Ensemble - France entière - Données CVS",
+      "freq": "T",
+      "dataflow": "CHOMAGE-TRIM-NATIONAL"
+    },
+    {
+      "idbank": "011818676",
+      "description": "Taux d'emploi BIT des 15-64 ans, France entière, CVS (trimestriel, %)",
+      "keywords": [
+        "taux d'emploi"
+      ],
+      "title": "Personnes en emploi (taux d'emploi) au sens du BIT - Ensemble des 15 à 64 ans - France entière - Données CVS",
+      "freq": "T",
+      "dataflow": "EMPLOI-BIT-TRIM"
+    },
+    {
+      "idbank": "010598384",
+      "description": "Demandeurs d'emploi catégorie A (Pôle emploi / France Travail), France métropolitaine, CVS-CJO, moyenne trimestrielle",
+      "keywords": [
+        "demandeurs d'emploi",
+        "catégorie A",
+        "inscrits Pôle emploi",
+        "France Travail"
+      ],
+      "title": "Nombre moyen de demandeurs d'emploi inscrits sur le trimestre à Pôle emploi - Catégorie A - Ensemble - France métropolitaine - Série CVS-CJO",
+      "freq": "T",
+      "dataflow": "DEMANDES-EMPLOIS-NATIONALES",
+      "boost": 1.1
+    },
+    {
+      "idbank": "010598466",
+      "description": "Demandeurs d'emploi catégories A, B, C, France, CVS-CJO, moyenne trimestrielle",
+      "keywords": [
+        "demandeurs d'emploi",
+        "catégories ABC"
+      ],
+      "title": "Nombre moyen de demandeurs d'emploi inscrits sur le trimestre à Pôle emploi - Catégories A, B et C - France - Série CVS-CJO",
+      "freq": "T",
+      "dataflow": "DEMANDES-EMPLOIS-NATIONALES"
+    },
+    {
+      "idbank": "001796852",
+      "description": "Emploi salarié total (milliers), CVS (trimestriel)",
+      "keywords": [
+        "emploi salarié",
+        "créations d'emplois",
+        "nombre d'emplois"
+      ],
+      "title": "Emplois salariés trimestriels - Ensemble des salariés - Toutes les sections (hors activités extra-territoriales) - CVS",
+      "freq": "T",
+      "dataflow": "EMPLOI-SALARIE-TRIM-NATIONAL",
+      "boost": 1.2
+    },
+    {
+      "idbank": "011814632",
+      "description": "Inflation: IPC glissement annuel, ensemble des ménages, France (mensuel, %)",
+      "keywords": [
+        "inflation",
+        "hausse des prix",
+        "glissement annuel"
+      ],
+      "title": "Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Nomenclature Coicop : 00 - Ensemble",
+      "freq": "M",
+      "dataflow": "IPC-2025",
+      "boost": 1.3
+    },
+    {
+      "idbank": "011814640",
+      "description": "Inflation annuelle moyenne: variation annuelle de l'IPC, France (annuel, %)",
+      "keywords": [
+        "inflation annuelle",
+        "inflation moyenne"
+      ],
+      "title": "Indice annuel des prix à la consommation - Base 2025 - Variation annuelle - Ensemble des ménages - France - Nomenclature Coicop : 00 - Ensemble",
+      "freq": "A",
+      "dataflow": "IPC-2025"
+    },
+    {
+      "idbank": "011814630",
+      "description": "Indice des prix à la consommation (IPC) base 2025, ensemble, France (mensuel)",
+      "keywords": [
+        "indice des prix",
+        "IPC"
+      ],
+      "title": "Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 00 - Ensemble",
+      "freq": "M",
+      "dataflow": "IPC-2025"
+    },
+    {
+      "idbank": "011813719",
+      "description": "Inflation alimentaire: IPC alimentation, glissement annuel (mensuel, %)",
+      "keywords": [
+        "prix alimentaires",
+        "inflation alimentaire"
+      ],
+      "title": "Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Alimentation",
+      "freq": "M",
+      "dataflow": "IPC-2025"
+    },
+    {
+      "idbank": "011813866",
+      "description": "Inflation de l'énergie: IPC énergie, glissement annuel (mensuel, %)",
+      "keywords": [
+        "prix de l'énergie",
+        "énergie"
+      ],
+      "title": "Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Énergie",
+      "freq": "M",
+      "dataflow": "IPC-2025"
+    },
+    {
+      "idbank": "000442588",
+      "description": "Prix moyen du litre de gazole en métropole (mensuel, €)",
+      "keywords": [
+        "prix du gazole",
+        "prix du diesel",
+        "carburant"
+      ],
+      "title": "Prix moyens mensuels de vente au détail en métropole - Gazole (1 litre)",
+      "freq": "M",
+      "dataflow": "IPC-PM-2015"
+    },
+    {
+      "idbank": "010777608",
+      "description": "Dette publique au sens de Maastricht en % du PIB (trimestriel, base 2020)",
+      "keywords": [
+        "dette publique",
+        "dette en pourcentage du PIB"
+      ],
+      "title": "Dette trimestrielle des administrations publiques au sens de Maastricht - Ensemble - En point de PIB - Base 2020",
+      "freq": "T",
+      "dataflow": "DETTE-TRIM-APU-2020",
+      "boost": 1.25
+    },
+    {
+      "idbank": "010777616",
+      "description": "Dette publique au sens de Maastricht en milliards d'euros (trimestriel, base 2020)",
+      "keywords": [
+        "dette publique",
+        "milliards de dette"
+      ],
+      "title": "Dette trimestrielle des administrations publiques au sens de Maastricht - Ensemble - Base 2020",
+      "freq": "T",
+      "dataflow": "DETTE-TRIM-APU-2020"
+    },
+    {
+      "idbank": "010562129",
+      "description": "Déficit public (Maastricht) en % du PIB, annuel, base 2014 (série arrêtée en 2022; ensuite utiliser eurostat_get gov_10dd_edpt1)",
+      "keywords": [
+        "déficit public",
+        "déficit en pourcentage du PIB"
+      ],
+      "title": "Comptes nationaux annuels base 2014 - Déficit au sens de Maastricht - APU Administrations publiques - Ressources ou passifs - En proportion du produit intérieur brut",
+      "freq": "A",
+      "dataflow": "CNA-2014-DETTE-APU"
+    },
+    {
+      "idbank": "011794759",
+      "description": "Capacité/besoin de financement des administrations publiques (déficit public) en millions d'euros, trimestriel CVS-CJO",
+      "keywords": [
+        "déficit public",
+        "besoin de financement"
+      ],
+      "title": "Capacité (+) ou besoin (-) de financement des administrations publiques - Valeur aux prix courants - Série CVS-CJO",
+      "freq": "T",
+      "dataflow": "CNT-2020-CSI",
+      "boost": 1.1
+    },
+    {
+      "idbank": "001717255",
+      "description": "Solde du budget de l'État (cumul depuis janvier, millions d'euros, mensuel)",
+      "keywords": [
+        "budget de l'État",
+        "déficit de l'État"
+      ],
+      "title": "Situation mensuelle du budget de l'État - Solde général d'exécution - Cumul depuis le début de l'année",
+      "freq": "M",
+      "dataflow": "COMPTES-ETAT"
+    },
+    {
+      "idbank": "011779995",
+      "description": "Croissance annuelle du PIB en volume (annuel, %)",
+      "keywords": [
+        "croissance",
+        "PIB",
+        "croissance annuelle"
+      ],
+      "title": "Comptes nationaux annuels base 2020 - Produit intérieur brut - Evolution en volume - Prix chaîné année de base (non équilibré)",
+      "freq": "A",
+      "dataflow": "CNA-2020-PIB",
+      "boost": 1.2
+    },
+    {
+      "idbank": "011794844",
+      "description": "Croissance trimestrielle du PIB en volume, CVS-CJO (trimestriel, %)",
+      "keywords": [
+        "croissance trimestrielle",
+        "PIB"
+      ],
+      "title": "Comptes trimestriels (base 2020) - Évolution du Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO",
+      "freq": "T",
+      "dataflow": "CNT-2020-PIB-EQB-RF"
+    },
+    {
+      "idbank": "011779998",
+      "description": "PIB par habitant en euros courants (annuel)",
+      "keywords": [
+        "PIB par habitant"
+      ],
+      "title": "Comptes nationaux annuels base 2020 - Produit intérieur brut par habitant - Total des secteurs institutionnels - Total des produits (nouvelle nomenclature) - Prix courant",
+      "freq": "A",
+      "dataflow": "CNA-2020-PIB"
+    },
+    {
+      "idbank": "010562205",
+      "description": "Pouvoir d'achat du revenu disponible brut par unité de consommation, évolution annuelle (%, base 2014, jusqu'en 2021)",
+      "keywords": [
+        "pouvoir d'achat",
+        "revenu disponible"
+      ],
+      "title": "Comptes nationaux annuels base 2014 - Revenu disponible brut - Ménages y compris E.I. - Ressources ou passifs - Evolution du pouvoir d'achat par unité de consommation - Série arrêtée",
+      "freq": "A",
+      "dataflow": "CNA-2014-RDB",
+      "boost": 1.1
+    },
+    {
+      "idbank": "010562210",
+      "description": "Pouvoir d'achat du revenu arbitrable par unité de consommation, évolution annuelle (%, base 2014, jusqu'en 2022)",
+      "keywords": [
+        "pouvoir d'achat arbitrable"
+      ],
+      "title": "Comptes nationaux annuels base 2014 - Revenu disponible brut arbitrable - Ménages y compris E.I. - Ressources ou passifs - Evolution du pouvoir d'achat arbitrable par unité de consommation - Série arrêtée",
+      "freq": "A",
+      "dataflow": "CNA-2014-RDB"
+    },
+    {
+      "idbank": "010752372",
+      "description": "Évolution du pouvoir d'achat du salaire net moyen (temps complet, secteur privé, annuel, %)",
+      "keywords": [
+        "pouvoir d'achat des salaires",
+        "salaire net moyen"
+      ],
+      "title": "Évolution du pouvoir d'achat du salaire net annuel moyen des postes à temps complet dans le secteur privé - Ensemble des salariés",
+      "freq": "A",
+      "dataflow": "SALAIRES-ANNUELS"
+    },
+    {
+      "idbank": "000822484",
+      "description": "SMIC horaire brut (€, mensuel)",
+      "keywords": [
+        "SMIC",
+        "salaire minimum"
+      ],
+      "title": "Montant du Smic (Salaire minimum interprofessionnel de croissance) brut horaire",
+      "freq": "M",
+      "dataflow": "SMIC-COTISATIONS",
+      "boost": 1.2
+    },
+    {
+      "idbank": "000879877",
+      "description": "SMIC mensuel brut pour 35 h (€, mensuel)",
+      "keywords": [
+        "SMIC mensuel"
+      ],
+      "title": "Montant mensuel brut du Smic (Salaire minimum interprofessionnel de croissance) pour 35 heures de travail par semaine (151,67 heures par mois)",
+      "freq": "M",
+      "dataflow": "SMIC-COTISATIONS"
+    },
+    {
+      "idbank": "010562675",
+      "description": "Salaire mensuel de base (SMB), glissement annuel, ensemble secteurs non agricoles (trimestriel, %)",
+      "keywords": [
+        "salaires",
+        "hausse des salaires"
+      ],
+      "title": "Glissement annuel de l'indice des salaires mensuels de base - Ensemble des secteurs non agricoles (NAF rév. 2, ensemble)",
+      "freq": "T",
+      "dataflow": "SALAIRES-ACEMO-2017"
+    },
+    {
+      "idbank": "001656101",
+      "description": "Défaillances d'entreprises, cumul sur 12 mois, tous secteurs, France (mensuel)",
+      "keywords": [
+        "faillites",
+        "défaillances d'entreprises"
+      ],
+      "title": "Nombre de défaillances d'entreprises par date de jugement - Cumul brut glissant sur 12 mois - France - Tous secteurs d'activité",
+      "freq": "M",
+      "dataflow": "DEFAILLANCES-ENTREPRISES"
+    },
+    {
+      "idbank": "001641590",
+      "description": "Naissances vivantes, France (annuel)",
+      "keywords": [
+        "naissances",
+        "natalité"
+      ],
+      "title": "Démographie - Naissances vivantes - France (inclus Mayotte à partir de 2014)",
+      "freq": "A",
+      "dataflow": "NAISSANCES-FECONDITE",
+      "boost": 1.2
+    },
+    {
+      "idbank": "001686832",
+      "description": "Indicateur conjoncturel de fécondité (enfants par femme), France (annuel)",
+      "keywords": [
+        "fécondité",
+        "natalité"
+      ],
+      "title": "Indicateur conjoncturel de fécondité - France (inclus Mayotte à partir de 2014)",
+      "freq": "A",
+      "dataflow": "NAISSANCES-FECONDITE"
+    },
+    {
+      "idbank": "001641592",
+      "description": "Décès, France (annuel)",
+      "keywords": [
+        "décès",
+        "mortalité"
+      ],
+      "title": "Démographie - Décès de tous âges - France (inclus Mayotte à partir de 2014)",
+      "freq": "A",
+      "dataflow": "DECES-MORTALITE"
+    },
+    {
+      "idbank": "001641586",
+      "description": "Population totale au 1er janvier, France (annuel)",
+      "keywords": [
+        "population"
+      ],
+      "title": "Population totale au 1er janvier - France (inclus Mayotte à partir de 2014)",
+      "freq": "A",
+      "dataflow": "POPULATION-STRUCTURE"
+    },
+    {
+      "idbank": "001641597",
+      "description": "Solde migratoire évalué, France (annuel)",
+      "keywords": [
+        "solde migratoire",
+        "immigration nette"
+      ],
+      "title": "Démographie - Solde migratoire évalué - France (inclus Mayotte depuis 2014)",
+      "freq": "A",
+      "dataflow": "POPULATION-STRUCTURE"
+    },
+    {
+      "idbank": "001568614",
+      "description": "Solde commercial (biens, FAB/FAB), France, CVS-CJO, millions d'euros (mensuel)",
+      "keywords": [
+        "balance commerciale",
+        "déficit commercial",
+        "commerce extérieur"
+      ],
+      "title": "Solde FAB/FAB des échanges de la France y c. DOM - Avec : Le Monde entier - Échanges FAB/FAB y c. matériel militaire - Données estimées CVS-CJO - NAF rév. 2",
+      "freq": "M",
+      "dataflow": "COM-EXT",
+      "boost": 1.2
+    },
+    {
+      "idbank": "001718270",
+      "description": "Logements commencés, cumul sur 12 mois, France hors Mayotte (mensuel)",
+      "keywords": [
+        "construction de logements",
+        "mises en chantier"
+      ],
+      "title": "Nombre de logements commencés - Cumul sur douze mois - Total - France hors Mayotte - Estimations en date réelle",
+      "freq": "M",
+      "dataflow": "CONSTRUCTION-LOGEMENTS"
+    },
+    {
+      "idbank": "010594446",
+      "description": "Taux de pauvreté monétaire au seuil de 60 % du niveau de vie médian (annuel, %)",
+      "keywords": [
+        "pauvreté",
+        "taux de pauvreté"
+      ],
+      "title": "Taux de pauvreté monétaire - Seuil de 60 % du niveau de vie médian",
+      "freq": "A",
+      "dataflow": "ODD-ERADICATION-PAUVRETE"
+    },
+    {
+      "idbank": "011793882",
+      "description": "Taux de marge des sociétés non financières (annuel, %)",
+      "keywords": [
+        "taux de marge",
+        "profits des entreprises"
+      ],
+      "title": "Comptes nationaux annuels base 2020 - Taux de marge - Sociétés non financières",
+      "freq": "A",
+      "dataflow": "CNA-2020-CSI"
+    }
+  ]
+}

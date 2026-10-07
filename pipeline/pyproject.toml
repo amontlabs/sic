@@ -33,3 +33,15 @@ dev = [
     "respx>=0.23.1",
     "ruff>=0.16.10",
 ]
+
+[tool.ruff]
+line-length = 130
+
+[tool.ruff.lint.per-file-ignores]
+# Fault isolation is deliberate at these boundaries: one failing claim/tool/connector must never
+# take down the live feed, so broad exceptions are caught and surfaced as data.
+"src/sic/{live,verify,server}.py" = ["BLE001"]
+"src/sic/sources/{__init__,web}.py" = ["BLE001"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"

@@ -137,7 +137,7 @@ async def _replay(run: Run, start: float, speed: float, request: Request):
     import time
 
     t0 = time.monotonic()
-    clock = lambda: start + (time.monotonic() - t0) * speed  # noqa: E731
+    clock = lambda: start + (time.monotonic() - t0) * speed
     yield {"event": "status", "data": json.dumps({"seq": 0, "type": "status", "t": start, "at": start, "data": {"state": "start", "from": start, "speed": speed}})}
     # Catch-up: everything already available at `start` is sent immediately.
     pending = [e for e in run.events if e.at >= start or e.type != "segment" or e.t >= start - 120]

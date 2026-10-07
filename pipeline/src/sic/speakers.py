@@ -7,6 +7,7 @@ inferred from the conversation (moderators' introductions, "Madame Le Pen, ...")
 from __future__ import annotations
 
 from collections import defaultdict
+from itertools import pairwise
 
 from sic import config
 from sic.llm import LLM
@@ -24,7 +25,7 @@ Indices : les modérateurs posent des questions, distribuent la parole, annoncen
 de parole ; les candidats défendent leur bilan/programme et s'interpellent (« vous », « Monsieur Macron »).
 Une personne ne s'appelle pas elle-même « Madame X » : si un extrait d'une voix dit « Madame Le Pen »,
 cette voix n'est probablement pas Marine Le Pen.
-Réponds en JSON : {"mapping": {"spk0": {"id": "<id participant ou autre>", "confidence": 0.0-1.0, "why": "court"}}}"""
+Réponds en JSON compact : {"mapping": {"spk0": {"id": "<id participant ou autre>", "confidence": 0.0-1.0}}}"""
 
 
 def _cluster_digest(segments: list[Segment], max_samples: int = 8) -> dict[str, dict]:
@@ -41,13 +42,13 @@ def _cluster_digest(segments: list[Segment], max_samples: int = 8) -> dict[str, 
         digest[spk] = {"duration": dur, "n": len(segs), "samples": [s.text[:280] for s in samples]}
     # What is said right before each cluster starts speaking (addressing cues).
     cues: dict[str, list[str]] = defaultdict(list)
-    for prev, cur in zip(segments, segments[1:]):
+    for prev, cur in pairwise(segments):
         if cur.speaker and prev.speaker != cur.speaker and len(cues[cur.speaker]) < 8:
             tail = prev.text[-160:]
             if any(w in tail.lower() for w in ("madame", "monsieur", "vous", "parole", "à vous", "réponse")):
                 cues[cur.speaker].append(tail)
-    for spk in digest:
-        digest[spk]["before"] = cues.get(spk, [])
+    for spk, d in digest.items():
+        d["before"] = cues.get(spk, [])
     return digest
 
 
@@ -70,7 +71,7 @@ async def name_speakers(segments: list[Segment], debate: Debate, llm: LLM) -> di
         )
     user = f"Débat : {debate.title} ({debate.date}).\nParticipants :\n{roster}\n\nGroupes de voix :\n\n" + "\n\n".join(parts)
     data = await llm.json(
-        [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}], config.LLM_SMART, max_tokens=2000
+        [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}], config.LLM_SMART, max_tokens=6000
     )
     valid = {p.id for p in debate.roster}
     out: dict[str, str] = {}

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 from datetime import date as Date
 from pathlib import Path
@@ -13,10 +12,7 @@ from rank_bm25 import BM25Plus
 from sic import config
 from sic.text import normalize
 
-_STOP = set(
-    "le la les de des du un une et en à a au aux que qui qu ne pas plus pour par sur dans est sont ce cette ces il elle ils "
-    "elles on nous vous je j l d s n y se sa son ses leur leurs avec mais ou donc or ni car été être avoir fait".split()
-)
+_STOP = {"le", "la", "les", "de", "des", "du", "un", "une", "et", "en", "à", "a", "au", "aux", "que", "qui", "qu", "ne", "pas", "plus", "pour", "par", "sur", "dans", "est", "sont", "ce", "cette", "ces", "il", "elle", "ils", "elles", "on", "nous", "vous", "je", "j", "l", "d", "s", "n", "y", "se", "sa", "son", "ses", "leur", "leurs", "avec", "mais", "ou", "donc", "or", "ni", "car", "été", "être", "avoir", "fait"}
 
 
 def tokens(text: str) -> list[str]:

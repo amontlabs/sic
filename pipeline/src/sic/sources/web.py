@@ -14,8 +14,8 @@ import json
 import os
 import re
 import time
+from datetime import UTC, datetime
 from datetime import date as Date
-from datetime import datetime
 from typing import Any
 from urllib.parse import urlparse
 
@@ -103,7 +103,7 @@ def parse_brave(html_text: str) -> list[dict[str, Any]]:
         if not m:
             continue
         t = re.search(r'class="title[^"]*"[^>]*title="([^"]*)"', block)
-        c = re.search(r'class="content[^"]*"[^>]*>(.*?)</div>', block, re.S)
+        c = re.search(r'class="content[^"]*"[^>]*>(.*?)</div>', block, re.DOTALL)
         content = _html.unescape(_TAG.sub("", c.group(1))).strip() if c else ""
         content = re.sub(r"\s+", " ", content)
         date = ""
@@ -400,7 +400,7 @@ async def _direct_fetch(url: str) -> str:
         r = await c.get(url)
         r.raise_for_status()
         html = r.text
-    title = re.search(r"<title[^>]*>(.*?)</title>", html, re.S | re.I)
+    title = re.search(r"<title[^>]*>(.*?)</title>", html, re.DOTALL | re.IGNORECASE)
     body = re.sub(r"(?is)<(script|style|nav|header|footer|noscript)[^>]*>.*?</\1>", " ", html)
     body = re.sub(r"(?i)<(br|/p|/div|/li|/h\d|/tr)[^>]*>", "\n", body)
     body = re.sub(r"<[^>]+>", " ", body)
@@ -424,4 +424,4 @@ def _focus_excerpt(text: str, focus: str | None, limit: int) -> str:
 
 
 def today() -> Date:
-    return datetime.now().date()
+    return datetime.now(UTC).date()

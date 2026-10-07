@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import subprocess
+from datetime import UTC, datetime
 from datetime import date as Date
 from pathlib import Path
 
@@ -71,7 +72,7 @@ async def ingest_youtube(video_id: str, debate_id: str, progress=None, llm: LLM 
             seen.add(person.id)
             roster.append(person)
     up = info.get("upload_date") or ""
-    d = Date(int(up[:4]), int(up[4:6]), int(up[6:8])) if len(up) == 8 else Date.today()
+    d = Date(int(up[:4]), int(up[4:6]), int(up[6:8])) if len(up) == 8 else datetime.now(UTC).date()
     debate = Debate(
         id=debate_id,
         title=data.get("title") or info.get("title") or debate_id,
