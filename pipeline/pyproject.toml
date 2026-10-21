@@ -3,9 +3,10 @@ name = "sic"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
-    { name = "0xpolarzero", email = "0xpolarzero@gmail.com" }
+    { name = "Amont Labs", email = "hello@amontlabs.com" }
 ]
 requires-python = ">=3.12"
+license = "MIT"
 dependencies = [
     "fastapi>=0.142.2",
     "httpx>=0.28.1",

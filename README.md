@@ -1,5 +1,8 @@
 # Sic — « Ce qu'ils disent, vérifié en direct »
 
+> [!WARNING]
+> Heavy work in progress. The pipeline and the app change daily; expect rough edges and breaking changes.
+
 Sic transcribes political debates, identifies who is speaking, detects checkable factual claims and
 fact-checks them against official sources — live or on any replay. Built for the French presidential
 election (1st round: 18 April 2027). Domain: sic.vote.
@@ -130,3 +133,7 @@ verified. Latency from the end of the sentence (median / 90th pct): transcript 6
 - The library (`data/library/`) was compiled from published fact-checks and is marked `reviewed: false`
   until a Sic editor validates entries.
 - Live audio input is a file played in real time; plugging a broadcast stream (HLS/DVB) in is the next step.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
